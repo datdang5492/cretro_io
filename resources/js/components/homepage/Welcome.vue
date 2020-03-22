@@ -1,0 +1,138 @@
+<template>
+    <div>
+        <section id="welcome" class="d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1" data-aos="fade-up">
+                        <div>
+                            <h1>Remote retrospective is easy!</h1>
+                            <h2>Have fun doing Scrum retrospective with Cretro. <br>Easy & Convenient!</h2>
+                            <a href="#" class="download-btn"><i class="bx bxl-play-store"></i> Get started!</a>
+                            <a href="#" class="download-btn"><i class="bx bxl-apple"></i> Join a meeting</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 welcome-img" data-aos="fade-up">
+                        <img :src="'/images/welcome_img.png'" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "welcome",
+        components: {
+        },
+        data() {
+            return {
+            };
+        },
+        methods: {
+        },
+        created: function () {
+        }
+    };
+</script>
+
+<style scoped>
+    #welcome {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        padding: 140px 0 100px 0;
+    }
+
+    #welcome::before {
+        content: '';
+        position: absolute;
+        right: -100%;
+        top: 20%;
+        width: 250%;
+        height: 200%;
+        z-index: -1;
+        background-color: #e8ecf5;
+        transform: skewY(135deg);
+    }
+
+    #welcome h1 {
+        margin: 0 0 10px 0;
+        font-size: 48px;
+        font-weight: 500;
+        line-height: 56px;
+        color: #5777ba;
+        font-family: "Poppins", sans-serif;
+    }
+
+    #welcome h2 {
+        color: #515f7d;
+        margin-bottom: 50px;
+        font-size: 20px;
+    }
+
+    #welcome .download-btn {
+        font-family: "Raleway", sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        display: inline-block;
+        padding: 8px 24px 10px 46px;
+        border-radius: 3px;
+        transition: 0.5s;
+        color: #fff;
+        background: #47536e;
+        position: relative;
+    }
+
+    #welcome .download-btn:hover {
+        background: #5777ba;
+    }
+
+    #welcome .download-btn i {
+        font-size: 20px;
+        position: absolute;
+        left: 18px;
+        top: 8.5px;
+    }
+
+    #welcome .download-btn + .download-btn {
+        margin-left: 20px;
+    }
+
+    @media (max-width: 991px) {
+        #welcome {
+            text-align: center;
+        }
+        #welcome .download-btn + .download-btn {
+            margin: 0 10px;
+        }
+        #welcome .welcome-img {
+            text-align: center;
+        }
+        #welcome .welcome-img img {
+            width: 60%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #welcome h1 {
+            font-size: 28px;
+            line-height: 36px;
+        }
+        #welcome h2 {
+            font-size: 18px;
+            line-height: 24px;
+            margin-bottom: 30px;
+        }
+        #welcome .welcome-img img {
+            width: 70%;
+        }
+    }
+
+    @media (max-width: 575px) {
+        #welcome .welcome-img img {
+            width: 80%;
+        }
+    }
+
+</style>

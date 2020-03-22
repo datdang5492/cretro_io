@@ -5,11 +5,20 @@ import App from './App.vue';
 import VueResource from 'vue-resource';
 import VeeValidate from 'vee-validate';
 
+//  main custom css file
+import './../css/custom_bootstrap.min.css'
+
 import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
+// original bootstrap
+// import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-//  main custom css file
+// all css libs on appland theme
+import 'boxicons/css/boxicons.min.css'
+import 'owl.carousel/dist/assets/owl.carousel.min.css'
+import 'venobox/venobox/venobox.min.css'
+import 'aos/dist/aos.css'
+import '@icon/icofont/icofont.css'
 import './../css/style.css'
 
 

@@ -1,35 +1,45 @@
 <template>
     <div>
-        <search-section></search-section>
-        <filter-section></filter-section>
-        <can-be-user></can-be-user>
-        <can-be-shippper></can-be-shippper>
-        <contact></contact>
+        <welcome></welcome>
+        <main id="main">
+            <features></features>
+            <details-section></details-section>
+            <gallery></gallery>
+            <testimonials></testimonials>
+            <pricing></pricing>
+            <faq></faq>
+            <contact></contact>
+        </main>
+        <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
     </div>
 </template>
 
 <script>
-    import SearchSection from "../SearchSection";
-    import FilterSection from "../FilterSection";
-    import CanBeShippper from "../CanBeShippper";
-    import CanBeUser from "../CanBeUser";
-    import Contact from "../Contact";
+    import Welcome from "./Welcome";
+    import Features from "./Features";
+    import DetailsSection from "./DetailsSection";
+    import Gallery from "./Gallery";
+    import Testimonials from "./Testimonials";
+    import Pricing from "./Pricing";
+    import Faq from "./Faq";
+    import Contact from "./Contact";
 
     export default {
         name: "homepage",
         components: {
-            FilterSection,
-            SearchSection,
+            Welcome,
+            Features,
+            DetailsSection,
+            Gallery,
+            Testimonials,
+            Pricing,
+            Faq,
             Contact,
-            CanBeShippper,
-            CanBeUser
         },
         data() {
-            return {
-            };
+            return {};
         },
-        methods: {
-        },
+        methods: {},
         created: function () {
         }
     };

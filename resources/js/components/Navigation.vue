@@ -1,55 +1,28 @@
 <template>
-    <div class="container-fluid navigation border-bottom">
-        <nav class="navbar navbar-expand-lg navbar-dark pt-4 px-0">
-            <a class="navbar-brand mr-5" href="/">
-                <img
-                    :src="'/images/dido_logo.png'"
-                    class="mr-2"
-                    style="width: 80px;"
-                    alt="Deliver is easy !"
-                >
-            </a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav ml-auto font-weight-normal">
-                    <li class="nav-item">
-                        <b-form-select v-model="selected_language" :options="languages" size="sm"
-                                       class="mr-4 mt-1 lang_select"></b-form-select>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">How it works</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/tracking">Track Shipment</a>
-                    </li>
-                    <li class="nav-item" v-if="this.$authStatus === '1'">
-                        <a class="nav-link" href="/profile">My Account</a>
-                    </li>
-                    <li class="nav-item" v-if="this.$authStatus !== '1'">
-                        <a class="nav-link" href="#" v-b-modal.loginModal>Log in</a>
-                    </li>
-                    <li class="nav-item" v-if="this.$authStatus !== '1'">
-                        <b-btn variant="outline-success" v-b-modal.signupModal><i class="fa fa-user-edit mr-2"></i>Sign
-                            up
-                        </b-btn>
-                    </li>
-                    <li class="nav-item" v-if="this.$authStatus === '1'">
-                        <a class="nav-link" href="#" @click="handleSignOut()"><i class="fa fa-times mr-2"></i>Sign
-                            out</a>
-                    </li>
-                </ul>
+    <div>
+        <header id="header" class="fixed-top">
+            <div class="container d-flex">
+
+                <div class="logo mr-auto">
+                    <h1 class="text-light"><a href="index.html">Cretro.io</a></h1>
+                    <!-- Uncomment below if you prefer to use an image logo -->
+                    <a href="index.html"><img :src="'/images/logo.png'" alt="" class="img-fluid"></a>
+                </div>
+
+                <nav class="nav-menu d-none d-lg-block">
+                    <ul>
+                        <li class="active"><a href="#header">Home</a></li>
+                        <li><a href="#features">App Features</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">F.A.Q</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#" class="btn btn-outline-info">Sign in</a></li>
+                        <li class="get-started"><a href="#features">Sign up</a></li>
+                    </ul>
+                </nav>
             </div>
-        </nav>
+        </header>
     </div>
 </template>
 
@@ -86,23 +59,5 @@
 </script>
 
 <style scoped>
-    @media (min-width: 1500px) {
-        .navigation {
-            padding: 0px 50px 0px 50px;
-        }
-    }
-
-    .navbar-expand-lg .navbar-nav .nav-link {
-        padding-right: 1.625rem;
-        padding-left: 0.7rem;
-    }
-
-    .navigation .navbar-collapse .nav-item a {
-        color: #5A6169
-    }
-
-    .lang_select {
-        width: 82%;
-    }
 
 </style>
