@@ -5,7 +5,7 @@
 
                 <div class="section-title">
                     <h2>Gallery</h2>
-                    <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+                    <p>Take a look at how other team doing the retrospective meeting. You could also public your meeting result and share with the agile community :)</p>
                 </div>
 
                 <div class="owl-carousel gallery-carousel" data-aos="fade-up">

@@ -1,40 +1,33 @@
 import homepage from './components/homepage/Homepage';
-import list from './components/list/List';
-import profile from './components/profile/Profile';
-import profile_setting from './components/profile/profile_setting/ProfileSetting';
-import photo from './components/profile/media/Photo';
-import review from './components/profile/review/Review';
-import add_shipment from './components/list/AddShipment';
-import shipment_detail from "./components/list/ShipmentDetail";
-import payment from "./components/list/payment/Payment";
-import tracking from "./components/tracking/Tracking";
-import tracking_progress from "./components/tracking/TrackingProgress";
-
 import page_not_found from "./components/error_page/PageNotFound";
+import create_meeting from './components/meeting/CreateMeeting';
+import signin from './components/authentication/Signin';
+import signup from './components/authentication/Signup';
+import forgot_password from './components/authentication/ForgotPassword';
+import navigation from './components/Navigation';
+import bottom from './components/Bottom';
 
 export default [
     {
-        // catch all 404 - define at the very end
+        // catch all 404
         path: "*",
         component: page_not_found
     },
-    {path: '/', component: homepage},
-    {path: '/list/from/:fromCity/to/:toCity', component: list},
-    {path: '/list/detail/:id', component: shipment_detail},
-    {path: '/list/payment/:id', component: payment},
-
-    {path: '/become-a-shipper/step/:stepNo', component: add_shipment},
-    {path: '/become-a-shipper/step/:stepNo/ad/:adId', component: add_shipment},
     {
-        path: '/profile', component: profile, children: [
-            {path: '/', component: profile_setting},
-            {path: 'photo', component: photo},
-            {path: 'reviews-about-you', component: review},
-            {path: 'reviews-by-you', component: review}
-        ]
+        path: '/', components: {
+            default: homepage,
+            navigation: navigation,
+            bottom: bottom,
+        }
     },
-
-    {path: '/tracking', component: tracking},
-    {path: '/tracking/progress/:id', component: tracking_progress},
+    {path: '/sign-in', components: {default: signin}},
+    {path: '/sign-up', components: {default: signup}},
+    {path: '/forgot-password', components: {default: forgot_password}},
+    {
+        path: '/retrospective/create', components: {
+            default: create_meeting,
+            navigation: navigation,
+            bottom: bottom,
+        }
+    }
 ]
-

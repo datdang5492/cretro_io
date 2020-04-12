@@ -26,10 +26,10 @@
 
                 <div class="row content">
                     <div class="col-md-4 order-1 order-md-2" data-aos="fade-left">
-                        <img :src="'/images/details_2.png'" class="img-fluid" alt="">
+                        <img :src="'/images/details_4.png'" class="img-fluid" alt="">
                     </div>
                     <div class="col-md-8 pt-5 order-2 order-md-1" data-aos="fade-up">
-                        <h3>Corporis temporibus maiores provident</h3>
+                        <h3>Quas et necessitatibus eaque impedit ipsum animi consequatur incidunt in</h3>
                         <p class="font-italic">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
                             magna aliqua.
@@ -39,9 +39,11 @@
                             velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
                             culpa qui officia deserunt mollit anim id est laborum
                         </p>
-                        <p>
-                            Inventore id enim dolor dicta qui et magni molestiae. Mollitia optio officia illum ut cupiditate eos autem. Soluta dolorum repellendus repellat amet autem rerum illum in. Quibusdam occaecati est nisi esse. Saepe aut dignissimos distinctio id enim.
-                        </p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Et praesentium laboriosam architecto nam .</li>
+                            <li><i class="fas fa-check"></i> Eius et voluptate. Enim earum tempore aliquid. Nobis et sunt consequatur. Aut repellat in numquam velit quo dignissimos et.</li>
+                            <li><i class="fas fa-check"></i> Facilis ut et voluptatem aperiam. Autem soluta ad fugiat.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -63,29 +65,6 @@
                         <p>
                             Suscipit enim et. Ut optio esse quidem quam reiciendis esse odit excepturi. Vel dolores rerum soluta explicabo vel fugiat eum non.
                         </p>
-                    </div>
-                </div>
-
-                <div class="row content">
-                    <div class="col-md-4 order-1 order-md-2" data-aos="fade-left">
-                        <img :src="'/images/details_4.png'" class="img-fluid" alt="">
-                    </div>
-                    <div class="col-md-8 pt-5 order-2 order-md-1" data-aos="fade-up">
-                        <h3>Quas et necessitatibus eaque impedit ipsum animi consequatur incidunt in</h3>
-                        <p class="font-italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                            magna aliqua.
-                        </p>
-                        <p>
-                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum
-                        </p>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Et praesentium laboriosam architecto nam .</li>
-                            <li><i class="fas fa-check"></i> Eius et voluptate. Enim earum tempore aliquid. Nobis et sunt consequatur. Aut repellat in numquam velit quo dignissimos et.</li>
-                            <li><i class="fas fa-check"></i> Facilis ut et voluptatem aperiam. Autem soluta ad fugiat.</li>
-                        </ul>
                     </div>
                 </div>
             </div>

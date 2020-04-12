@@ -1,26 +1,21 @@
 <template>
     <div class="">
-        <authentication></authentication>
-        <navigation></navigation>
+        <router-view name="navigation"></router-view>
         <router-view></router-view>
-        <bottom></bottom>
+        <router-view name="bottom"></router-view>
     </div>
 </template>
 
 <script>
     import Navigation from "./components/Navigation";
     import Bottom from "./components/Bottom";
-    import SearchSection from "./components/SearchSection";
     import Authentication from "./components/Authentication";
-    import FilterSection from "./components/FilterSection";
 
     export default {
         name: "app",
         components: {
-            FilterSection,
             Navigation,
             Bottom,
-            SearchSection,
             Authentication
         },
         data() {
@@ -33,6 +28,20 @@
 </script>
 
 <style>
+    .min-height-normal {
+        min-height: 1000px;
+    }
 
+    .mt-6, .my-6 {
+        margin-top: 4rem !important;
+    }
+
+    .mt-7, .my-7 {
+        margin-top: 5rem !important;
+    }
+
+    .mt-8, .my-8 {
+        margin-top: 6rem !important;
+    }
 
 </style>

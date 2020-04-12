@@ -10,16 +10,19 @@
                 </div>
 
                 <nav class="nav-menu d-none d-lg-block">
+                    <!--not sign in navigation-->
                     <ul>
-                        <li class="active"><a href="#header">Home</a></li>
-                        <li><a href="#features">App Features</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#faq">F.A.Q</a></li>
                         <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="#" class="btn btn-outline-info">Sign in</a></li>
-                        <li class="get-started"><a href="#features">Sign up</a></li>
+                        <li class="sign-in"><a href="#" class="cretroBtn btn btn-outline-info">Sign in</a></li>
+                        <li class="sign-up"><a href="#features" class="outlineCretroBtn">Sign up</a></li>
                     </ul>
+
+                    <!--sign in navigation-->
+                    <!--<ul>-->
+                        <!--<li><a href="#pricing">My profile</a></li>-->
+                    <!--</ul>-->
                 </nav>
             </div>
         </header>

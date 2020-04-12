@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-.nav-menu .get-started a {
+.nav-menu .cretroBtn {
     background: #5777ba;
     color: #fff;
     border-radius: 50px;
@@ -138,7 +138,19 @@ h1, h2, h3, h4, h5, h6 {
     padding: 10px 25px;
 }
 
-.nav-menu .get-started a:hover {
+.nav-menu .cretroBtn:hover {
+    background: #748ec6;
+    color: #fff;
+}
+
+.nav-menu .outlineCretroBtn {
+    border-color: #5777ba;
+    color: #47536e;
+    border-radius: 50px;
+    padding: 10px 25px;
+}
+
+.nav-menu .outlineCretroBtn:hover {
     background: #748ec6;
     color: #fff;
 }
