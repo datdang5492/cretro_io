@@ -15,14 +15,15 @@
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#faq">F.A.Q</a></li>
                         <li><a href="#contact">Contact Us</a></li>
-                        <li class="sign-in"><a href="#" class="cretroBtn btn btn-outline-info">Sign in</a></li>
-                        <li class="sign-up"><a href="#features" class="outlineCretroBtn">Sign up</a></li>
-                    </ul>
+                        <li class="sign-in" v-if="this.$authStatus !== '1'">
+                            <a href="/sign-in" class="cretroBtn btn btn-outline-info">Sign in</a>
+                        </li>
+                        <li class="sign-up" v-if="this.$authStatus !== '1'">
+                            <a href="/sign-up" class="outlineCretroBtn btn btn-outline-info">Sign up</a>
+                        </li>
 
-                    <!--sign in navigation-->
-                    <!--<ul>-->
-                        <!--<li><a href="#pricing">My profile</a></li>-->
-                    <!--</ul>-->
+                        <li v-if="this.$authStatus === '1'"><a href="#" @click="handleSignOut()">Logout</a></li>
+                    </ul>
                 </nav>
             </div>
         </header>
@@ -50,7 +51,8 @@
                     container: this.$refs.formContainer,
                 });
 
-                this.$http.post('logout', {}).then(function (data) {
+                this.$http.post('logout', {}).then(function (res) {
+                    console.log(res);
                     loader.hide();
                     window.location.reload();
                 });

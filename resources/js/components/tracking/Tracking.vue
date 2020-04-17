@@ -60,7 +60,6 @@
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
-
         }
     };
 </script>

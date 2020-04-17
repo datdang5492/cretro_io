@@ -61,7 +61,7 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.http.options.emulateJSON = true;
 
-Vue.http.options.root = 'http://localhost:8080';
+Vue.http.options.root = 'http://cretro.io';
 
 // datetime converter
 Vue.use(require('vue-moment'));

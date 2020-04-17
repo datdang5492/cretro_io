@@ -14,7 +14,9 @@ export default [
         component: page_not_found
     },
     {
-        path: '/', components: {
+        path: '/',
+        name: 'homepage',
+        components: {
             default: homepage,
             navigation: navigation,
             bottom: bottom,
