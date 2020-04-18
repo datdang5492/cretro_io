@@ -21,11 +21,41 @@
                                 <h3 class="font-weight-bold">
                                     Forgot password?
                                 </h3>
-                                <p>Enter your registered email, we will send you a link to reset your password.</p>
+                                <p>Enter your registered email, we'll send you a link to reset your password.</p>
                             </div>
                         </div>
 
-                        <div class="row mt-5">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b-alert
+                                    variant="primary"
+                                    dismissible
+                                    fade
+                                    :show="showInfoMsg"
+                                    @dismissed="showInfoMsg=false"
+                                >
+                                    {{resMsg}}
+                                </b-alert>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b-alert
+                                    variant="danger"
+                                    dismissible
+                                    fade
+                                    :show="showErrMsg"
+                                    @dismissed="showErrMsg=false"
+                                >
+                                    {{resMsg}}
+                                </b-alert>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <input type="email"
@@ -40,7 +70,7 @@
                             </div>
                         </div>
 
-                        <div class="row mt-5">
+                        <div class="row mt-4">
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <button class="btn btn-lg btn-block cretroBtn"
@@ -50,14 +80,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row mt-3">
+                            <div class="col-lg-12 text-right">
+                                <a href="/sign-in">Back to Sign-in</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
-<!--https://medium.com/modulr/api-rest-with-laravel-5-6-passport-authentication-reset-password-part-4-50d27455dcca-->
 
 <script>
     const dict = {
@@ -73,6 +107,9 @@
         data() {
             return {
                 email: '',
+                resMsg: 'A link to reset password has been sent to your email!',
+                showInfoMsg: false,
+                showErrMsg: false
             };
         },
         methods: {
@@ -83,15 +120,21 @@
                             container: this.$refs.formContainer,
                         });
 
-                        this.$http.post('password/reset', {
+                        this.$http.post('password/create', {
                             email: this.email,
                         }).then(function (res) {
+                            if (res.ok) {
+                                this.showInfoMsg = true;
+                            } else {
+                                this.showInfoMsg = false;
+                            }
+                            this.resMsg = res.body.message;
                             loader.hide();
-                            this.$router.push({name: 'sign-in'});
+                        }).catch(function (res) {
+                            this.showErrMsg = true;
+                            this.resMsg = res.body.message;
+                            loader.hide();
                         });
-                        loader.hide();
-                    } else {
-                        this.showErrorMsg = true;
                     }
                 });
             },

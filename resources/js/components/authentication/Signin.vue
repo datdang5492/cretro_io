@@ -110,7 +110,6 @@
                 email: '',
                 password: '',
                 remember_me: false,
-                showErrorMsg: false,
                 emailError: ''
             };
         },
@@ -129,10 +128,12 @@
                         }).then(function (res) {
                             loader.hide();
                             this.$router.push({name: 'homepage'});
+
+                        }).catch(function (res) {
+                            this.showErrMsg = true;
+                            this.resMsg = res.body.message;
+                            loader.hide();
                         });
-                        loader.hide();
-                    } else {
-                        this.showErrorMsg = true;
                     }
                 });
             },
