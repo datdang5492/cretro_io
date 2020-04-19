@@ -25,7 +25,6 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <b-alert
@@ -97,7 +96,7 @@
     const dict = {
         custom: {
             email: {
-                email: "Please enter invalid email (i.e: abc@gmail.com)",
+                email: "Please enter valid email (i.e: abc@gmail.com)",
             },
         }
     };
@@ -107,7 +106,7 @@
         data() {
             return {
                 email: '',
-                resMsg: 'A link to reset password has been sent to your email!',
+                resMsg: '',
                 showInfoMsg: false,
                 showErrMsg: false
             };
@@ -124,19 +123,29 @@
                             email: this.email,
                         }).then(function (res) {
                             if (res.ok) {
-                                this.showInfoMsg = true;
+                                this.showInfo();
                             } else {
-                                this.showInfoMsg = false;
+                                this.showError();
                             }
                             this.resMsg = res.body.message;
                             loader.hide();
                         }).catch(function (res) {
-                            this.showErrMsg = true;
+                            this.showError();
                             this.resMsg = res.body.message;
                             loader.hide();
                         });
                     }
                 });
+            },
+
+            showError: function () {
+                this.showErrMsg = true;
+                this.showInfoMsg = false;
+            },
+
+            showInfo: function () {
+                this.showErrMsg = false;
+                this.showInfoMsg = true;
             },
         },
         created: function () {

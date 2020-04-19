@@ -80,12 +80,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--<div class="row text-center mt-2">-->
-                        <!--<div class="col-lg-12">-->
-                        <!--<span class="">or sign up using</span>-->
-                        <!--</div>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -97,7 +91,7 @@
     const dict = {
         custom: {
             email: {
-                email: "Please enter invalid email (i.e: abc@gmail.com)",
+                email: "Please enter valid email (i.e: abc@gmail.com)",
             },
         }
     };
@@ -162,17 +156,5 @@
     .input_high {
         line-height: 3;
         height: auto;
-    }
-
-    .outlineCretroBtn {
-        border-color: #5777ba;
-        color: #47536e;
-        border-radius: 50px;
-        padding: 10px 25px;
-    }
-
-    .outlineCretroBtn:hover {
-        background: #748ec6;
-        color: #fff;
     }
 </style>

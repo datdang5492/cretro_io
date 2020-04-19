@@ -25,6 +25,30 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b-alert variant="primary"
+                                         dismissible
+                                         fade
+                                         :show="showInfoMsg"
+                                         @dismissed="showInfoMsg=false">
+                                    {{resMsg}}
+                                </b-alert>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b-alert variant="danger"
+                                         dismissible
+                                         fade
+                                         :show="showErrMsg"
+                                         @dismissed="showErrMsg=false">
+                                    {{resMsg}}
+                                </b-alert>
+                            </div>
+                        </div>
+
                         <div class="row mt-5">
                             <div class="col-lg-12">
                                 <div class="input-group">
@@ -53,20 +77,6 @@
                             </div>
                         </div>
 
-                        <!--<div class="row mt-5">-->
-                        <!--<div class="col-lg-6">-->
-                        <!--<div class="custom-control custom-checkbox">-->
-                        <!--<input type="checkbox" class="custom-control-input" id="customCheck1" checked="">-->
-                        <!--<label class="custom-control-label" for="customCheck1">Remember me</label>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-6 text-right">-->
-                        <!--<a href="#">-->
-                        <!--Forgot Password?-->
-                        <!--</a>-->
-                        <!--</div>-->
-                        <!--</div>-->
-
                         <div class="row mt-5">
                             <div class="col-lg-12">
                                 <div class="input-group">
@@ -88,7 +98,7 @@
     const dict = {
         custom: {
             email: {
-                email: "Please enter invalid email (i.e: abc@gmail.com)",
+                email: "Please enter valid email (i.e: abc@gmail.com)",
             },
         }
     };
@@ -99,31 +109,50 @@
             return {
                 email: '',
                 password: '',
+                resMsg: '',
+                showInfoMsg: false,
+                showErrMsg: false
             };
         },
         methods: {
             handleSignUp: function () {
                 this.$validator.validateAll().then((validateResult) => {
-                    if (validateResult === true) {
-                        let loader = this.$loading.show({
-                            container: this.$refs.formContainer,
-                        });
-
-                        this.$http.post('register', {
-                            email: this.email,
-                            password: this.password
-                        }).then(function (res) {
-                            loader.hide();
-                            this.$router.push({name: 'homepage'});
-
-                        }).catch(function (res) {
-                            this.showErrMsg = true;
-                            this.resMsg = res.body.message;
-                            loader.hide();
-                        });
+                    if (validateResult === false) {
+                        return;
                     }
+
+                    let loader = this.$loading.show({
+                        container: this.$refs.formContainer,
+                    });
+
+                    this.$http.post('register', {
+                        email: this.email,
+                        password: this.password
+                    }).then(function (res) {
+                        if (res.ok) {
+                            this.showInfo();
+                        } else {
+                            this.showError();
+                        }
+                        this.resMsg = res.body.message;
+                        loader.hide();
+                    }).catch(function (res) {
+                        this.showError();
+                        this.resMsg = res.body.message;
+                        loader.hide();
+                    });
                 });
-            }
+            },
+
+            showError: function () {
+                this.showErrMsg = true;
+                this.showInfoMsg = false;
+            },
+
+            showInfo: function () {
+                this.showErrMsg = false;
+                this.showInfoMsg = true;
+            },
         },
         created: function () {
             // enable custom validation message
@@ -133,19 +162,6 @@
 </script>
 
 <style scoped>
-    .cretroBtn {
-        background: #5777ba;
-        color: #fff;
-        border-radius: 50px;
-        margin: 0 15px;
-        padding: 10px 25px;
-    }
-
-    .cretroBtn:hover {
-        background: #748ec6;
-        color: #fff;
-    }
-
     .input_high {
         line-height: 3;
         height: auto;
