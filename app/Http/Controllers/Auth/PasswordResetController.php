@@ -99,11 +99,6 @@ class PasswordResetController extends Controller
         }
     }
 
-    /**
-     * @param string $msg
-     * @param int $httpCode
-     * @return \Illuminate\Http\JsonResponse
-     */
     private function response(string $msg, int $httpCode) {
         return response()->json(['message' => $msg], $httpCode);
     }

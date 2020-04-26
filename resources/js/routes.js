@@ -29,8 +29,8 @@ export default [
     {
         path: '/retrospective/create', components: {
             default: create_meeting,
-            navigation: navigation,
-            bottom: bottom,
+            // navigation: navigation,
+            // bottom: bottom,
         }
     }
 ]

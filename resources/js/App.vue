@@ -44,4 +44,25 @@
         margin-top: 6rem !important;
     }
 
+    .text-huge {
+        font-size: 20px !important;
+    }
+
+    .text-big {
+        font-size: 18px !important
+    }
+
+    .text-medium {
+        font-size: 16px !important
+    }
+
+    .text-small {
+        font-size: 14px !important
+    }
+
+    .text-tiny {
+        font-size: 12px !important
+    }
+
+
 </style>

@@ -42,9 +42,9 @@ class SignupActivate extends Notification
         $url = url('/sign-up/activate/' . $notifiable->activation_token);
         return (new MailMessage)
             ->subject('Confirm your account')
-            ->line('Thanks for sign up! Please before you begin, you must confirm your account.')
+            ->line('Thanks for sign up! Please confirm your account before beginning.')
             ->action('Confirm Account', url($url))
-            ->line('Thank you for using our application!');
+            ->line('Thank you for registering and have fun on cretro.io!');
     }
 
     /**
