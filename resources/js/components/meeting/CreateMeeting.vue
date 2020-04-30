@@ -89,10 +89,9 @@
                     <!--TEXTAREA-->
                     <div class="row text-left">
                         <div class="col-lg-4">
-                            <div class="alert alert-dismissible alert-danger" v-if="errors.has('goodInput')">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
+                            <b-alert v-model="goodInputIsNotValidated" variant="danger" dismissible>
                                 {{errors.first('goodInput')}}
-                            </div>
+                            </b-alert>
 
                             <div class="card mb-3 border-info">
                                 <b-form-textarea
@@ -320,6 +319,20 @@
 </template>
 
 <script>
+    const dict = {
+        custom: {
+            goodInput: {
+                required: "This field is required.",
+            },
+            badInput: {
+                required: "This field is required.",
+            },
+            ideaInput: {
+                required: "This field is required.",
+            },
+        }
+    };
+
     export default {
         name: "create_meeting",
         components: {},
@@ -333,6 +346,7 @@
                     countSeconds: 0
                 },
                 goodInput: "",
+                goodInputIsNotValidated: false,
                 badInput: "",
                 ideaInput: "",
                 goods: [
@@ -390,14 +404,16 @@
                 return isVoted === true ? 'voted' : '';
             },
             addGood: function () {
-                this.$validator.validateAll().then((validateResult) => {
+                this.$validator.validate('goodInput').then((validateResult) => {
                     if (validateResult === true) {
+                        this.goodInputIsNotValidated = false;
                         content = this.goodInput;
                         this.goods.unshift({
                             content: content,
                             vote: 0
                         });
                     }
+                    this.goodInputIsNotValidated = true;
                 });
             },
             showEditOvl: function (content, index) {
@@ -504,8 +520,9 @@
         },
         created: function () {
             this.countDown();
-        }
-
+            // enable custom validation message
+            this.$validator.localize('en', dict);
+        },
     };
 </script>
 
@@ -518,6 +535,7 @@
         padding: 0.25rem;
     }
 
+    /* use when like btn is clicked */
     .voted {
         background-color: #f8f9fa;
     }
