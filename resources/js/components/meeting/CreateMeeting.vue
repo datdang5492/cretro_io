@@ -127,7 +127,10 @@
                     <!--CONTENTS-->
                     <div class="row text-left">
                         <!--WHAT WENT RIGHT?-->
-                        <good-column :goods="goods"></good-column>
+                        <good-column :goods="goods"
+                                     v-on:getRemovedGoodItem="removeGoodItem($event)"
+                        >
+                        </good-column>
 
                         <!--WHAT WENT WRONG?-->
                         <bad-column :bads="bads"></bad-column>
@@ -169,71 +172,57 @@
         components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn},
         data() {
             return {
+                meetingId: "uuid",
+                attendeeId: 12,
                 ovlContent: '',
                 ovlContentIndex: 0,
                 letShowError: false,
                 goodInput: "",
                 badInput: "",
                 ideaInput: "",
-                goods: [
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    }
-                ],
-                bads: [
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1,
-                        isVoted: false,
-                    }
-                ],
-                ideas: [
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1
-                    },
-                    {
-                        content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                        vote: 1
-                    }
-                ]
+                goods: [],
+                bads: [],
+                ideas: []
             };
         },
         methods: {
+            removeGoodItem: function(id){
+                this.goods.splice(id, 1);
+            },
+            fetchItems: function (){
+                this.$http.post('retrospective/meeting/item/fetch', {
+                    meetingId: this.meetingId,
+                }).then(function (res) {
+                    if (res.ok) {
+                        this.goods = res.data.goods;
+                        this.bads = res.data.bads;
+                        this.ideas = res.data.ideas;
+                    }
+                }).catch(function (res) {
+                    console.log(res.msg);
+                });
+            },
+
             addGood: function () {
                 this.$validator.validate('goodInput').then((validateResult) => {
                     if (validateResult === true) {
                         this.letShowError = false;
-                        let content = this.goodInput;
-                        this.goods.unshift({
-                            content: content,
-                            vote: 0
+                        let goodItem = {
+                            meetingId: this.meetingId,
+                            attendeeId: this.attendeeId,
+                            type: 0,
+                            content: this.goodInput
+                        };
+
+                        this.$http.post('retrospective/meeting/item/add', goodItem).then(function (res) {
+                            if (res.ok) {
+                                goodItem.id = res.body;
+                                goodItem.vote = 0;
+                                this.goods.unshift(goodItem);
+                                console.log(this.goods);
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
                         });
                     } else {
                         this.letShowError = true;
@@ -254,10 +243,13 @@
                     vote: 0
                 });
             },
+
         },
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
+
+            this.fetchItems();
         },
     };
 </script>

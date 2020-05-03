@@ -15,7 +15,7 @@
                     <div class="col-lg-6 text-left">
                         <button type="button"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="removeGood(index)">
+                                v-on:click="removeGood(good.id, index)">
                             <i class="far fa-trash-alt"></i>
                         </button>
                         <button type="button" v-on:click="showEditOvl(goods[index].content, index)"
@@ -27,7 +27,7 @@
                         <button type="button"
                                 v-bind:class="getVotedClass(good.isVoted)"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="voteGood(index)">
+                                v-on:click="voteGood(good.id)">
                             <img src="https://img.icons8.com/dusk/20/000000/facebook-like.png"/>
                             <strong>
                                 <b-badge pill variant="light" class="text-tiny">{{good.vote}}
@@ -92,14 +92,24 @@
                 this.goods[this.ovlContentIndex].content = this.ovlContent;
             },
 
-            removeGood: function (id) {
+            removeGood: function (id, index) {
                 this.$bvModal.msgBoxConfirm('Are you sure removing this sticker?', {
                     centered: true
                 }).then(value => {
                     if (value === true) {
-                        this.goods.splice(id, 1)
+                        this.$http.post('retrospective/meeting/item/remove', {
+                            itemId: id,
+                            attendeeId: 1
+                        }).then(function (res) {
+                            if (res.ok) {
+                                this.$emit('getRemovedGoodItem', index);
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
                     }
                 }).catch(err => {
+                    console.log(res);
                 })
             },
 

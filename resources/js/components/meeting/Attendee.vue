@@ -32,52 +32,8 @@
         props: {},
         data() {
             return {
-                attendees: [
-                    {
-                        id: 0,
-                        name: "Wahaab Bhatti",
-                        score: 7,
-                        goodInputNo: 2,
-                        badInputNo: 2,
-                        actionInputNo: 1,
-                        givenVote: 2,
-                        isConductor: false,
-                        isWinner: false,
-                    },
-                    {
-                        id: 1,
-                        name: "Vasiliy Stepkin",
-                        score: 7,
-                        goodInputNo: 2,
-                        badInputNo: 2,
-                        actionInputNo: 1,
-                        givenVote: 2,
-                        isConductor: false,
-                        isWinner: false,
-                    },
-                    {
-                        id: 2,
-                        name: "Dat Dang",
-                        score: 10,
-                        goodInputNo: 2,
-                        badInputNo: 2,
-                        actionInputNo: 1,
-                        givenVote: 2,
-                        isConductor: false,
-                        isWinner: true,
-                    },
-                    {
-                        id: 3,
-                        name: "Stefan Schmidhuber",
-                        score: 5,
-                        goodInputNo: 2,
-                        badInputNo: 2,
-                        actionInputNo: 1,
-                        givenVote: 2,
-                        isConductor: true,
-                        isWinner: false,
-                    }
-                ],
+                meetingId: 1,
+                attendees: [],
                 profileImgClass: [
                     'primary', 'secondary', 'danger', 'info', 'light',
                 ],
@@ -93,10 +49,21 @@
             };
         },
         methods: {
-
+            getAttendeeList: function () {
+                this.$http.post('retrospective/meeting/attendee/get-list', {
+                    meetingId: this.meetingId,
+                }).then(function (res) {
+                    if (res.ok) {
+                        this.attendees = res.data;
+                    }
+                    this.resMsg = res.body.message;
+                }).catch(function (res) {
+                    this.resMsg = res.body.message;
+                });
+            },
         },
         created: function () {
-
+            this.getAttendeeList();
         },
     };
 </script>

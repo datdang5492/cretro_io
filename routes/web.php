@@ -21,3 +21,23 @@ Route::post('password/reset', 'Auth\PasswordResetController@reset');
 
 // ACTIVATE ACCOUNT AFTER SIGN UP
 Route::post('sign-up/activate', 'Auth\RegisterController@activateAccount');
+
+
+// MEETING
+Route::post('retrospective/meeting/create', 'Retrospective\MeetingManager@create');
+Route::post('retrospective/meeting/start', 'Retrospective\MeetingManager@start');
+Route::post('retrospective/meeting/stop', 'Retrospective\MeetingManager@stop'); // return statistic
+
+Route::post('retrospective/meeting/attendee/get-list', 'Retrospective\MeetingManager@getAttendeeList');
+Route::post('retrospective/meeting/attendee/remove', 'Retrospective\MeetingManager@removeAttendee');
+
+Route::post('retrospective/meeting/item/fetch', 'Retrospective\ItemManager@fetch');
+Route::post('retrospective/meeting/item/add', 'Retrospective\ItemManager@add');
+Route::post('retrospective/meeting/item/edit', 'Retrospective\ItemManager@edit');
+Route::post('retrospective/meeting/item/remove', 'Retrospective\ItemManager@remove');
+Route::post('retrospective/meeting/item/vote', 'Retrospective\ItemManager@vote');
+
+
+
+
+
