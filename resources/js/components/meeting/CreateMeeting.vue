@@ -129,6 +129,7 @@
                         <!--WHAT WENT RIGHT?-->
                         <good-column :goods="goods"
                                      v-on:getRemovedGoodItem="removeGoodItem($event)"
+                                     v-on:getVotedItem="voteGoodItem($event)"
                         >
                         </good-column>
 
@@ -153,6 +154,7 @@
     import IdeaColumn from "./IdeaColumn";
     import Attendee from "./Attendee";
     import MeetingHeader from "./MeetingHeader";
+
     const dict = {
         custom: {
             goodInput: {
@@ -173,7 +175,7 @@
         data() {
             return {
                 meetingId: "uuid",
-                attendeeId: 12,
+                attendeeId: "attendee_id",
                 ovlContent: '',
                 ovlContentIndex: 0,
                 letShowError: false,
@@ -186,12 +188,22 @@
             };
         },
         methods: {
-            removeGoodItem: function(id){
+            removeGoodItem: function (id) {
                 this.goods.splice(id, 1);
             },
-            fetchItems: function (){
+
+            voteGoodItem: function (data) {
+                this.goods[data.index].isVoted = data.value;
+                if (data.value === false) {
+                    this.goods[data.index].vote--;
+                } else {
+                    this.goods[data.index].vote++;
+                }
+            },
+            fetchItems: function () {
                 this.$http.post('retrospective/meeting/item/fetch', {
                     meetingId: this.meetingId,
+                    attendeeId: this.attendeeId,
                 }).then(function (res) {
                     if (res.ok) {
                         this.goods = res.data.goods;
@@ -216,10 +228,7 @@
 
                         this.$http.post('retrospective/meeting/item/add', goodItem).then(function (res) {
                             if (res.ok) {
-                                goodItem.id = res.body;
-                                goodItem.vote = 0;
                                 this.goods.unshift(goodItem);
-                                console.log(this.goods);
                             }
                         }).catch(function (res) {
                             console.log(res);

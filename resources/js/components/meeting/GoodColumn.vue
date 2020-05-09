@@ -18,7 +18,7 @@
                                 v-on:click="removeGood(good.id, index)">
                             <i class="far fa-trash-alt"></i>
                         </button>
-                        <button type="button" v-on:click="showEditOvl(goods[index].content, index)"
+                        <button type="button" v-on:click="showEditOvl(goods[index].content, index, good.id)"
                                 class="btn btn-outline-light btn-sm">
                             <i class="far fa-edit"></i>
                         </button>
@@ -27,7 +27,7 @@
                         <button type="button"
                                 v-bind:class="getVotedClass(good.isVoted)"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="voteGood(good.id)">
+                                v-on:click="voteGood(index, good.id, good.isVoted)">
                             <img src="https://img.icons8.com/dusk/20/000000/facebook-like.png"/>
                             <strong>
                                 <b-badge pill variant="light" class="text-tiny">{{good.vote}}
@@ -76,20 +76,32 @@
             return {
                 ovlContent: '',
                 ovlContentIndex: 0,
+                ovlItemId: 0
             };
         },
         methods: {
             getVotedClass: function (isVoted) {
                 return isVoted === true ? 'voted' : '';
             },
-            showEditOvl: function (content, index) {
+            showEditOvl: function (content, index, itemId) {
                 this.ovlContent = content;
                 this.ovlContentIndex = index;
+                this.ovlItemId = itemId;
                 this.$refs['edit_ovl'].show()
             },
 
             saveInputGood: function () {
-                this.goods[this.ovlContentIndex].content = this.ovlContent;
+                this.$http.post('retrospective/meeting/item/edit', {
+                    itemId: this.ovlItemId,
+                    attendeeId: 'attendee_id',
+                    content: this.ovlContent
+                }).then(function (res) {
+                    if (res.ok && res.body === true) {
+                        this.goods[this.ovlContentIndex].content = this.ovlContent;
+                    }
+                }).catch(function (res) {
+                    console.log(res);
+                });
             },
 
             removeGood: function (id, index) {
@@ -99,28 +111,49 @@
                     if (value === true) {
                         this.$http.post('retrospective/meeting/item/remove', {
                             itemId: id,
-                            attendeeId: 1
+                            attendeeId: 'attendee_id'
                         }).then(function (res) {
-                            if (res.ok) {
+                            if (res.ok && res.body === true) {
                                 this.$emit('getRemovedGoodItem', index);
+                            } else {
+                                // todo: show error
                             }
                         }).catch(function (res) {
                             console.log(res);
                         });
                     }
                 }).catch(err => {
+                    // todo: show error message
                     console.log(res);
                 })
             },
 
-            voteGood: function (id) {
-                if (this.goods[id].isVoted === false) {
-                    this.goods[id].vote++;
-                    this.goods[id].isVoted = true;
+            voteGood: function (index, id, voteValue) {
+                if (voteValue == false) {
+                    voteValue = true;
                 } else {
-                    this.goods[id].vote--;
-                    this.goods[id].isVoted = false;
+                    voteValue = false;
                 }
+
+                this.$http.post('retrospective/meeting/item/vote', {
+                    itemId: id,
+                    attendeeId: 'attendee_id',
+                    voteValue: voteValue
+                }).then(function (res) {
+                    if (res.ok && res.body === true) {
+                        let voteItem = {
+                            index: index,
+                            value: voteValue
+                        };
+                        this.$emit('getVotedItem', voteItem);
+                    } else {
+                        // todo: show error
+                        console.log("can not vote");
+                    }
+
+                }).catch(function (res) {
+                    console.log("datatat");
+                });
             },
 
         },

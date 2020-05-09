@@ -16,6 +16,7 @@ class CreateVoteTable extends Migration
         Schema::create('vote', function (Blueprint $table) {
             $table->integer('item_id');
             $table->uuid('attendee_id');
+            $table->unique(['item_id', 'attendee_id']);
         });
     }
 

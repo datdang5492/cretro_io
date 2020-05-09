@@ -18,7 +18,8 @@ class CreateItemTable extends Migration
             $table->uuid('meeting_id');
             $table->uuid('attendee_id');
             $table->string('content');
-            $table->enum('type', [0, 1, 2]);
+            $table->tinyInteger('vote');
+            $table->tinyInteger('type');
         });
     }
 
