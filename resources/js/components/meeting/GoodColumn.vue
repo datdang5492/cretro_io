@@ -1,7 +1,6 @@
 <template>
-    <!--WHAT WENT RIGHT?-->
-    <div class="col-lg-4">
-        <div class="card text-white bg-info mb-3" v-for="(good, index) in this.goods">
+    <div class="col-lg-3">
+        <div class="card text-white bg-info mb-3" v-for="(good, index) in goods">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12">
@@ -56,13 +55,7 @@
         custom: {
             goodInput: {
                 required: "This field is required.",
-            },
-            badInput: {
-                required: "This field is required.",
-            },
-            ideaInput: {
-                required: "This field is required.",
-            },
+            }
         }
     };
 
@@ -100,7 +93,7 @@
                         this.goods[this.ovlContentIndex].content = this.ovlContent;
                     }
                 }).catch(function (res) {
-                    console.log(res);
+                    // todo: show error
                 });
             },
 
@@ -113,7 +106,7 @@
                             itemId: id,
                             attendeeId: 'attendee_id'
                         }).then(function (res) {
-                            if (res.ok && res.body === true) {
+                            if (res.ok) {
                                 this.$emit('getRemovedGoodItem', index);
                             } else {
                                 // todo: show error
@@ -148,11 +141,10 @@
                         this.$emit('getVotedItem', voteItem);
                     } else {
                         // todo: show error
-                        console.log("can not vote");
                     }
 
                 }).catch(function (res) {
-                    console.log("datatat");
+                    // todo: show error
                 });
             },
 

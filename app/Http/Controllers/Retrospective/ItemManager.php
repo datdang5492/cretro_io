@@ -39,7 +39,11 @@ class ItemManager extends Controller
                 $userVotes[$vote->item_id] = $vote->attendee_id;
             }
 
-            $results = [];
+            $results = [
+                'goods' => [],
+                'bads' => [],
+                'ideas' => [],
+            ];
             foreach ($items as $key => $item) {
                 $isVoted = false;
                 if (!empty($userVotes[$item->id]) && $userVotes[$item->id] === $attendeeId) {
@@ -71,7 +75,6 @@ class ItemManager extends Controller
     public function add(Request $request)
     {
         try {
-
             $meetingId = $request->get('meetingId');
             if (!$this->meetingRepo->doesMeetingExist($meetingId)) {
                 return response()->json(['message' => 'meeting does not exist'], 500);
@@ -100,7 +103,6 @@ class ItemManager extends Controller
 
     public function vote(Request $request)
     {
-
         try {
             $itemId = $request->get('itemId');
             $attendeeId = $request->get('attendeeId');
@@ -112,6 +114,7 @@ class ItemManager extends Controller
                 $value = false;
             }
 
+            // update vote relation of item and attendee before updating total vote of item
             $result = $this->itemRepo->vote($itemId, $attendeeId, $value);
             if ($result === true) {
                 $result = $this->itemRepo->updateTotalVote($itemId, $value);
@@ -120,7 +123,6 @@ class ItemManager extends Controller
             return response()->json($result, 200);
 
         } catch (Exception $e) {
-            dd($e->getMessage());
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
     }

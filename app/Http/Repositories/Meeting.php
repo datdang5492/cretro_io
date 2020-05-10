@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\DB;
 class Meeting
 {
 
-    public function doesMeetingExist(string $id): bool
+    public function doesMeetingExist(string $uuid): bool
     {
         try {
             $result = DB::table('meeting')
-                ->first(['id' => $id]);
+                ->where('id', $uuid)
+                ->first();
             return !empty($result) ? true : false;
         } catch (Exception $e) {
             return false;

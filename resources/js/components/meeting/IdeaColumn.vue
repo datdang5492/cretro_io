@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="card text-white bg-success mb-3" v-for="(idea, index) in ideas">
             <div class="card-body">
                 <div class="row">
@@ -14,21 +14,39 @@
                     <div class="col-lg-6 text-left">
                         <button type="button"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="removeIdea(index)">
+                                v-on:click="removeIdea(idea.id, index)">
                             <i class="far fa-trash-alt"></i>
+                        </button>
+                        <button type="button" v-on:click="showEditOvl(ideas[index].content, index, idea.id)"
+                                class="btn btn-outline-light btn-sm">
+                            <i class="far fa-edit"></i>
                         </button>
                     </div>
                     <div class="col-lg-6 text-right">
                         <button type="button"
+                                v-bind:class="getVotedClass(idea.isVoted)"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="voteIdea(index)">
+                                v-on:click="voteIdea(index, idea.id, idea.isVoted)">
                             <img src="https://img.icons8.com/dusk/20/000000/facebook-like.png"/>
-                            <b-badge pill variant="light">{{idea.vote}}</b-badge>
+                            <strong>
+                                <b-badge pill variant="light" class="text-tiny">{{idea.vote}}
+                                </b-badge>
+                            </strong>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+        <b-modal ref="edit_ovl" centered title="Edit" no-close-on-backdrop @ok="saveInputIdea()">
+            <b-form-textarea
+                class="border-info"
+                id="textarea"
+                rows="7"
+                name="ovlContent"
+                v-model="ovlContent"
+                v-validate="'required'"
+            ></b-form-textarea>
+        </b-modal>
     </div>
 </template>
 
@@ -37,7 +55,7 @@
         custom: {
             ideaInput: {
                 required: "This field is required.",
-            },
+            }
         }
     };
 
@@ -45,44 +63,89 @@
         name: "idea-column",
         components: {},
         props: {
-            ideas: Array
+            ideas: Array,
         },
         data() {
             return {
                 ovlContent: '',
                 ovlContentIndex: 0,
-                letShowError: false,
-                ideaInput: "",
+                ovlItemId: 0
             };
         },
         methods: {
             getVotedClass: function (isVoted) {
                 return isVoted === true ? 'voted' : '';
             },
-            showEditOvl: function (content, index) {
+            showEditOvl: function (content, index, itemId) {
                 this.ovlContent = content;
                 this.ovlContentIndex = index;
+                this.ovlItemId = itemId;
                 this.$refs['edit_ovl'].show()
             },
 
-            addIdea: function () {
-                this.ideas.unshift({
-                    content: this.ideaInput,
-                    vote: 0
+            saveInputIdea: function () {
+                this.$http.post('retrospective/meeting/item/edit', {
+                    itemId: this.ovlItemId,
+                    attendeeId: 'attendee_id',
+                    content: this.ovlContent
+                }).then(function (res) {
+                    if (res.ok && res.body === true) {
+                        this.ideas[this.ovlContentIndex].content = this.ovlContent;
+                    }
+                }).catch(function (res) {
+                    // todo: show error
                 });
             },
-            removeIdea: function (id) {
+
+            removeIdea: function (id, index) {
                 this.$bvModal.msgBoxConfirm('Are you sure removing this sticker?', {
                     centered: true
                 }).then(value => {
                     if (value === true) {
-                        this.ideas.splice(id, 1)
+                        this.$http.post('retrospective/meeting/item/remove', {
+                            itemId: id,
+                            attendeeId: 'attendee_id'
+                        }).then(function (res) {
+                            if (res.ok) {
+                                this.$emit('getRemovedIdeaItem', index);
+                            } else {
+                                // todo: show error
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
                     }
                 }).catch(err => {
+                    // todo: show error message
+                    console.log(res);
                 })
             },
-            voteIdea: function (id) {
-                this.ideas[id].vote++;
+
+            voteIdea: function (index, id, voteValue) {
+                if (voteValue == false) {
+                    voteValue = true;
+                } else {
+                    voteValue = false;
+                }
+
+                this.$http.post('retrospective/meeting/item/vote', {
+                    itemId: id,
+                    attendeeId: 'attendee_id',
+                    voteValue: voteValue
+                }).then(function (res) {
+                    if (res.ok && res.body === true) {
+                        let voteItem = {
+                            index: index,
+                            value: voteValue
+                        };
+                        this.$emit('getVotedItem', voteItem);
+                    } else {
+                        // todo: show error
+                    }
+
+                }).catch(function (res) {
+                    // todo: show error
+                });
             },
 
         },

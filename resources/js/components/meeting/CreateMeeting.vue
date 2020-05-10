@@ -101,7 +101,9 @@
                                         id="textarea"
                                         placeholder="Write something then post it ..."
                                         rows="3"
+                                        name="badInput"
                                         v-model="badInput"
+                                        v-validate="'required'"
                                     ></b-form-textarea>
                                 </div>
                             </div>
@@ -117,7 +119,9 @@
                                         id="textarea"
                                         placeholder="Write something then post it ..."
                                         rows="3"
+                                        name="ideaInput"
                                         v-model="ideaInput"
+                                        v-validate="'required'"
                                     ></b-form-textarea>
                                 </div>
                             </div>
@@ -134,10 +138,16 @@
                         </good-column>
 
                         <!--WHAT WENT WRONG?-->
-                        <bad-column :bads="bads"></bad-column>
+                        <bad-column :bads="bads"
+                                    v-on:getRemovedBadItem="removeBadItem($event)"
+                                    v-on:getVotedItem="voteBadItem($event)">
+                        </bad-column>
 
                         <!--IDEAS-->
-                        <idea-column :ideas="ideas"></idea-column>
+                        <idea-column :ideas="ideas"
+                                     v-on:getRemovedIdeaItem="removeIdeaItem($event)"
+                                     v-on:getVotedItem="voteIdeaItem($event)">
+                        </idea-column>
                     </div>
                 </div>
 
@@ -174,11 +184,13 @@
         components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn},
         data() {
             return {
-                meetingId: "uuid",
+                meetingId: "meeting_id",
                 attendeeId: "attendee_id",
                 ovlContent: '',
                 ovlContentIndex: 0,
-                letShowError: false,
+                letShowGoodItemError: false,
+                letShowBadItemError: false,
+                letShowIdeaItemError: false,
                 goodInput: "",
                 badInput: "",
                 ideaInput: "",
@@ -188,8 +200,16 @@
             };
         },
         methods: {
-            removeGoodItem: function (id) {
-                this.goods.splice(id, 1);
+            removeGoodItem: function (index) {
+                this.goods.splice(index, 1);
+            },
+
+            removeBadItem: function (index) {
+                this.bads.splice(index, 1);
+            },
+
+            removeIdeaItem: function (index) {
+                this.ideas.splice(index, 1);
             },
 
             voteGoodItem: function (data) {
@@ -198,6 +218,24 @@
                     this.goods[data.index].vote--;
                 } else {
                     this.goods[data.index].vote++;
+                }
+            },
+
+            voteBadItem: function (data) {
+                this.bads[data.index].isVoted = data.value;
+                if (data.value === false) {
+                    this.bads[data.index].vote--;
+                } else {
+                    this.bads[data.index].vote++;
+                }
+            },
+
+            voteIdeaItem: function (data) {
+                this.ideas[data.index].isVoted = data.value;
+                if (data.value === false) {
+                    this.ideas[data.index].vote--;
+                } else {
+                    this.ideas[data.index].vote++;
                 }
             },
             fetchItems: function () {
@@ -218,38 +256,90 @@
             addGood: function () {
                 this.$validator.validate('goodInput').then((validateResult) => {
                     if (validateResult === true) {
-                        this.letShowError = false;
-                        let goodItem = {
+                        this.letShowGoodItemError = false;
+                        let data = {
                             meetingId: this.meetingId,
                             attendeeId: this.attendeeId,
                             type: 0,
                             content: this.goodInput
                         };
+                        let goodItem = {
+                            isVoted: false,
+                            vote: 0,
+                            content: this.goodInput
+                        };
 
-                        this.$http.post('retrospective/meeting/item/add', goodItem).then(function (res) {
-                            if (res.ok) {
+                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
+                            if (res.ok && res.body > 0) {
+                                goodItem.id = res.body;
                                 this.goods.unshift(goodItem);
                             }
                         }).catch(function (res) {
                             console.log(res);
                         });
                     } else {
-                        this.letShowError = true;
+                        this.letShowGoodItemError = true;
                     }
                 });
             },
 
             addBad: function () {
-                this.bads.unshift({
-                    content: this.badInput,
-                    vote: 0
+                this.$validator.validate('badInput').then((validateResult) => {
+                    if (validateResult === true) {
+                        this.letShowBadItemError = false;
+                        let data = {
+                            meetingId: this.meetingId,
+                            attendeeId: this.attendeeId,
+                            type: 1,
+                            content: this.badInput
+                        };
+                        let badItem = {
+                            isVoted: false,
+                            vote: 0,
+                            content: this.badInput
+                        };
+
+                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
+                            if (res.ok && res.body > 0) {
+                                badItem.id = res.body;
+                                this.bads.unshift(badItem);
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
+                    } else {
+                        this.letShowBadItemError = true;
+                    }
                 });
             },
 
             addIdea: function () {
-                this.ideas.unshift({
-                    content: this.ideaInput,
-                    vote: 0
+                this.$validator.validate('ideaInput').then((validateResult) => {
+                    if (validateResult === true) {
+                        this.letShowIdeaItemError = false;
+                        let data = {
+                            meetingId: this.meetingId,
+                            attendeeId: this.attendeeId,
+                            type: 2,
+                            content: this.ideaInput
+                        };
+                        let ideaItem = {
+                            isVoted: false,
+                            vote: 0,
+                            content: this.ideaInput
+                        };
+
+                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
+                            if (res.ok && res.body > 0) {
+                                ideaItem.id = res.body;
+                                this.ideas.unshift(ideaItem);
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
+                    } else {
+                        this.letShowIdeaItemError = true;
+                    }
                 });
             },
 

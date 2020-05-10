@@ -7,13 +7,13 @@
                     <b-list-group-item href="#" class="font-weight-bold text-center">Attendees
                     </b-list-group-item>
 
-                    <b-list-group-item v-for="attendee in attendees"
+                    <b-list-group-item v-for="(attendee, index) in attendees"
                                        :key="attendee.id"
-                                       v-bind:variant="profileImgClass[attendee.id]"
+                                       v-bind:variant="profileImgClass[index]"
                                        href="#">
                         <b-img secondaryrounded="circle"
                                alt="Circle image"
-                               v-bind:src="profileImg[attendee.id]"></b-img>
+                               v-bind:src="attendee.profilePic"></b-img>
                         {{attendee.name}}
 
                         <i class="fas fa-user-shield" v-b-tooltip.hover v-if="attendee.isConductor"
@@ -32,19 +32,10 @@
         props: {},
         data() {
             return {
-                meetingId: 1,
+                meetingId: "meeting_id",
                 attendees: [],
                 profileImgClass: [
                     'primary', 'secondary', 'danger', 'info', 'light',
-                ],
-                profileImg: [
-                    'https://img.icons8.com/emoji/30/000000/crying-cat.png',
-                    'https://img.icons8.com/plasticine/30/000000/octopus.png',
-                    'https://img.icons8.com/plasticine/30/000000/cow.png',
-                    'https://img.icons8.com/plasticine/30/000000/pig.png',
-                    'https://img.icons8.com/plasticine/30/000000/reindeer.png',
-                    'https://img.icons8.com/dusk/30/000000/--camel.png',
-                    'https://img.icons8.com/officel/30/000000/giraffe.png'
                 ],
             };
         },

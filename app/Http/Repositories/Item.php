@@ -18,6 +18,7 @@ class Item
             ->select(['id', 'attendee_id', 'content', 'vote', 'type'])
             ->where('meeting_id', $meetingId)
             ->get()
+            ->sortByDesc('id')
             ->toArray();
     }
 
@@ -44,7 +45,6 @@ class Item
 
             return DB::table('vote')->where('item_id', $itemId)->delete();
         } catch (Throwable $e) {
-            dd($e->getMessage());
             return false;
         }
     }
@@ -67,7 +67,6 @@ class Item
                 return DB::table('item')->where('id', $itemId)->decrement('vote');
             }
         } catch (Throwable $e) {
-            dd($e->getMessage());
             return false;
         }
     }
