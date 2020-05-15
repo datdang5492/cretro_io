@@ -7,23 +7,54 @@ use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Meeting;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MeetingManager extends Controller
 {
     private $attendeeRepo;
     private $meetingRepo;
+    private $strHelper;
 
-    public function __construct(Meeting $meeting, Attendee $attendee)
+    const MAX_MEETING_NUMBER = 2;
+
+    public function __construct(Meeting $meeting, Attendee $attendee, Str $strHelper)
     {
         $this->meetingRepo = $meeting;
         $this->attendeeRepo = $attendee;
+        $this->strHelper = $strHelper;
     }
 
     public function create(Request $request)
     {
         try {
-            $results = [];
-            return response()->json($results, 200);
+            $userId = 123;
+
+            // check if user has ongoing meeting
+            $unfinishedMeetings = $this->meetingRepo->getUserUnfinishedMeeting($userId);
+            if (count($unfinishedMeetings) >= self::MAX_MEETING_NUMBER) {
+                return response()->json(['message' => 'You currently already have at least 2 unfinished meetings'], 500);
+            }
+
+            $request->validate([
+                'teamName' => 'required',
+                'attendeeNo' => 'required|numeric|max:20',
+                'duration' => 'required|numeric|min:10|max:180',
+                'maxVote' => 'required|numeric|min:1',
+            ]);
+
+            $data = [
+                'team_name' => $request->get('teamName'),
+                'sprint_name' => $request->get('sprintName'),
+                'attendee_no' => $request->get('attendeeNo'),
+                'duration' => $request->get('duration'),
+                'max_vote' => $request->get('maxVote'),
+                'conductor_id' => $userId,
+                'id' => $this->strHelper->uuid()->toString()
+            ];
+
+            $meetingId = $this->meetingRepo->create($data);
+
+            return response()->json($meetingId, 200);
 
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

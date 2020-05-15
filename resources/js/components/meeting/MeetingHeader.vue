@@ -4,8 +4,7 @@
             <div class="col-lg-9">
                 <h3 class="text-center">{{teamName}}</h3>
                 <h4 class="text-center">{{sprintName}}</h4>
-                <h4>Time left: {{this.duration.countHours + "h " + this.duration.countMinutes + "m " +
-                    this.duration.countSeconds + "s"}}</h4>
+                <h4>Time left: {{this.duration.countHours + ":" + this.duration.countMinutes + ":" + this.duration.countSeconds}}</h4>
             </div>
 
             <div class="col-lg-3 text-right">

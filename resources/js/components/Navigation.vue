@@ -12,7 +12,7 @@
                 <nav class="nav-menu d-none d-lg-block">
                     <!--not sign in navigation-->
                     <ul>
-                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#pricing">Buy me a coffee</a></li>
                         <li><a href="#faq">F.A.Q</a></li>
                         <li><a href="#contact">Contact Us</a></li>
                         <li class="sign-in" v-if="this.$authStatus !== '1'">

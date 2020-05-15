@@ -1,6 +1,7 @@
 import homepage from './components/homepage/Homepage';
 import page_not_found from "./components/error_page/PageNotFound";
-import create_meeting from './components/meeting/CreateMeeting';
+import retrospective from './components/meeting/Retrospective';
+import setup_meeting from './components/meeting/SetupMeeting';
 import signin from './components/authentication/Signin';
 import signup from './components/authentication/Signup';
 import forgot_password from './components/authentication/ForgotPassword';
@@ -25,10 +26,16 @@ export default [
     {path: '/sign-up/activate/:token', component: signup_activate},
     {path: '/forgot-password', components: {default: forgot_password}},
     {path: '/password/find/:token', component: password_reset},
-
     {
-        path: '/retrospective/create', components: {
-            default: create_meeting,
+        path: '/meeting/retrospective/create', components: {
+            default: setup_meeting,
+            // navigation: navigation,
+            // bottom: bottom,
+        }
+    },
+    {
+        path: '/meeting/retrospective/:id', components: {
+            default: retrospective,
             // navigation: navigation,
             // bottom: bottom,
         }

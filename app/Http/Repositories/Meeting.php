@@ -19,4 +19,19 @@ class Meeting
             return false;
         }
     }
+
+    public function create(array $data): int
+    {
+        return DB::table('meeting')->insert($data);
+    }
+
+    public function getUserUnfinishedMeeting(string $userId): array
+    {
+        return DB::table('meeting')
+            ->select('id')
+            ->where('conductor_id', $userId)
+            ->whereNull('stopped_at')
+            ->get()
+            ->toArray();
+    }
 }

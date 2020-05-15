@@ -17,10 +17,12 @@ class CreateMeetingTable extends Migration
             $table->uuid('id');
             $table->uuid('conductor_id');
             $table->string('team_name');
-            $table->string('sprint_name');
-            $table->float('duration');
-            $table->boolean('status');
-            $table->dateTime('stopped_at', 0);
+            $table->string('sprint_name')->nullable();
+            $table->integer('duration');
+            $table->integer('attendee_no');
+            $table->integer('max_vote');
+            $table->boolean('status')->default(0);
+            $table->dateTime('stopped_at', 0)->nullable();
             $table->timestamps();
             $table->primary('id');
         });
