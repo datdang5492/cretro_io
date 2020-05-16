@@ -1,8 +1,10 @@
 <template>
-    <div class="section meeting min-height-normal mt-5">
-        <div class="container-fluid mt-5">
-            <div class="row">
-                <div class="col-lg-4 offset-lg-4" v-if="meetingCreated === false">
+    <div class="container-fluid meeting min-height-normal mt-5">
+        <div class="row">
+            <div class="col-lg-6 other_half min-height-normal"></div>
+
+            <div class="col-lg-6">
+                <div class="col-lg-6 offset-lg-3" v-if="meetingCreated === false">
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <h4>
@@ -103,6 +105,7 @@
                                 </label>
                                 <input type="text" name="password"
                                        class="form-control input_high"
+                                       v-model="password"
                                        placeholder="Please create a password">
                             </div>
                         </div>
@@ -127,16 +130,13 @@
                     <div class="row mt-2">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <button class="btn btn-lg btn-block cretroBtn"
-                                        v-on:click="create()"
-                                >Create
-                                </button>
+                                <button class="btn btn-lg btn-block cretroBtn" v-on:click="create()">Create</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 offset-lg-4 text-center" v-if="meetingCreated === true">
+                <div class="col-lg-6 offset-lg-3 text-center" v-if="meetingCreated === true">
                     <div class="row">
                         <div class="col-lg-12">
                             <h4>
@@ -170,14 +170,17 @@
                     </div>
 
                     <div class="row mt-4">
-                        <div class="col-lg-4 offset-lg-4">
+                        <div class="col-lg-6 offset-lg-3">
                             <div class="form-group">
-                                <button class="btn btn-lg btn-block cretroBtn">Go to meeting</button>
+                                <button class="btn btn-lg btn-block cretroBtn" v-on:click="goToMeeting()">
+                                    Go to meeting <i class="fas fa-chevron-right"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -228,7 +231,8 @@
                 maxVote: null,
                 meetingCreated: false,
                 showSuccessMsg: false,
-                successMsg: 'Meeting was successfully created!'
+                successMsg: '',
+                meetingUrl: ''
             };
         },
         methods: {
@@ -248,21 +252,32 @@
                             if (res.ok) {
                                 this.meetingCreated = true;
                                 this.showSuccessMsg = true;
+                                this.successMsg = "Team " + this.teamName + "'s retrospective meeting is ready!"
+                                this.meetingUrl = res.body;
                             }
                         }).catch(function (res) {
                             this.errorMsg = res.body.message;
                             this.showErrorMsg = true;
                         });
-                    } else {
-                        // this.errorMsg = res.
-                        this.showErrorMsg = true;
                     }
                 });
+            },
+
+            goToMeeting: function () {
+                this.$router.push(this.meetingUrl);
+            },
+
+            isUserAuthenticated: function () {
+                return window.Laravel.is_authenticated;
             }
+
         },
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
+
+            // check authentication
+            this.isUserAuthenticated(window.Laravel.is_authenticated);
         },
     };
 </script>
@@ -283,6 +298,11 @@
     .input_high {
         line-height: 2;
         height: auto;
+    }
+
+    .other_half {
+        border-left: 1px slategray solid;
+        background-image: url('https://c1.sfdcstatic.com/content/dam/blogs/ca/Blog%20Posts/shake-up-sales-meeting-og.jpg');
     }
 
 </style>

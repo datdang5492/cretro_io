@@ -16,7 +16,13 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-        <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>
+        {{--<script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>--}}
+        <script>
+            window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+            'is_authenticated' => Auth::check()
+        ]) !!};
+        </script>
 
     </head>
     <body>

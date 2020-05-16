@@ -17,6 +17,7 @@ class CreateMeetingTable extends Migration
             $table->uuid('id');
             $table->uuid('conductor_id');
             $table->string('team_name');
+            $table->string('password')->nullable();
             $table->string('sprint_name')->nullable();
             $table->integer('duration');
             $table->integer('attendee_no');

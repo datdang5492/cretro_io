@@ -27,11 +27,13 @@ export default [
     {path: '/forgot-password', components: {default: forgot_password}},
     {path: '/password/find/:token', component: password_reset},
     {
-        path: '/meeting/retrospective/create', components: {
+        path: '/meeting/retrospective/create',
+        components: {
             default: setup_meeting,
             // navigation: navigation,
             // bottom: bottom,
-        }
+        },
+        meta: {requiresAuth: true}
     },
     {
         path: '/meeting/retrospective/:id', components: {
@@ -39,5 +41,5 @@ export default [
             // navigation: navigation,
             // bottom: bottom,
         }
-    }
+    },
 ]

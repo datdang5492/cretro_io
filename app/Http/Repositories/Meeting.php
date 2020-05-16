@@ -20,7 +20,7 @@ class Meeting
         }
     }
 
-    public function create(array $data): int
+    public function create(array $data): bool
     {
         return DB::table('meeting')->insert($data);
     }

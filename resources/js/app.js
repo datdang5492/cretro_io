@@ -71,6 +71,21 @@ const router = new VueRouter({
     routes: Routes
 });
 
+
+// https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
+// handle unauthenticated request
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (window.Laravel.is_authenticated) {
+            next();
+            return;
+        }
+        next('/sign-in');
+    } else {
+        next();
+    }
+});
+
 Vue.http.headers.common['X-CSRF-TOKEN'] =
     document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 

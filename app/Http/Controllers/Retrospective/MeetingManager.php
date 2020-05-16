@@ -7,6 +7,7 @@ use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Meeting;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class MeetingManager extends Controller
@@ -27,7 +28,7 @@ class MeetingManager extends Controller
     public function create(Request $request)
     {
         try {
-            $userId = 123;
+            $userId = Auth::id();
 
             // check if user has ongoing meeting
             $unfinishedMeetings = $this->meetingRepo->getUserUnfinishedMeeting($userId);
@@ -42,6 +43,12 @@ class MeetingManager extends Controller
                 'maxVote' => 'required|numeric|min:1',
             ]);
 
+            $password = '';
+            if (!empty($request->get('password'))) {
+                $password = md5($request->get('password'));
+            }
+
+            $meetingId = $this->strHelper->uuid()->toString();
             $data = [
                 'team_name' => $request->get('teamName'),
                 'sprint_name' => $request->get('sprintName'),
@@ -49,12 +56,16 @@ class MeetingManager extends Controller
                 'duration' => $request->get('duration'),
                 'max_vote' => $request->get('maxVote'),
                 'conductor_id' => $userId,
-                'id' => $this->strHelper->uuid()->toString()
+                'password' => $password,
+                'id' => $meetingId
             ];
 
-            $meetingId = $this->meetingRepo->create($data);
+            $isMeetingCreated = $this->meetingRepo->create($data);
+            if ($isMeetingCreated) {
+                return response()->json($meetingId, 200);
+            }
 
-            return response()->json($meetingId, 200);
+            throw new Exception("Something wrong happened!");
 
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
