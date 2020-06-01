@@ -1,5 +1,5 @@
 <template>
-    <div class="section meeting min-height-normal">
+    <div class="section meeting min-height-normal" v-if="doesMeetingExist">
         <!--MEETING HEADER-->
         <meeting-header v-if="teamName !== ''"
                         :teamName="teamName"
@@ -12,10 +12,10 @@
         <!--main area-->
         <div class="container-fluid mt-5">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                     <!--TITLE-->
                     <div class="row text-center">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="card text-white bg-info mb-3">
                                 <div class="card-header font-weight-bold">
                                     <div class="row">
@@ -36,7 +36,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="card text-white bg-secondary mb-3">
                                 <div class="card-header font-weight-bold">
                                     <div class="row">
@@ -56,8 +56,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card text-white bg-success mb-3">
+                        <div class="col-lg-3">
+                            <div class="card text-white bg-warning mb-3">
                                 <div class="card-header font-weight-bold">
                                     <div class="row">
                                         <div class="col-lg-9 text-left">
@@ -76,11 +76,32 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-3">
+                            <div class="card text-white bg-success mb-3">
+                                <div class="card-header font-weight-bold">
+                                    <div class="row">
+                                        <div class="col-lg-9 text-left">
+                                            <b-img secondaryrounded="circle" alt="Circle image"
+                                                   src="https://img.icons8.com/dusk/30/000000/two-hearts.png"></b-img>
+                                            Appreciation
+                                        </div>
+                                        <div class="col-lg-3 text-right">
+                                            <button type="button"
+                                                    class="btn btn-outline-light btn-sm"
+                                                    v-on:click="addAppreciation()">
+                                                <img src="https://img.icons8.com/officel/30/000000/add-tag.png"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!--TEXTAREA-->
                     <div class="row text-left">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="alert alert-danger" v-if="errors.has('goodInput')">
                                 {{errors.first('goodInput')}}
                             </div>
@@ -96,12 +117,11 @@
                                 ></b-form-textarea>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="alert alert-dismissible alert-danger" v-if="errors.has('badInput')">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
+                        <div class="col-lg-3">
+                            <div class="alert alert-danger" v-if="errors.has('badInput')">
                                 {{errors.first('badInput')}}
                             </div>
-                            <div class="card mb-3 border-warning">
+                            <div class="card mb-3 border-secondary">
                                 <div class="">
                                     <b-form-textarea
                                         id="textarea"
@@ -114,12 +134,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="alert alert-dismissible alert-danger" v-if="errors.has('ideaInput')">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
+                        <div class="col-lg-3">
+                            <div class="alert alert-danger" v-if="errors.has('ideaInput')">
                                 {{errors.first('ideaInput')}}
                             </div>
-                            <div class="card mb-3 border-primary">
+                            <div class="card mb-3 border-warning">
                                 <div class="">
                                     <b-form-textarea
                                         id="textarea"
@@ -127,6 +146,24 @@
                                         rows="3"
                                         name="ideaInput"
                                         v-model="ideaInput"
+                                        v-validate="'required'"
+                                    ></b-form-textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="alert alert-danger" v-if="errors.has('appreciationInput')">
+                                {{errors.first('appreciationInput')}}
+                            </div>
+                            <div class="card mb-3 border-success">
+                                <div class="">
+                                    <b-form-textarea
+                                        id="textarea"
+                                        placeholder="Write something then post it ..."
+                                        rows="3"
+                                        name="appreciationInput"
+                                        v-model="appreciationInput"
                                         v-validate="'required'"
                                     ></b-form-textarea>
                                 </div>
@@ -154,11 +191,17 @@
                                      v-on:getRemovedIdeaItem="removeIdeaItem($event)"
                                      v-on:getVotedItem="voteIdeaItem($event)">
                         </idea-column>
+
+                        <!--APPRECIATION-->
+                        <appreciation-column :appreciations="appreciations"
+                                     v-on:getRemovedAppreciationItem="removeAppreciationItem($event)"
+                                     v-on:getVotedItem="voteAppreciationItem($event)">
+                        </appreciation-column>
                     </div>
                 </div>
 
                 <!--CURRENT IN MEETING-->
-                <attendee></attendee>
+                <attendee :meetingId="meetingId"></attendee>
             </div>
         </div>
     </div>
@@ -169,6 +212,7 @@
     import BadColumn from "./BadColumn";
     import IdeaColumn from "./IdeaColumn";
     import Attendee from "./Attendee";
+    import AppreciationColumn from "./AppreciationColumn";
     import MeetingHeader from "./MeetingHeader";
 
     const dict = {
@@ -182,14 +226,18 @@
             ideaInput: {
                 required: "This field is required.",
             },
+            appreciationInput: {
+                required: "This field is required.",
+            },
         }
     };
 
     export default {
         name: "retrospective",
-        components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn},
+        components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn, AppreciationColumn},
         data() {
             return {
+                doesMeetingExist: false,
                 meetingId: '',
                 attendeeId: "attendee_id",
                 ovlContent: '',
@@ -197,9 +245,11 @@
                 letShowGoodItemError: false,
                 letShowBadItemError: false,
                 letShowIdeaItemError: false,
+                letShowAppreciationItemError: false,
                 goodInput: "",
                 badInput: "",
                 ideaInput: "",
+                appreciationInput: "",
 
                 teamName: '',
                 attendeeNo: null,
@@ -210,7 +260,8 @@
 
                 goods: [],
                 bads: [],
-                ideas: []
+                ideas: [],
+                appreciations: [],
             };
         },
         methods: {
@@ -224,6 +275,10 @@
 
             removeIdeaItem: function (index) {
                 this.ideas.splice(index, 1);
+            },
+
+            removeAppreciationItem: function (index) {
+                this.appreciations.splice(index, 1);
             },
 
             voteGoodItem: function (data) {
@@ -252,6 +307,16 @@
                     this.ideas[data.index].vote++;
                 }
             },
+
+            voteAppreciationItem: function (data) {
+                this.appreciations[data.index].isVoted = data.value;
+                if (data.value === false) {
+                    this.appreciations[data.index].vote--;
+                } else {
+                    this.appreciations[data.index].vote++;
+                }
+            },
+
             fetchItems: function () {
                 this.$http.post('retrospective/meeting/item/fetch', {
                     meetingId: this.meetingId,
@@ -261,9 +326,10 @@
                         this.goods = res.data.goods;
                         this.bads = res.data.bads;
                         this.ideas = res.data.ideas;
+                        this.appreciations = res.data.appreciations;
                     }
                 }).catch(function (res) {
-                    console.log(res.msg);
+                    console.log(res);
                 });
             },
 
@@ -272,6 +338,7 @@
                     meetingId: this.meetingId,
                 }).then(function (res) {
                     if (res.ok) {
+                        this.doesMeetingExist = true;
                         this.teamName = res.body.team_name;
                         this.attendeeNo = res.body.sprint_name;
                         this.sprintName = res.body.sprint_name;
@@ -280,7 +347,9 @@
                         this.duration = res.body.duration;
                     }
                 }).catch(function (res) {
-                    console.log(res.msg);
+                    if (res.status != 200) {
+                        this.$router.push({name: 'page_not_found'});
+                    }
                 });
             },
 
@@ -374,6 +443,36 @@
                 });
             },
 
+            addAppreciation: function () {
+                this.$validator.validate('appreciationInput').then((validateResult) => {
+                    if (validateResult === true) {
+                        this.letShowAppreciationItemError = false;
+                        let data = {
+                            meetingId: this.meetingId,
+                            attendeeId: this.attendeeId,
+                            type: 3,
+                            content: this.appreciationInput
+                        };
+                        let appreciationItem = {
+                            isVoted: false,
+                            vote: 0,
+                            content: this.appreciationInput
+                        };
+
+                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
+                            if (res.ok && res.body > 0) {
+                                appreciationItem.id = res.body;
+                                this.appreciations.unshift(appreciationItem);
+                            }
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
+                    } else {
+                        this.letShowAppreciationItemError = true;
+                    }
+                });
+            },
+
         },
         created: function () {
             // enable custom validation message
@@ -389,6 +488,10 @@
 <style>
     .btn-outline-light:hover {
         color: black;
+    }
+
+    .bg-warning {
+        background-color: #ffb927 !important;
     }
 
     .card-body {

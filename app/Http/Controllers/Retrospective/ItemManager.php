@@ -43,6 +43,7 @@ class ItemManager extends Controller
                 'goods' => [],
                 'bads' => [],
                 'ideas' => [],
+                'appreciations' => []
             ];
             foreach ($items as $key => $item) {
                 $isVoted = false;
@@ -62,7 +63,10 @@ class ItemManager extends Controller
                     $results['bads'][] = $ticket;
                 } else if ($item->type === 2) {
                     $results['ideas'][] = $ticket;
+                } else if ($item->type === 3) {
+                    $results['appreciations'][] = $ticket;
                 }
+
             }
 
             return response()->json($results, 200);

@@ -29,10 +29,11 @@
     export default {
         name: "attendee",
         components: {},
-        props: {},
+        props: {
+            meetingId: String,
+        },
         data() {
             return {
-                meetingId: "meeting_id",
                 attendees: [],
                 profileImgClass: [
                     'primary', 'secondary', 'danger', 'info', 'light',
@@ -47,7 +48,6 @@
                     if (res.ok) {
                         this.attendees = res.data;
                     }
-                    this.resMsg = res.body.message;
                 }).catch(function (res) {
                     this.resMsg = res.body.message;
                 });

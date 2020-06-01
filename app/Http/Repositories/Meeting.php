@@ -52,6 +52,10 @@ class Meeting
             ->where('id', $meetingId)
             ->first();
 
+        if (empty($data)) {
+            return [];
+        }
+
         return [
             'conductor_id' => $data->conductor_id,
             'team_name' => $data->team_name,
@@ -62,7 +66,5 @@ class Meeting
             'meetingStatus' => $data->status,
             'stopped_at' => $data->stopped_at,
         ];
-
-
     }
 }

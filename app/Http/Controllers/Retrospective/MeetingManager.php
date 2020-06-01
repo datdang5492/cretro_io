@@ -89,6 +89,10 @@ class MeetingManager extends Controller
             $meetingId = $request->get('meetingId');
             $data = $this->meetingRepo->getMeetingInfo($meetingId);
 
+            if (empty($data)) {
+                return response()->json(['message' => 'meeting does not exist'], 404);
+            }
+
             return response()->json($data, 200);
 
         } catch (Exception $e) {

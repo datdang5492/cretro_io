@@ -1,6 +1,6 @@
 <template>
     <div class="col-lg-3">
-        <div class="card text-white bg-success mb-3" v-for="(idea, index) in ideas">
+        <div class="card text-white bg-warning mb-3" v-for="(idea, index) in ideas">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12">

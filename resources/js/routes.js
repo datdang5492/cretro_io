@@ -11,7 +11,11 @@ import bottom from './components/Bottom';
 import signup_activate from './components/authentication/SignupActivate';
 
 export default [
-    {path: "*", component: page_not_found},
+    {
+        path: "/page-not-found",
+        component: page_not_found,
+        name: "page_not_found"
+    },
     {
         path: '/',
         name: 'homepage',
