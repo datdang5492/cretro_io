@@ -15,14 +15,16 @@
                         <li><a href="#pricing">Buy me a coffee</a></li>
                         <li><a href="#faq">F.A.Q</a></li>
                         <li><a href="#contact">Contact Us</a></li>
-                        <li class="sign-in" v-if="this.$authStatus !== '1'">
+                        <li class="sign-in" v-if="!isUserAuthenticated()">
                             <a href="/sign-in" class="cretroBtn btn btn-outline-info">Sign in</a>
                         </li>
-                        <li class="sign-up" v-if="this.$authStatus !== '1'">
+                        <li class="sign-up" v-if="!isUserAuthenticated()">
                             <a href="/sign-up" class="outlineCretroBtn btn btn-outline-info">Sign up</a>
                         </li>
 
-                        <li v-if="this.$authStatus === '1'"><a href="#" @click="handleSignOut()">Logout</a></li>
+                        <li v-if="isUserAuthenticated()">
+                            <a href="#" @click="handleSignOut()">Logout</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -57,8 +59,14 @@
                     window.location.reload();
                 });
             },
+
+            isUserAuthenticated: function () {
+                return window.Laravel.is_authenticated;
+            }
         },
         created: function () {
+            // check authentication
+            this.isUserAuthenticated(window.Laravel.is_authenticated);
         }
     };
 </script>

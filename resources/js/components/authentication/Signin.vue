@@ -121,6 +121,8 @@
                             remember_me: this.remember_me
                         }).then(function (res) {
                             loader.hide();
+                            // TODO: fix this authentication issue.
+                            window.Laravel.is_authenticated = true;
                             this.$router.push({name: 'homepage'});
 
                         }).catch(function (res) {

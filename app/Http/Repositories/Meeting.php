@@ -34,4 +34,35 @@ class Meeting
             ->get()
             ->toArray();
     }
+
+    public function getMeetingInfo(string $meetingId): array
+    {
+        $data = DB::table('meeting')
+            ->select([
+                'conductor_id',
+                'team_name',
+                'sprint_name',
+                'attendee_no',
+                'max_vote',
+                'duration',
+                'status',
+                'stopped_at',
+                'created_at'
+            ])
+            ->where('id', $meetingId)
+            ->first();
+
+        return [
+            'conductor_id' => $data->conductor_id,
+            'team_name' => $data->team_name,
+            'sprint_name' => $data->sprint_name,
+            'attendee_no' => $data->attendee_no,
+            'max_vote' => $data->max_vote,
+            'duration' => $data->duration,
+            'meetingStatus' => $data->status,
+            'stopped_at' => $data->stopped_at,
+        ];
+
+
+    }
 }

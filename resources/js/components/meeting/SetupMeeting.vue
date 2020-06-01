@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 offset-lg-3 text-center" v-if="meetingCreated === true">
+                <div class="col-lg-8 offset-lg-2 text-center" v-if="meetingCreated === true">
                     <div class="row">
                         <div class="col-lg-12">
                             <h4>
@@ -165,7 +165,7 @@
                     <div class="row mt-2">
                         <div class="col-lg-12">
                             <p>Share the meeting url with your team member :)</p>
-                            <a href="https://cretro.io/retrospective/meeting/uuid">https://cretro.io/retrospective/meeting/uuid</a>
+                            <a :href="this.meetingUrl">{{"https://cretro.io/retrospective/meeting/" + this.meetingUrl}}</a>
                         </div>
                     </div>
 
@@ -266,10 +266,6 @@
             goToMeeting: function () {
                 this.$router.push(this.meetingUrl);
             },
-
-            isUserAuthenticated: function () {
-                return window.Laravel.is_authenticated;
-            }
 
         },
         created: function () {

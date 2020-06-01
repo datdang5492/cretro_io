@@ -1,7 +1,13 @@
 <template>
     <div class="section meeting min-height-normal">
         <!--MEETING HEADER-->
-        <meeting-header></meeting-header>
+        <meeting-header v-if="teamName !== ''"
+                        :teamName="teamName"
+                        :sprintName="sprintName"
+                        :duration="duration"
+                        :status="status"
+        >
+        </meeting-header>
 
         <!--main area-->
         <div class="container-fluid mt-5">
@@ -184,7 +190,7 @@
         components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn},
         data() {
             return {
-                meetingId: "meeting_id",
+                meetingId: '',
                 attendeeId: "attendee_id",
                 ovlContent: '',
                 ovlContentIndex: 0,
@@ -194,6 +200,14 @@
                 goodInput: "",
                 badInput: "",
                 ideaInput: "",
+
+                teamName: '',
+                attendeeNo: null,
+                sprintName: '',
+                maxVote: 0,
+                status: 0,
+                duration: 0,
+
                 goods: [],
                 bads: [],
                 ideas: []
@@ -247,6 +261,23 @@
                         this.goods = res.data.goods;
                         this.bads = res.data.bads;
                         this.ideas = res.data.ideas;
+                    }
+                }).catch(function (res) {
+                    console.log(res.msg);
+                });
+            },
+
+            getMeetingData: function () {
+                this.$http.post('retrospective/meeting/get-data', {
+                    meetingId: this.meetingId,
+                }).then(function (res) {
+                    if (res.ok) {
+                        this.teamName = res.body.team_name;
+                        this.attendeeNo = res.body.sprint_name;
+                        this.sprintName = res.body.sprint_name;
+                        this.maxVote = res.body.max_vote;
+                        this.status = res.body.meetingStatus;
+                        this.duration = res.body.duration;
                     }
                 }).catch(function (res) {
                     console.log(res.msg);
@@ -347,7 +378,9 @@
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
+            this.meetingId = this.$route.params.id;
 
+            this.getMeetingData();
             this.fetchItems();
         },
     };

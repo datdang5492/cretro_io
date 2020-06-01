@@ -83,6 +83,19 @@ class MeetingManager extends Controller
         }
     }
 
+    public function getMeetingInfo(Request $request)
+    {
+        try {
+            $meetingId = $request->get('meetingId');
+            $data = $this->meetingRepo->getMeetingInfo($meetingId);
+
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
     public function stop(Request $request)
     {
         try {
