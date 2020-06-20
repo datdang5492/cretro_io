@@ -9,14 +9,12 @@
 <script>
     import Navigation from "./components/Navigation";
     import Bottom from "./components/Bottom";
-    import Authentication from "./components/Authentication";
 
     export default {
         name: "app",
         components: {
             Navigation,
             Bottom,
-            Authentication
         },
         data() {
             return {};

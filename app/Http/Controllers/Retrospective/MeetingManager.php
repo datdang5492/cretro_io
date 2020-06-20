@@ -103,7 +103,7 @@ class MeetingManager extends Controller
     public function stop(Request $request)
     {
         try {
-            $results = [];
+            $results = ["meeting stopped"];
             return response()->json($results, 200);
 
         } catch (Exception $e) {

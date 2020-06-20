@@ -6,6 +6,7 @@
                         :sprintName="sprintName"
                         :duration="duration"
                         :status="status"
+                        :meetingId="meetingId"
         >
         </meeting-header>
 

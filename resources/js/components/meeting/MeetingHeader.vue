@@ -7,33 +7,61 @@
                 <h4 class="text-center" v-if="duration !== 0">Meeting duration: {{duration}} minutes</h4>
 
                 <!--not display clock when meeting has not started-->
-                <h4 v-if="status > 0">Time left: {{this.countHours + ":" + this.countMinutes + ":" +
-                    this.countSeconds}}</h4>
+                <!--<h4 v-if="status > 0">Time left: {{this.countHours + ":" + this.countMinutes + ":" +-->
+                <!--this.countSeconds}}</h4>-->
             </div>
 
             <div class="col-lg-3 text-right" v-if="status >= 0">
-                <button type="button"
-                        class="btn btn-info meetingControl"
-                        v-on:click="startMeeting()"
-                        v-if="status === 0">
-                    <i class="fas fa-play"></i> Start the meeting
-                </button>
+                <!--<button type="button"-->
+                <!--class="btn btn-info meetingControl"-->
+                <!--v-on:click="startCounting()"-->
+                <!--v-if="status === 0">-->
+                <!--<i class="fas fa-play"></i> Start the meeting-->
+                <!--</button>-->
+
+                <!--<button type="button"-->
+                <!--class="btn btn-danger meetingControl"-->
+                <!--v-on:click="stopCounting()"-->
+                <!--v-if="status === 1">-->
+                <!--<i class="fas fa-stop-circle"></i> Stop counting-->
+                <!--</button>-->
 
                 <button type="button"
                         class="btn btn-danger meetingControl"
-                        v-on:click="stopMeeting()"
-                        v-if="status === 1">
-                    <i class="fas fa-stop-circle"></i> Stop the meeting
-                </button>
-
-                <button type="button"
-                        class="btn btn-dark meetingControl"
-                        v-on:click="stopMeeting()"
-                        v-if="status === 2">
-                    Meeting Finished
+                        v-on:click="confirmStopMeeting()">
+                    <i class="fas fa-stop-circle"></i> Stop meeting
                 </button>
             </div>
         </div>
+
+        <b-modal
+            id="sumUpModal"
+            ref="sumUpModal"
+            title="Meeting Summary"
+            size="xl"
+            :no-close-on-backdrop="true"
+            :no-close-on-esc="true"
+            :centered="true"
+            :header-bg-variant="'success'"
+        >
+            <b-container fluid>
+                <b-table striped hover :items="items" :fields="tableFields"></b-table>
+            </b-container>
+
+            <template v-slot:modal-footer>
+                <div class="w-100">
+                    <p class="float-left">Modal Footer Content</p>
+                    <b-button
+                        variant="primary"
+                        size="sm"
+                        class="float-right"
+                        @click="show=false"
+                    >
+                        Close
+                    </b-button>
+                </div>
+            </template>
+        </b-modal>
     </div>
 </template>
 
@@ -45,22 +73,120 @@
             teamName: String,
             sprintName: String,
             duration: Number,
-            status: Number
+            status: Number,
+            meetingId: String,
+
+
         },
         data() {
             return {
                 countHours: 0,
                 countMinutes: 0,
                 countSeconds: 0,
+
+                tableFields: [
+                    {
+                        key: 'name',
+                        label: '',
+                        variant: 'light'
+                    },
+                    {
+                        key: 'contributed_post',
+                        label: 'Contributed Posts',
+                        class: 'text-center'
+                    },
+                    {
+                        key: 'contributed_idea',
+                        label: 'Contributed Ideas',
+                        class: 'text-center'
+                    },
+                    {
+                        key: 'given_vote',
+                        label: 'Given votes',
+                        class: 'text-center'
+                    },
+                    {
+                        key: 'quality_post',
+                        label: 'Quality posts',
+                        class: 'text-center'
+                    },
+                    {
+                        key: 'total',
+                        label: 'Total score',
+                        class: 'text-center'
+                    }
+                ],
+                items: [
+                    {
+                        isActive: true,
+                        name: 'Vasiliy',
+                        contributed_post: 3,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 0,
+                        total: 4,
+                        _rowVariant: 'info'
+                    },
+                    {
+                        isActive: false,
+                        name: 'Wahaab',
+                        contributed_post: 2,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 0,
+                        total: 4,
+                        _rowVariant: 'default'
+                    },
+                    {
+                        isActive: false,
+                        name: 'Stefan',
+                        contributed_post: 1,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 0,
+                        total: 3,
+                        _rowVariant: 'info'
+                    },
+                    {
+                        isActive: true,
+                        name: 'Artur',
+                        contributed_post: 3,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 0,
+                        total: 2,
+                        _rowVariant: 'default'
+                    },
+                    {
+                        isActive: true,
+                        name: 'Dat',
+                        contributed_post: 2,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 1,
+                        total: 6,
+                        _rowVariant: 'info'
+                    },
+                    {
+                        isActive: true,
+                        name: 'Robert',
+                        contributed_post: 4,
+                        contributed_idea: 1,
+                        given_vote: 2,
+                        quality_post: 0,
+                        total: 3,
+                        _rowVariant: 'default'
+                    }
+                ]
             };
         },
         methods: {
-            startMeeting: function () {
+            startCounting: function () {
                 this.status = 1;
                 this.countDown(this.duration);
             },
 
-            stopMeeting: function () {
+            stopCounting: function () {
                 this.status = 2;
             },
 
@@ -87,7 +213,7 @@
                 // Update the count down every 1 second
                 x = setInterval(function () {
                     self.createClock(hour, minute, second);
-                }, 1000, distance, hour, minute , second);
+                }, 1000, distance, hour, minute, second);
             },
 
             createClock: function (distance, hour, minute, second) {
@@ -125,7 +251,30 @@
                 if (minute === 0) {
                     alert("meeting stopped");
                 }
-            }
+            },
+
+            confirmStopMeeting: function () {
+                this.$refs['sumUpModal'].toggle();
+                // this.$bvModal.msgBoxConfirm('Are you sure to stop the meeting?', {
+                //     centered: true
+                // }).then(value => {
+                //     if (value === true) {
+                //         this.stopMeeting();
+                //     }
+                // })
+            },
+
+            stopMeeting: function () {
+                this.$http.post('retrospective/meeting/stop', {
+                    meetingId: this.meetingId,
+                }).then(function (res) {
+                    if (res.ok) {
+                        this.$refs['sumUpModal'].toggle();
+                    }
+                }).catch(function (res) {
+                    console.log(res);
+                });
+            },
 
         },
         created: function () {
@@ -138,4 +287,5 @@
     .meetingControl {
         height: 3.5rem;
     }
+
 </style>
