@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Retrospective;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Meeting;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -15,6 +15,29 @@ class MeetingManager extends Controller
     private $attendeeRepo;
     private $meetingRepo;
     private $strHelper;
+
+    private $profileIcons = [
+        'https://img.icons8.com/emoji/30/000000/crying-cat.png',
+        'https://img.icons8.com/plasticine/30/000000/octopus.png',
+        'https://img.icons8.com/plasticine/30/000000/cow.png',
+        'https://img.icons8.com/plasticine/30/000000/pig.png',
+        'https://img.icons8.com/plasticine/30/000000/reindeer.png',
+        'https://img.icons8.com/dusk/30/000000/--camel.png',
+        'https://img.icons8.com/officel/30/000000/giraffe.png'
+    ];
+
+
+    private $variants = [
+        'variant_1',
+        'variant_2',
+        'variant_3',
+        'variant_4',
+        'variant_5',
+        'variant_6',
+        'variant_7',
+        'variant_8',
+    ];
+
 
     const MAX_MEETING_NUMBER = 2;
 
@@ -103,7 +126,26 @@ class MeetingManager extends Controller
     public function stop(Request $request)
     {
         try {
-            $results = ["meeting stopped"];
+            $results = [];
+            $meetingId = $request->get('meetingId');
+            $attendees = $this->attendeeRepo->getSumUpList($meetingId);
+
+            $key = 0;
+            foreach ($attendees as $attendee) {
+                $data = [
+                    'total' => $this->calculateTotalScore($attendee),
+                    'isConductor' => false,
+                    'profilePic' => $this->profileIcons[$key],
+                    '_rowVariant' => $this->variants[$key],
+                ];
+                $results[] = array_merge($data, $attendee);
+                $key++;
+            }
+
+            usort($results, function (array $a, array $b) {
+                return $b["total"] <=> $a["total"];
+            });
+
             return response()->json($results, 200);
 
         } catch (Exception $e) {
@@ -111,18 +153,16 @@ class MeetingManager extends Controller
         }
     }
 
+
+    private function calculateTotalScore(array $attendeeData): int
+    {
+        return $attendeeData['contributed_post'] * 2
+            + $attendeeData['contributed_idea'] * 1
+            + $attendeeData['received_vote'] * 1;
+    }
+
     public function getAttendeeList(Request $request)
     {
-        $profileIcons = [
-            'https://img.icons8.com/emoji/30/000000/crying-cat.png',
-            'https://img.icons8.com/plasticine/30/000000/octopus.png',
-            'https://img.icons8.com/plasticine/30/000000/cow.png',
-            'https://img.icons8.com/plasticine/30/000000/pig.png',
-            'https://img.icons8.com/plasticine/30/000000/reindeer.png',
-            'https://img.icons8.com/dusk/30/000000/--camel.png',
-            'https://img.icons8.com/officel/30/000000/giraffe.png'
-        ];
-
         try {
             $results = [];
             $meetingId = $request->get('meetingId');
@@ -135,56 +175,9 @@ class MeetingManager extends Controller
                     'id' => $attendee->id,
                     'name' => $attendee->name,
                     'isConductor' => $conductor,
-                    'profilePic' => $profileIcons[$key]
+                    'profilePic' => $this->profileIcons[$key]
                 ];
             }
-
-//            $results = [
-//                [
-//                    'id' => 0,
-//                    'name' => "Wahaab Bhatti",
-//                    'score' => 7,
-//                    'goodInputNo' => 2,
-//                    'badInputNo' => 2,
-//                    'actionInputNo' => 1,
-//                    'givenVote' => 2,
-//                    'isConductor' => false,
-//                    'isWinner' => false,
-//                ],
-//                [
-//                    'id' => 1,
-//                    'name' => "Dat Dang",
-//                    'score' => 7,
-//                    'goodInputNo' => 2,
-//                    'badInputNo' => 2,
-//                    'actionInputNo' => 1,
-//                    'givenVote' => 2,
-//                    'isConductor' => true,
-//                    'isWinner' => false,
-//                ],
-//                [
-//                    'id' => 2,
-//                    'name' => "Vasiliy Stepkin",
-//                    'score' => 7,
-//                    'goodInputNo' => 2,
-//                    'badInputNo' => 2,
-//                    'actionInputNo' => 1,
-//                    'givenVote' => 2,
-//                    'isConductor' => false,
-//                    'isWinner' => false,
-//                ],
-//                [
-//                    'id' => 3,
-//                    'name' => "Stefan Schmidhuber",
-//                    'score' => 7,
-//                    'goodInputNo' => 2,
-//                    'badInputNo' => 2,
-//                    'actionInputNo' => 1,
-//                    'givenVote' => 2,
-//                    'isConductor' => false,
-//                    'isWinner' => false,
-//                ]
-//            ];
             return response()->json($results, 200);
 
         } catch (Exception $e) {

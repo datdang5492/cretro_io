@@ -28,7 +28,7 @@
 
                 <button type="button"
                         class="btn btn-danger meetingControl"
-                        v-on:click="confirmStopMeeting()">
+                        v-on:click="stopMeeting()">
                     <i class="fas fa-stop-circle"></i> Stop meeting
                 </button>
             </div>
@@ -45,7 +45,14 @@
             :header-bg-variant="'success'"
         >
             <b-container fluid>
-                <b-table striped hover :items="items" :fields="tableFields"></b-table>
+                <b-table striped hover :items="items" :fields="tableFields">
+                    <template v-slot:cell(name)="data">
+                        <b-img secondaryrounded="circle"
+                               alt="Circle image"
+                               v-bind:src="data.item.profilePic"></b-img>,
+                        <b>{{data.item.name }}</b>
+                    </template>
+                </b-table>
             </b-container>
 
             <template v-slot:modal-footer>
@@ -101,7 +108,7 @@
                         class: 'text-center'
                     },
                     {
-                        key: 'given_vote',
+                        key: 'received_vote',
                         label: 'Given votes',
                         class: 'text-center'
                     },
@@ -116,68 +123,7 @@
                         class: 'text-center'
                     }
                 ],
-                items: [
-                    {
-                        isActive: true,
-                        name: 'Vasiliy',
-                        contributed_post: 3,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 0,
-                        total: 4,
-                        _rowVariant: 'info'
-                    },
-                    {
-                        isActive: false,
-                        name: 'Wahaab',
-                        contributed_post: 2,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 0,
-                        total: 4,
-                        _rowVariant: 'default'
-                    },
-                    {
-                        isActive: false,
-                        name: 'Stefan',
-                        contributed_post: 1,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 0,
-                        total: 3,
-                        _rowVariant: 'info'
-                    },
-                    {
-                        isActive: true,
-                        name: 'Artur',
-                        contributed_post: 3,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 0,
-                        total: 2,
-                        _rowVariant: 'default'
-                    },
-                    {
-                        isActive: true,
-                        name: 'Dat',
-                        contributed_post: 2,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 1,
-                        total: 6,
-                        _rowVariant: 'info'
-                    },
-                    {
-                        isActive: true,
-                        name: 'Robert',
-                        contributed_post: 4,
-                        contributed_idea: 1,
-                        given_vote: 2,
-                        quality_post: 0,
-                        total: 3,
-                        _rowVariant: 'default'
-                    }
-                ]
+                items: []
             };
         },
         methods: {
@@ -254,14 +200,13 @@
             },
 
             confirmStopMeeting: function () {
-                this.$refs['sumUpModal'].toggle();
-                // this.$bvModal.msgBoxConfirm('Are you sure to stop the meeting?', {
-                //     centered: true
-                // }).then(value => {
-                //     if (value === true) {
-                //         this.stopMeeting();
-                //     }
-                // })
+                this.$bvModal.msgBoxConfirm('Are you sure to stop the meeting?', {
+                    centered: true
+                }).then(value => {
+                    if (value === true) {
+                        this.stopMeeting();
+                    }
+                })
             },
 
             stopMeeting: function () {
@@ -269,6 +214,7 @@
                     meetingId: this.meetingId,
                 }).then(function (res) {
                     if (res.ok) {
+                        this.items = res.body;
                         this.$refs['sumUpModal'].toggle();
                     }
                 }).catch(function (res) {
@@ -287,5 +233,4 @@
     .meetingControl {
         height: 3.5rem;
     }
-
 </style>

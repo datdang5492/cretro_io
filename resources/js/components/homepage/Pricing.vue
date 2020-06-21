@@ -4,14 +4,15 @@
             <div class="container">
 
                 <div class="section-title">
-                    <h2>Pricing</h2>
-                    <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+                    <h2>Buy me a coffee</h2>
+                    <p>Hi guys, thank you very much for using this tiny tool. We hope this somehow help you when working with Scrum and Agile.
+                    However, this tool need your support to be up and running. :)</p>
                 </div>
 
                 <div class="row no-gutters">
 
                     <div class="col-lg-4 box" data-aos="fade-right">
-                        <h3>Basic</h3>
+                        <h3>Simply a coffee</h3>
                         <h4>$6<span>per month</span></h4>
                         <ul>
                             <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
@@ -24,7 +25,7 @@
                     </div>
 
                     <div class="col-lg-4 box featured" data-aos="fade-up">
-                        <h3>Premium</h3>
+                        <h3>A coffee and a croissant</h3>
                         <h4>$11<span>per month</span></h4>
                         <ul>
                             <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
@@ -37,8 +38,8 @@
                     </div>
 
                     <div class="col-lg-4 box" data-aos="fade-left">
-                        <h3>Enterprise</h3>
-                        <h4>$49<span>per month</span></h4>
+                        <h3>A Texas breakfast</h3>
+                        <h4>$20<span>per month</span></h4>
                         <ul>
                             <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
                             <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
