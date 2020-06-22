@@ -12,24 +12,18 @@
             </div>
 
             <div class="col-lg-3 text-right" v-if="status >= 0">
-                <!--<button type="button"-->
-                <!--class="btn btn-info meetingControl"-->
-                <!--v-on:click="startCounting()"-->
-                <!--v-if="status === 0">-->
-                <!--<i class="fas fa-play"></i> Start the meeting-->
-                <!--</button>-->
-
-                <!--<button type="button"-->
-                <!--class="btn btn-danger meetingControl"-->
-                <!--v-on:click="stopCounting()"-->
-                <!--v-if="status === 1">-->
-                <!--<i class="fas fa-stop-circle"></i> Stop counting-->
-                <!--</button>-->
-
                 <button type="button"
+                        v-if="!isMeetingStopped"
                         class="btn btn-danger meetingControl"
                         v-on:click="stopMeeting()">
                     <i class="fas fa-stop-circle"></i> Stop meeting
+                </button>
+
+                <button type="button"
+                        v-if="isMeetingStopped"
+                        class="btn btn-info meetingControl"
+                        v-on:click="stopMeeting()">
+                    <i class="fas fa-info"></i> Meeting summary
                 </button>
             </div>
         </div>
@@ -49,24 +43,39 @@
                     <template v-slot:cell(name)="data">
                         <b-img secondaryrounded="circle"
                                alt="Circle image"
-                               v-bind:src="data.item.profilePic"></b-img>,
+                               v-bind:src="data.item.profilePic"></b-img>
                         <b>{{data.item.name }}</b>
+                        <span v-if="data.item.is_winner"> - Winner
+                            <b-img secondaryrounded="circle"
+                                   alt="Circle image"
+                                   v-bind:src="'https://img.icons8.com/plasticine/40/000000/trophy.png'"></b-img>
+
+                            <b-img secondaryrounded="circle"
+                                   alt="Circle image"
+                                   v-bind:src="'https://img.icons8.com/doodle/25/000000/firework-explosion.png'"></b-img>
+
+                            <b-img secondaryrounded="circle"
+                                   alt="Circle image"
+                                   v-bind:src="'https://img.icons8.com/plasticine/25/000000/confetti.png'"></b-img>
+
+                            <b-img secondaryrounded="circle"
+                                   alt="Circle image"
+                                   v-bind:src="'https://img.icons8.com/cotton/25/000000/firework-explosion.png'"></b-img>
+                            </span>
+
+                        <span v-if="!data.item.is_winner"> - Honor
+                            <b-img secondaryrounded="circle"
+                                   alt="Circle image"
+                                   v-bind:src="'https://img.icons8.com/cotton/20/000000/olympic-medal-silver.png'"></b-img>
+                            </span>
                     </template>
                 </b-table>
             </b-container>
 
+
+
             <template v-slot:modal-footer>
-                <div class="w-100">
-                    <p class="float-left">Modal Footer Content</p>
-                    <b-button
-                        variant="primary"
-                        size="sm"
-                        class="float-right"
-                        @click="show=false"
-                    >
-                        Close
-                    </b-button>
-                </div>
+                <div class="w-200"></div>
             </template>
         </b-modal>
     </div>
@@ -82,8 +91,7 @@
             duration: Number,
             status: Number,
             meetingId: String,
-
-
+            isMeetingStopped: Boolean
         },
         data() {
             return {
@@ -109,7 +117,7 @@
                     },
                     {
                         key: 'received_vote',
-                        label: 'Given votes',
+                        label: 'Received votes',
                         class: 'text-center'
                     },
                     {
@@ -127,15 +135,6 @@
             };
         },
         methods: {
-            startCounting: function () {
-                this.status = 1;
-                this.countDown(this.duration);
-            },
-
-            stopCounting: function () {
-                this.status = 2;
-            },
-
             countDown: function (duration) {
                 // Set the date we're counting down to
                 var countDownDate = new Date();
@@ -214,17 +213,16 @@
                     meetingId: this.meetingId,
                 }).then(function (res) {
                     if (res.ok) {
+                        this.$emit('meetingStopped');
                         this.items = res.body;
                         this.$refs['sumUpModal'].toggle();
                     }
                 }).catch(function (res) {
                     console.log(res);
                 });
-            },
-
+            }
         },
         created: function () {
-
         },
     };
 </script>

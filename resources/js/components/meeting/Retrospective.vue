@@ -5,8 +5,9 @@
                         :teamName="teamName"
                         :sprintName="sprintName"
                         :duration="duration"
-                        :status="status"
                         :meetingId="meetingId"
+                        :isMeetingStopped="isMeetingStopped"
+                        v-on:meetingStopped="stopMeeting($event)"
         >
         </meeting-header>
 
@@ -238,6 +239,7 @@
         components: {MeetingHeader, Attendee, IdeaColumn, BadColumn, GoodColumn, AppreciationColumn},
         data() {
             return {
+                isMeetingStopped: false,
                 doesMeetingExist: false,
                 meetingId: '',
                 attendeeId: "attendee_id",
@@ -256,7 +258,6 @@
                 attendeeNo: null,
                 sprintName: '',
                 maxVote: 0,
-                status: 0,
                 duration: 0,
 
                 goods: [],
@@ -266,6 +267,10 @@
             };
         },
         methods: {
+            stopMeeting: function () {
+                this.isMeetingStopped = true;
+            },
+
             removeGoodItem: function (index) {
                 this.goods.splice(index, 1);
             },
@@ -344,7 +349,6 @@
                         this.attendeeNo = res.body.sprint_name;
                         this.sprintName = res.body.sprint_name;
                         this.maxVote = res.body.max_vote;
-                        this.status = res.body.meetingStatus;
                         this.duration = res.body.duration;
                     }
                 }).catch(function (res) {

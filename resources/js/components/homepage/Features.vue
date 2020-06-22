@@ -24,8 +24,8 @@
                                 </div>
                                 <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
                                     <i class="bx bx-images"></i>
-                                    <h4>See how other team do the meeting</h4>
-                                    <p>Join other team retrospective meeting or check out their meeting result to gain knowledge.</p>
+                                    <h4>No need to buy post-it</h4>
+                                    <p>Reduce consuming paper can save the environment :)</p>
                                 </div>
                                 <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
                                     <i class="bx bx-shield"></i>

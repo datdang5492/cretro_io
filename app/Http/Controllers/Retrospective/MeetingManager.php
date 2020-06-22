@@ -146,6 +146,19 @@ class MeetingManager extends Controller
                 return $b["total"] <=> $a["total"];
             });
 
+            foreach ($results as $key => $result) {
+                if ($result['total'] == 0) {
+                    break;
+                }
+
+                if ($key >= 1 && $result['total'] < $results[$key - 1]) {
+                    break;
+                }
+                $results[$key]['is_winner'] = true;
+                $results[$key]['_rowVariant'] = 'secondary';
+            }
+
+
             return response()->json($results, 200);
 
         } catch (Exception $e) {
@@ -168,7 +181,8 @@ class MeetingManager extends Controller
             $meetingId = $request->get('meetingId');
             $attendees = $this->attendeeRepo->getList($meetingId);
 
-            foreach ($attendees as $key => $attendee) {
+            $key = 0;
+            foreach ($attendees as $attendee) {
                 $conductor = !is_numeric($attendee->id) ? true : false;
 
                 $results[] = [
@@ -177,6 +191,7 @@ class MeetingManager extends Controller
                     'isConductor' => $conductor,
                     'profilePic' => $this->profileIcons[$key]
                 ];
+                $key++;
             }
             return response()->json($results, 200);
 
