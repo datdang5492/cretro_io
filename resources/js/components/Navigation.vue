@@ -4,7 +4,7 @@
             <div class="container d-flex">
 
                 <div class="logo mr-auto">
-                    <h1 class="text-light"><a href="index.html">Cretro.io</a></h1>
+                    <h1 class="text-light"><a href="/">Cretro.io</a></h1>
                     <!-- Uncomment below if you prefer to use an image logo -->
                     <a href="index.html"><img :src="'/images/logo.png'" alt="" class="img-fluid"></a>
                 </div>
@@ -12,14 +12,18 @@
                 <nav class="nav-menu d-none d-lg-block">
                     <!--not sign in navigation-->
                     <ul>
-                        <li><a href="#pricing">Buy me a coffee</a></li>
-                        <li><a href="#faq">F.A.Q</a></li>
+                        <li><a href="#pricing">Buy us a coffee</a></li>
+                        <!--<li><a href="#faq">F.A.Q</a></li>-->
                         <li><a href="#contact">Contact Us</a></li>
                         <li class="sign-in" v-if="!isUserAuthenticated()">
                             <a href="/sign-in" class="cretroBtn btn btn-outline-info">Sign in</a>
                         </li>
                         <li class="sign-up" v-if="!isUserAuthenticated()">
                             <a href="/sign-up" class="outlineCretroBtn btn btn-outline-info">Sign up</a>
+                        </li>
+
+                        <li v-if="isUserAuthenticated()">
+                            <a href="my-profile">My Profile</a>
                         </li>
 
                         <li v-if="isUserAuthenticated()">

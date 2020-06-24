@@ -10,6 +10,12 @@ import navigation from './components/Navigation';
 import bottom from './components/Bottom';
 import signup_activate from './components/authentication/SignupActivate';
 
+import profile from './components/profile/Profile';
+import profile_setting from './components/profile/profile_setting/ProfileSetting';
+import meeting_list from './components/profile/meeting/MeetingList';
+import subscription from './components/profile/subscription/Subscription';
+
+
 export default [
     {
         path: "/page-not-found",
@@ -45,5 +51,21 @@ export default [
             // navigation: navigation,
             // bottom: bottom,
         }
+    },
+
+    {
+        path: '/my-profile',
+        components: {
+            default: profile,
+            navigation: navigation,
+            bottom: bottom,
+        },
+        meta: {requiresAuth: true},
+        children: [
+            {path: '/', component: profile_setting},
+            {path: 'information', component: profile_setting},
+            {path: 'meetings', component: meeting_list},
+            {path: 'subscription', component: subscription},
+        ]
     },
 ]

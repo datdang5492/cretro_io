@@ -7,11 +7,11 @@
                 <h4 class="text-center" v-if="duration !== 0">Meeting duration: {{duration}} minutes</h4>
 
                 <!--not display clock when meeting has not started-->
-                <!--<h4 v-if="status > 0">Time left: {{this.countHours + ":" + this.countMinutes + ":" +-->
+                <!--<h4>Time left: {{this.countHours + ":" + this.countMinutes + ":" +-->
                 <!--this.countSeconds}}</h4>-->
             </div>
 
-            <div class="col-lg-3 text-right" v-if="status >= 0">
+            <div class="col-lg-3 text-right">
                 <button type="button"
                         v-if="!isMeetingStopped"
                         class="btn btn-danger meetingControl"
@@ -49,18 +49,6 @@
                             <b-img secondaryrounded="circle"
                                    alt="Circle image"
                                    v-bind:src="'https://img.icons8.com/plasticine/40/000000/trophy.png'"></b-img>
-
-                            <b-img secondaryrounded="circle"
-                                   alt="Circle image"
-                                   v-bind:src="'https://img.icons8.com/doodle/25/000000/firework-explosion.png'"></b-img>
-
-                            <b-img secondaryrounded="circle"
-                                   alt="Circle image"
-                                   v-bind:src="'https://img.icons8.com/plasticine/25/000000/confetti.png'"></b-img>
-
-                            <b-img secondaryrounded="circle"
-                                   alt="Circle image"
-                                   v-bind:src="'https://img.icons8.com/cotton/25/000000/firework-explosion.png'"></b-img>
                             </span>
 
                         <span v-if="!data.item.is_winner"> - Honor
@@ -72,10 +60,27 @@
                 </b-table>
             </b-container>
 
+            <template v-slot:modal-header>
+                <div class="w-200">
+                    Meeting fun facts
+                    <b-img secondaryrounded="circle"
+                           alt="Circle image"
+                           v-bind:src="'https://img.icons8.com/doodle/25/000000/firework-explosion.png'"></b-img>
 
+                    <b-img secondaryrounded="circle"
+                           alt="Circle image"
+                           v-bind:src="'https://img.icons8.com/plasticine/25/000000/confetti.png'"></b-img>
+
+                    <b-img secondaryrounded="circle"
+                           alt="Circle image"
+                           v-bind:src="'https://img.icons8.com/cotton/25/000000/firework-explosion.png'"></b-img>
+                </div>
+            </template>
 
             <template v-slot:modal-footer>
-                <div class="w-200"></div>
+                <div class="w-200 text-center">
+                    <b-button variant="info" @click="toggleMeetingSummaryModal()">Close</b-button>
+                </div>
             </template>
         </b-modal>
     </div>
@@ -89,7 +94,6 @@
             teamName: String,
             sprintName: String,
             duration: Number,
-            status: Number,
             meetingId: String,
             isMeetingStopped: Boolean
         },
@@ -198,6 +202,10 @@
                 }
             },
 
+            toggleMeetingSummaryModal: function () {
+                this.$refs['sumUpModal'].toggle();
+            },
+
             confirmStopMeeting: function () {
                 this.$bvModal.msgBoxConfirm('Are you sure to stop the meeting?', {
                     centered: true
@@ -215,7 +223,7 @@
                     if (res.ok) {
                         this.$emit('meetingStopped');
                         this.items = res.body;
-                        this.$refs['sumUpModal'].toggle();
+                        this.toggleMeetingSummaryModal();
                     }
                 }).catch(function (res) {
                     console.log(res);

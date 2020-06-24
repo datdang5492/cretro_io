@@ -1,33 +1,43 @@
 <template>
-    <div class="section py-4 min-height-normal profile">
-        <div class="container">
+    <div class="min-height-normal profile main_content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3 offset-lg-1">
-                    <nav class="nav flex-column">
-                        <router-link class="nav-link active title_size2 font_common" to="/profile">
-                            Edit Profile
+                <div class="col-lg-3 offset-lg-2">
+                    <b-list-group>
+                        <router-link to="/my-profile/information">
+                            <b-list-group-item v-on:click="setActiveTab(0)"
+                                               v-bind:active="this.activeTab == 'profile_setting'"
+                                               variant="light">
+                                Basic Information
+                            </b-list-group-item>
                         </router-link>
 
-                        <router-link class="nav-link title_size2 font_common" to="/profile/photo">Photo</router-link>
-
-                        <router-link class="nav-link title_size2 font_common" to="/profile/my-deliveries">
-                            My Deliveries
+                        <router-link to="/my-profile/meetings">
+                            <b-list-group-item v-on:click="setActiveTab(1)"
+                                               v-bind:active="this.activeTab == 'meeting'"
+                                               variant="light">
+                                My meetings
+                            </b-list-group-item>
                         </router-link>
 
-                        <router-link class="nav-link title_size2 font_common" to="/profile/my-shipments">
-                            My Shipments
+                        <router-link to="/my-profile/subscription">
+                            <b-list-group-item v-on:click="setActiveTab(2)"
+                                               v-bind:active="this.activeTab == 'subscription'"
+                                               variant="light">
+                                Subscription Plan
+                            </b-list-group-item>
                         </router-link>
 
-                        <router-link class="nav-link title_size2 font_common" to="/profile/reviews-about-you">
-                            Reviews about you
+                        <router-link to="/my-profile/change-password">
+                            <b-list-group-item v-on:click="setActiveTab(3)"
+                                               v-bind:active="this.activeTab == 'change_password'"
+                                               variant="light">
+                                Change password
+                            </b-list-group-item>
                         </router-link>
-
-                        <router-link class="nav-link title_size2 font_common" to="/profile/reviews-by-you">
-                            Reviews by you
-                        </router-link>
-                    </nav>
+                    </b-list-group>
                 </div>
-                <router-view></router-view>
+                <router-view v-on:activeTabTriggered="setActiveTab($event)"></router-view>
             </div>
         </div>
     </div>
@@ -38,10 +48,14 @@
         name: "profile",
         components: {},
         data() {
-            return {};
+            return {
+                activeTab: 0
+            };
         },
         methods: {
-
+            setActiveTab: function (tabNo) {
+                this.activeTab = tabNo;
+            }
         },
         created: function () {
 
@@ -49,10 +63,5 @@
     };
 </script>
 
-<style scoped>
-    .font_common {
-        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        color: #212529;
-    }
-
+<style>
 </style>

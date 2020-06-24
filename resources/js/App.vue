@@ -62,4 +62,11 @@
         font-size: 12px !important
     }
 
+    .main_content {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        padding: 140px 0 100px 0;
+    }
+
 </style>

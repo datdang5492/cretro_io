@@ -38,6 +38,8 @@ Route::post('retrospective/meeting/item/edit', 'Retrospective\ItemManager@edit')
 Route::post('retrospective/meeting/item/remove', 'Retrospective\ItemManager@remove');
 Route::post('retrospective/meeting/item/vote', 'Retrospective\ItemManager@vote');
 
+Route::post('profile/get-meeting-list', 'Profile\ProfileManager@getMeetingList');
+
 
 
 

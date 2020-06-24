@@ -1,5 +1,6 @@
 <template>
-    <div class="col-md-7">
+    <div class="col-lg-5">
+        basic information
         <b-alert dismissible variant="success" v-model="showInfoMsg">{{infoMsg}}</b-alert>
         <b-alert dismissible variant="danger" v-model="showErrorMsg">{{errorMsg}}</b-alert>
 
@@ -312,9 +313,10 @@
             }
         },
         created: function () {
+            this.$emit('activeTabTriggered', 'profile_setting');
             // enable custom validation message
-            this.$validator.localize('en', dict);
-            this.getProfileData();
+            // this.$validator.localize('en', dict);
+            // this.getProfileData();
         }
     };
 </script>

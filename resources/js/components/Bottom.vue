@@ -1,28 +1,15 @@
 <template>
     <div>
         <footer id="footer">
-            <!--<div class="footer-newsletter" data-aos="fade-up">-->
-                <!--<div class="container">-->
-                    <!--<div class="row justify-content-center">-->
-                        <!--<div class="col-lg-6">-->
-                            <!--<h4>Join Our Newsletter</h4>-->
-                            <!--<p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>-->
-                            <!--<form action="" method="post">-->
-                                <!--<input type="email" name="email"><input type="submit" value="Subscribe">-->
-                            <!--</form>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
             <div class="footer-top">
                 <div class="container">
                     <div class="row">
 
                         <div class="col-lg-3 col-md-6 footer-contact" data-aos="fade-up">
-                            <h3>Cretro</h3>
+                            <h3>Cretro IO</h3>
+                            <h6>Okela AG</h6>
                             <p>
-                                <!--A108 Adam Street <br>-->
+                                Kazbockstr. 21<br>
                                 86157 Augsburg<br>
                                 Germany <br><br>
                                 <strong>Phone:</strong> (+49) 1575 479 2720<br>
@@ -35,7 +22,7 @@
                             <ul>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="#">Career</a></li>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
                             </ul>
@@ -44,11 +31,8 @@
                         <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="200">
                             <h4>Our Services</h4>
                             <ul>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="#">Okela Money Transfer</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="#">Okela Ship</a></li>
                             </ul>
                         </div>
 
@@ -67,7 +51,7 @@
 
             <div class="container py-4">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>Cretro</span></strong>. All Rights Reserved
+                    &copy; Copyright <strong><span>Okela AG</span></strong>. All Rights Reserved
                 </div>
                 <div class="credits">
                     <!-- All the links in the footer should remain intact. -->

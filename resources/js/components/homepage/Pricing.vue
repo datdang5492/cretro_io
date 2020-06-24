@@ -13,7 +13,7 @@
 
                     <div class="col-lg-4 box" data-aos="fade-right">
                         <h3>Simply a coffee</h3>
-                        <h4>$6<span>per month</span></h4>
+                        <h4>$4.99<span>per month</span></h4>
                         <ul>
                             <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
                             <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
@@ -26,7 +26,7 @@
 
                     <div class="col-lg-4 box featured" data-aos="fade-up">
                         <h3>A coffee and a croissant</h3>
-                        <h4>$11<span>per month</span></h4>
+                        <h4>$6.99<span>per month</span></h4>
                         <ul>
                             <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
                             <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
