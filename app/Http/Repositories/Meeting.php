@@ -67,4 +67,24 @@ class Meeting
             'stopped_at' => $data->stopped_at,
         ];
     }
+
+    public function getUserMeetingList(string $conductorId): array
+    {
+        return DB::table('meeting')
+            ->select([
+                'id',
+                'team_name',
+                'sprint_name',
+                'attendee_no',
+                'max_vote',
+                'duration',
+                'status',
+                'stopped_at',
+                'created_at'
+            ])
+            ->where('conductor_id', $conductorId)
+            ->get()
+            ->sortByDesc('status')
+            ->toArray();
+    }
 }

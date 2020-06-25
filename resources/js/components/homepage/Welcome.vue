@@ -7,8 +7,8 @@
                         <div>
                             <h1>Remote retrospective is easy!</h1>
                             <h2>Have fun doing Scrum retrospective with Cretro. <br>Easy & Convenient!</h2>
-                            <a href="/meeting/retrospective/create" class="download-btn"><i class='bx bx-calendar-check' ></i> Start a meeting!</a>
-                            <a href="/meeting/retrospective/meeting_id" class="download-btn"><i class='bx bxs-hand-right'></i> Join a meeting</a>
+                            <a href="/meeting/retrospective/create" class="cretro_btn"><i class='bx bx-calendar-check' ></i> Start a meeting!</a>
+                            <a href="/meeting/retrospective/meeting_id" class="cretro_btn"><i class='bx bxs-hand-right'></i> Join a meeting</a>
                         </div>
                     </div>
                     <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 welcome-img" data-aos="fade-up">
@@ -71,39 +71,11 @@
         font-size: 20px;
     }
 
-    #welcome .download-btn {
-        font-family: "Raleway", sans-serif;
-        font-weight: 500;
-        font-size: 15px;
-        display: inline-block;
-        padding: 8px 24px 10px 46px;
-        border-radius: 3px;
-        transition: 0.5s;
-        color: #fff;
-        background: #47536e;
-        position: relative;
-    }
-
-    #welcome .download-btn:hover {
-        background: #5777ba;
-    }
-
-    #welcome .download-btn i {
-        font-size: 20px;
-        position: absolute;
-        left: 18px;
-        top: 8.5px;
-    }
-
-    #welcome .download-btn + .download-btn {
-        margin-left: 20px;
-    }
-
     @media (max-width: 991px) {
         #welcome {
             text-align: center;
         }
-        #welcome .download-btn + .download-btn {
+        #welcome .cretro_btn + .cretro_btn {
             margin: 0 10px;
         }
         #welcome .welcome-img {

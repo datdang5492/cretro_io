@@ -69,4 +69,53 @@
         padding: 140px 0 100px 0;
     }
 
+
+    .cretro_btn {
+        font-family: "Raleway", sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        display: inline-block;
+        padding: 8px 24px 10px 46px;
+        border-radius: 3px;
+        transition: 0.5s;
+        color: #fff;
+        background: #47536e;
+        position: relative;
+    }
+
+    .cretro_btn:hover {
+        background: #5777ba;
+        color: #fff;
+    }
+
+    .cretro_btn i {
+        font-size: 20px;
+        position: absolute;
+        left: 18px;
+        top: 8.5px;
+    }
+
+    .cretro_btn_normal {
+        font-family: "Raleway", sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        display: inline-block;
+        padding: 8px 24px 10px 24px;
+        border-radius: 3px;
+        transition: 0.5s;
+        color: #fff;
+        background: #5777ba;
+        position: relative;
+    }
+
+    .cretro_btn_normal:hover {
+        background: #5777ba;
+        color: #fff;
+    }
+
+    .download-btn + .download-btn {
+        margin-left: 20px;
+    }
+
+
 </style>
