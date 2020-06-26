@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 
 class MeetingManager extends Controller
 {
+    const MEETING_ARCHIVED_STATUS = 0;
+    const MEETING_ACTIVE_STATUS = 1;
+
     private $attendeeRepo;
     private $meetingRepo;
     private $strHelper;
@@ -205,6 +208,32 @@ class MeetingManager extends Controller
         try {
             $results = [];
             return response()->json($results, 200);
+
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function archiveMeeting(Request $request)
+    {
+        try {
+            $userId = Auth::id();
+            $meetingId = $request->get('meetingId');
+            $result = $this->meetingRepo->updateMeetingStatus($meetingId, $userId, self::MEETING_ARCHIVED_STATUS);
+            return response()->json(['data' => $result], 200);
+
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function activateMeeting(Request $request)
+    {
+        try {
+            $userId = Auth::id();
+            $meetingId = $request->get('meetingId');
+            $result = $this->meetingRepo->updateMeetingStatus($meetingId, $userId, self::MEETING_ACTIVE_STATUS);
+            return response()->json(['data' => $result], 200);
 
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

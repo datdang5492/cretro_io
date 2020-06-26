@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Meeting
 {
-
     public function doesMeetingExist(string $uuid): bool
     {
         try {
@@ -87,4 +86,15 @@ class Meeting
             ->sortByDesc('status')
             ->toArray();
     }
+
+    public function updateMeetingStatus(string $meetingId, string $userId, string $status): bool
+    {
+        return DB::table('meeting')
+            ->where([
+                ['id', '=', $meetingId],
+                ['conductor_id', '=', $userId]
+            ])
+            ->update(['status' => $status]);
+    }
+
 }

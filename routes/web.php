@@ -39,6 +39,9 @@ Route::post('retrospective/meeting/item/remove', 'Retrospective\ItemManager@remo
 Route::post('retrospective/meeting/item/vote', 'Retrospective\ItemManager@vote');
 
 Route::post('profile/get-meeting-list', 'Profile\ProfileManager@getMeetingList');
+Route::post('profile/archive-meeting', 'Retrospective\MeetingManager@archiveMeeting');
+Route::post('profile/activate-meeting', 'Retrospective\MeetingManager@activateMeeting');
+
 
 
 
