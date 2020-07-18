@@ -5,50 +5,50 @@
 
                 <div class="section-title">
                     <h2>Buy me a coffee</h2>
-                    <p>Hi guys, thank you very much for using this tiny tool. We hope this somehow help you when working with Scrum and Agile.
-                    However, this tool need your support to be up and running. :)</p>
+                    <p>Hi guys, thank you very much for using this tiny tool. We hope this somehow help you when working with Scrum and Agile. <br>
+                    However, this tool needs your support to be up and running. :)</p>
                 </div>
 
                 <div class="row no-gutters">
 
-                    <div class="col-lg-4 box" data-aos="fade-right">
+                    <div class="col-lg-5 box offset-lg-1" data-aos="fade-right">
                         <h3>Simply a coffee</h3>
                         <h4>$4.99<span>per month</span></h4>
-                        <ul>
-                            <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                            <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                            <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                            <li class="na"><i class="bx bx-x"></i> <span>Pharetra massa massa ultricies</span></li>
-                            <li class="na"><i class="bx bx-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-                        </ul>
+                        <!--<ul>-->
+                            <!--<li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>-->
+                            <!--<li class="na"><i class="bx bx-x"></i> <span>Pharetra massa massa ultricies</span></li>-->
+                            <!--<li class="na"><i class="bx bx-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>-->
+                        <!--</ul>-->
                         <a href="#" class="get-started-btn">Get Started</a>
                     </div>
 
-                    <div class="col-lg-4 box featured" data-aos="fade-up">
+                    <div class="col-lg-5 box featured" data-aos="fade-up">
                         <h3>A coffee and a croissant</h3>
                         <h4>$6.99<span>per month</span></h4>
-                        <ul>
-                            <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                            <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                            <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                            <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
-                            <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
-                        </ul>
+                        <!--<ul>-->
+                            <!--<li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>-->
+                            <!--<li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>-->
+                            <!--<li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>-->
+                        <!--</ul>-->
                         <a href="#" class="get-started-btn">Get Started</a>
                     </div>
 
-                    <div class="col-lg-4 box" data-aos="fade-left">
-                        <h3>A Texas breakfast</h3>
-                        <h4>$20<span>per month</span></h4>
-                        <ul>
-                            <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                            <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                            <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                            <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
-                            <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
-                        </ul>
-                        <a href="#" class="get-started-btn">Get Started</a>
-                    </div>
+                    <!--<div class="col-lg-4 box" data-aos="fade-left">-->
+                        <!--<h3>A Texas breakfast</h3>-->
+                        <!--<h4>$20<span>per month</span></h4>-->
+                        <!--<ul>-->
+                            <!--<li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>-->
+                            <!--<li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>-->
+                            <!--<li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>-->
+                            <!--<li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>-->
+                        <!--</ul>-->
+                        <!--<a href="#" class="get-started-btn">Get Started</a>-->
+                    <!--</div>-->
 
                 </div>
 

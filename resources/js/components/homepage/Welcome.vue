@@ -8,7 +8,7 @@
                             <h1>Remote retrospective is easy!</h1>
                             <h2>Have fun doing Scrum retrospective with Cretro. <br>Easy & Convenient!</h2>
                             <a href="/meeting/retrospective/create" class="cretro_btn"><i class='bx bx-calendar-check' ></i> Start a meeting!</a>
-                            <a href="/meeting/retrospective/meeting_id" class="cretro_btn"><i class='bx bxs-hand-right'></i> Join a meeting</a>
+                            <a href="/meeting/retrospective/join-meeting" class="cretro_btn"><i class='bx bxs-hand-right'></i> Join a meeting</a>
                         </div>
                     </div>
                     <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 welcome-img" data-aos="fade-up">

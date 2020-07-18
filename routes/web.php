@@ -27,7 +27,8 @@ Route::post('sign-up/activate', 'Auth\RegisterController@activateAccount');
 Route::post('retrospective/meeting/create', 'Retrospective\MeetingManager@create')->middleware('auth');
 Route::post('retrospective/meeting/start', 'Retrospective\MeetingManager@start')->middleware('auth');
 Route::post('retrospective/meeting/get-data', 'Retrospective\MeetingManager@getMeetingInfo');
-Route::post('retrospective/meeting/stop', 'Retrospective\MeetingManager@stop')->middleware('auth'); // return statistic
+Route::post('retrospective/meeting/stop', 'Retrospective\MeetingManager@stop')->middleware('auth');
+Route::post('retrospective/meeting/join', 'Retrospective\MeetingManager@join');
 
 Route::post('retrospective/meeting/attendee/get-list', 'Retrospective\MeetingManager@getAttendeeList');
 Route::post('retrospective/meeting/attendee/remove', 'Retrospective\MeetingManager@removeAttendee')->middleware('auth');

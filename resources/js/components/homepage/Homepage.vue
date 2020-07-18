@@ -2,12 +2,12 @@
     <div>
         <welcome></welcome>
         <main id="main">
-            <features></features>
-            <details-section></details-section>
-            <gallery></gallery>
+            <!--<features></features>-->
+            <!--<details-section></details-section>-->
+            <!--<gallery></gallery>-->
             <testimonials></testimonials>
             <pricing></pricing>
-            <faq></faq>
+            <!--<faq></faq>-->
             <contact></contact>
         </main>
         <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>

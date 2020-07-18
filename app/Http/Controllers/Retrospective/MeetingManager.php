@@ -14,6 +14,7 @@ class MeetingManager extends Controller
 {
     const MEETING_ARCHIVED_STATUS = 0;
     const MEETING_ACTIVE_STATUS = 1;
+    const MEETING_CODE_LENGTH = 7;
 
     private $attendeeRepo;
     private $meetingRepo;
@@ -65,30 +66,69 @@ class MeetingManager extends Controller
             $request->validate([
                 'teamName' => 'required',
                 'attendeeNo' => 'required|numeric|max:20',
-                'duration' => 'required|numeric|min:10|max:180',
                 'maxVote' => 'required|numeric|min:1',
             ]);
 
-            $password = '';
-            if (!empty($request->get('password'))) {
-                $password = md5($request->get('password'));
-            }
-
+            $code = $this->generateRandomCode();
             $meetingId = $this->strHelper->uuid()->toString();
             $data = [
                 'team_name' => $request->get('teamName'),
                 'sprint_name' => $request->get('sprintName'),
                 'attendee_no' => $request->get('attendeeNo'),
-                'duration' => $request->get('duration'),
                 'max_vote' => $request->get('maxVote'),
                 'conductor_id' => $userId,
-                'password' => $password,
+                'code' => $code,
                 'id' => $meetingId
             ];
 
             $isMeetingCreated = $this->meetingRepo->create($data);
             if ($isMeetingCreated) {
                 return response()->json($meetingId, 200);
+            }
+
+            throw new Exception("Something wrong happened!");
+
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    private function generateRandomCode($length = self::MEETING_CODE_LENGTH): string
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    public function join(Request $request)
+    {
+        try {
+            $request->validate([
+                'meetingCode' => 'required',
+                'userName' => 'required',
+            ]);
+
+            // check if meeting exist
+            $meetingId = $this->meetingRepo->getMeetingIdByCode($request->get('meetingCode'));
+
+            // meeting does not exist
+            if (empty($meetingId)) {
+                return response()->json(false, 400);
+            }
+
+            // TODO: check if user name already exist
+
+            $attendeeId = $this->strHelper->uuid()->toString();
+            $result = $this->attendeeRepo->addAttendee($meetingId, $attendeeId, $request->get('userName'));
+
+            if ($result === true) {
+                return response()->json([
+                    'data' => $meetingId
+                ], 200);
             }
 
             throw new Exception("Something wrong happened!");

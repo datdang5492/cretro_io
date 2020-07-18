@@ -1,5 +1,5 @@
 <template>
-    <div class="section meeting min-height-normal" v-if="doesMeetingExist">
+    <div class="section meeting min-height-normal" v-if="isMeetingAvailable">
         <!--MEETING HEADER-->
         <meeting-header v-if="teamName !== ''"
                         :teamName="teamName"
@@ -240,7 +240,7 @@
         data() {
             return {
                 isMeetingStopped: false,
-                doesMeetingExist: false,
+                isMeetingAvailable: false,
                 meetingId: '',
                 attendeeId: "attendee_id",
                 ovlContent: '',
@@ -344,7 +344,7 @@
                     meetingId: this.meetingId,
                 }).then(function (res) {
                     if (res.ok) {
-                        this.doesMeetingExist = true;
+                        this.isMeetingAvailable = true;
                         this.teamName = res.body.team_name;
                         this.attendeeNo = res.body.sprint_name;
                         this.sprintName = res.body.sprint_name;

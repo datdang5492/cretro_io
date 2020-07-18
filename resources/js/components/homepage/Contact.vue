@@ -5,7 +5,8 @@
 
                 <div class="section-title">
                     <h2>Contact</h2>
-                    <p>Have a question ? Don't be hesitate, ask us anything. ;) </p>
+                    <p>Have a question? Or you have some suggestion to improve this tool?
+                        Don't be hesitate, tell me anything. :) </p>
                 </div>
 
                 <div class="row">
@@ -15,17 +16,17 @@
                             <div class="col-lg-6 info" data-aos="fade-up">
                                 <i class="bx bx-map"></i>
                                 <h4>Address</h4>
-                                <p>A108 Adam Street,<br>New York, NY 535022</p>
+                                <p>86157 Augsburg<br>Germany</p>
                             </div>
                             <div class="col-lg-6 info" data-aos="fade-up" data-aos-delay="100">
                                 <i class="bx bx-phone"></i>
-                                <h4>Call Us</h4>
-                                <p>+1 5589 55488 55<br>+1 5589 22548 64</p>
+                                <h4>Call</h4>
+                                <p>+49 1575 479 2720</p>
                             </div>
                             <div class="col-lg-6 info" data-aos="fade-up" data-aos-delay="200">
                                 <i class="bx bx-envelope"></i>
-                                <h4>Email Us</h4>
-                                <p>contact@example.com<br>info@example.com</p>
+                                <h4>Email</h4>
+                                <p>dangbadat5492@gmail.com</p>
                             </div>
                             <div class="col-lg-6 info" data-aos="fade-up" data-aos-delay="300">
                                 <i class="bx bx-time-five"></i>

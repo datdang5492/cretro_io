@@ -5,6 +5,14 @@
 
             <div class="col-lg-6">
                 <div class="col-lg-6 offset-lg-3" v-if="meetingCreated === false">
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <h4 class="text-center font-weight-bold">
+                                <a href="/">Cretro.io</a>
+                            </h4>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <h4>
@@ -75,38 +83,6 @@
                                        v-validate="'required|numeric|max_value:20'"
                                        class="form-control input_high"
                                        placeholder="How many people are going to attend?">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>
-                                    <span class="font-weight-bold">Duration *</span> (minutes)
-                                </label>
-                                <p class="text-danger" v-if="errors.has('duration')">
-                                    {{errors.first('duration')}}
-                                </p>
-                                <input type="text" name="duration"
-                                       v-model="duration"
-                                       v-validate="'required|numeric|min_value:10|max_value:180'"
-                                       class="form-control input_high"
-                                       placeholder="How long will the meeting take?">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>
-                                    <span class="font-weight-bold">Meeting password</span> (optional)
-                                </label>
-                                <input type="text" name="password"
-                                       class="form-control input_high"
-                                       v-model="password"
-                                       placeholder="Please create a password">
                             </div>
                         </div>
                     </div>
@@ -196,17 +172,6 @@
                 numeric: "This field must be number.",
                 max_value: "Number of attendees can not exceed 20."
             },
-            duration: {
-                required: "This field is required.",
-                numeric: "This field must be number.",
-                min_value: "Meeting can not be shorter than 5 minutes.",
-                max_value: "Meeting can not take longer than 180 minutes."
-            },
-            // password: {
-            //     required: "This field is required.",
-            //     max: "Password can not longer thant 20 characters.",
-            //     min: "Password must longer than 7 characters."
-            // },
 
             maxVote: {
                 required: "This field is required.",
@@ -226,8 +191,6 @@
                 sprintName: '',
                 teamName: '',
                 attendeeNo: null,
-                duration: null,
-                password: '',
                 maxVote: null,
                 meetingCreated: false,
                 showSuccessMsg: false,
@@ -244,8 +207,6 @@
                             sprintName: this.sprintName,
                             teamName: this.teamName,
                             attendeeNo: this.attendeeNo,
-                            duration: this.duration,
-                            password: this.password,
                             maxVote: this.maxVote
                         };
                         this.$http.post('retrospective/meeting/create', data).then(function (res) {
@@ -271,9 +232,6 @@
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
-
-            // check authentication
-            this.isUserAuthenticated(window.Laravel.is_authenticated);
         },
     };
 </script>

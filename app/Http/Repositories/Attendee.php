@@ -10,6 +10,16 @@ class Attendee
 
     const IDEA_POST = 2;
 
+    public function addAttendee(string $meetingId, string $attendeeId, string $attendeeName)
+    {
+        $data = [
+            'id' => $attendeeId,
+            'meeting_id' => $meetingId,
+            'name' => $attendeeName
+        ];
+        return DB::table('attendee')->insert($data);
+    }
+
     public function doesAttendeeExist(string $attendeeUuid): bool
     {
         try {

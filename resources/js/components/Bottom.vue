@@ -1,57 +1,57 @@
 <template>
     <div>
         <footer id="footer">
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
+            <!--<div class="footer-top">-->
+                <!--<div class="container">-->
+                    <!--<div class="row">-->
 
-                        <div class="col-lg-3 col-md-6 footer-contact" data-aos="fade-up">
-                            <h3>Cretro IO</h3>
-                            <h6>Okela AG</h6>
-                            <p>
-                                Kazbockstr. 21<br>
-                                86157 Augsburg<br>
-                                Germany <br><br>
-                                <strong>Phone:</strong> (+49) 1575 479 2720<br>
-                                <strong>Email:</strong> cretro@gmail.com<br>
-                            </p>
-                        </div>
+                        <!--<div class="col-lg-3 col-md-6 footer-contact" data-aos="fade-up">-->
+                            <!--<h3>Cretro IO</h3>-->
+                            <!--<h6>Okela AG</h6>-->
+                            <!--<p>-->
+                                <!--Kazbockstr. 21<br>-->
+                                <!--86157 Augsburg<br>-->
+                                <!--Germany <br><br>-->
+                                <!--<strong>Phone:</strong> (+49) 1575 479 2720<br>-->
+                                <!--<strong>Email:</strong> cretro@gmail.com<br>-->
+                            <!--</p>-->
+                        <!--</div>-->
 
-                        <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="100">
-                            <h4>Useful Links</h4>
-                            <ul>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Career</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                            </ul>
-                        </div>
+                        <!--<div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="100">-->
+                            <!--<h4>Useful Links</h4>-->
+                            <!--<ul>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Career</a></li>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
 
-                        <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="200">
-                            <h4>Our Services</h4>
-                            <ul>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Okela Money Transfer</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#">Okela Ship</a></li>
-                            </ul>
-                        </div>
+                        <!--<div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="200">-->
+                            <!--<h4>Our Services</h4>-->
+                            <!--<ul>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Okela Money Transfer</a></li>-->
+                                <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Okela Ship</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
 
-                        <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="300">
-                            <h4>Our Social Networks</h4>
-                            <div class="social-links mt-3">
-                                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                            </div>
-                        </div>
+                        <!--<div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="300">-->
+                            <!--<h4>Our Social Networks</h4>-->
+                            <!--<div class="social-links mt-3">-->
+                                <!--<a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>-->
+                                <!--<a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>-->
+                                <!--<a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                    </div>
-                </div>
-            </div>
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="container py-4">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>Okela AG</span></strong>. All Rights Reserved
+                    &copy; Copyright <strong><span>Cretro IO</span></strong>. All Rights Reserved
                 </div>
                 <div class="credits">
                     <!-- All the links in the footer should remain intact. -->
@@ -61,7 +61,7 @@
                     <!--Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
                 </div>
             </div>
-        </footer><!-- End Footer -->
+        </footer><
     </div>
 </template>
 

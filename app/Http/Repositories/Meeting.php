@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class Meeting
 {
+    const MEETING_STATUS_ACTIVE = 1;
+
     public function doesMeetingExist(string $uuid): bool
     {
         try {
@@ -48,7 +50,10 @@ class Meeting
                 'stopped_at',
                 'created_at'
             ])
-            ->where('id', $meetingId)
+            ->where([
+                ['id', '=', $meetingId],
+                ['status', '=', selF::MEETING_STATUS_ACTIVE]
+            ])
             ->first();
 
         if (empty($data)) {
@@ -95,6 +100,20 @@ class Meeting
                 ['conductor_id', '=', $userId]
             ])
             ->update(['status' => $status]);
+    }
+
+    public function getMeetingIdByCode(string $meetingCode): string
+    {
+        $result = DB::table('meeting')
+            ->select(['id'])
+            ->where('code', $meetingCode)
+            ->first();
+
+        if (empty($result)) {
+            return '';
+        }
+
+        return $result->id;
     }
 
 }

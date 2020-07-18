@@ -2,6 +2,7 @@ import homepage from './components/homepage/Homepage';
 import page_not_found from "./components/error_page/PageNotFound";
 import retrospective from './components/meeting/Retrospective';
 import setup_meeting from './components/meeting/SetupMeeting';
+import join_meeting from './components/meeting/JoinMeeting';
 import signin from './components/authentication/Signin';
 import signup from './components/authentication/Signup';
 import forgot_password from './components/authentication/ForgotPassword';
@@ -11,7 +12,6 @@ import bottom from './components/Bottom';
 import signup_activate from './components/authentication/SignupActivate';
 
 import profile from './components/profile/Profile';
-import profile_setting from './components/profile/profile_setting/ProfileSetting';
 import meeting_list from './components/profile/meeting/MeetingList';
 import subscription from './components/profile/subscription/Subscription';
 
@@ -37,19 +37,20 @@ export default [
     {path: '/forgot-password', components: {default: forgot_password}},
     {path: '/password/find/:token', component: password_reset},
     {
-        path: '/meeting/retrospective/create',
-        components: {
+        path: '/meeting/retrospective/create', components: {
             default: setup_meeting,
-            // navigation: navigation,
-            // bottom: bottom,
         },
         meta: {requiresAuth: true}
     },
     {
+        path: '/meeting/retrospective/join-meeting', components: {
+            default: join_meeting,
+        },
+        meta: {requiresAuth: false}
+    },
+    {
         path: '/meeting/retrospective/:id', components: {
             default: retrospective,
-            // navigation: navigation,
-            // bottom: bottom,
         }
     },
 
@@ -62,8 +63,7 @@ export default [
         },
         meta: {requiresAuth: true},
         children: [
-            {path: '/', component: profile_setting},
-            {path: 'information', component: profile_setting},
+            {path: '/', component: meeting_list},
             {path: 'meetings', component: meeting_list},
             {path: 'subscription', component: subscription},
         ]

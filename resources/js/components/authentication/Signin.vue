@@ -121,9 +121,9 @@
                             remember_me: this.remember_me
                         }).then(function (res) {
                             loader.hide();
-                            // TODO: fix this authentication issue.
+                            // TODO: correct this authentication issue.
                             window.Laravel.is_authenticated = true;
-                            this.$router.push({name: 'homepage'});
+                            this.$router.go(-1);
 
                         }).catch(function (res) {
                             this.showErrMsg = true;

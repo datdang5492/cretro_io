@@ -12,9 +12,7 @@
                 <nav class="nav-menu d-none d-lg-block">
                     <!--not sign in navigation-->
                     <ul>
-                        <li><a href="#pricing">Buy us a coffee</a></li>
-                        <!--<li><a href="#faq">F.A.Q</a></li>-->
-                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#pricing">Buy me a coffee</a></li>
                         <li class="sign-in" v-if="!isUserAuthenticated()">
                             <a href="/sign-in" class="cretroBtn btn btn-outline-info">Sign in</a>
                         </li>
@@ -57,10 +55,14 @@
                     container: this.$refs.formContainer,
                 });
 
-                this.$http.post('logout', {}).then(function (res) {
+                this.$http.post('logout').then(function (res) {
+                    if (res.ok == true) {
+                        console.log(res);
+                        loader.hide();
+                        window.location.reload();
+                    }
+                }).catch(function (res) {
                     console.log(res);
-                    loader.hide();
-                    window.location.reload();
                 });
             },
 
@@ -69,8 +71,7 @@
             }
         },
         created: function () {
-            // check authentication
-            this.isUserAuthenticated(window.Laravel.is_authenticated);
+
         }
     };
 </script>

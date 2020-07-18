@@ -9,7 +9,7 @@
             <div class="col-lg-12">
                 <b-list-group>
                     <b-list-group-item v-for="(meeting, index) in meetings" :key="meeting.id"
-                                       v-bind:variant="getRowVariant(meeting.stopped_at)">
+                                       v-bind:variant="getRowVariant(meeting.stopped_at, meeting.status)">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">
                                 <a v-bind:href="'/meeting/retrospective/' + meeting.id">Sprint:
@@ -19,7 +19,10 @@
                                     {{getMeetingStatus(meeting.stopped_at)}}
                                 </b-badge>
 
-                                <b-badge v-if="meeting.status === 0" v-bind:variant="warning" pill>
+                                <b-badge v-if="meeting.status === 0"
+                                         v-bind:variant="warning"
+                                         v-b-tooltip.hover title="Archived meeting is inaccessible"
+                                         pill>
                                     Archived
                                 </b-badge>
                             </h5>
@@ -42,14 +45,14 @@
                                 <br>
                                 <button v-if="meeting.status === 1"
                                         type="button"
-                                        class="btn btn-outline-dark btn-sm"
+                                        class="btn btn-secondary btn-sm"
                                         v-on:click="archiveMeeting(meeting.id, index)">
                                     Archive
                                 </button>
 
                                 <button v-if="meeting.status === 0"
                                         type="button"
-                                        class="btn btn-outline-info btn-sm"
+                                        class="btn btn-info btn-sm"
                                         v-on:click="activateMeeting(meeting.id, index)">
                                     Activate
                                 </button>
@@ -77,7 +80,10 @@
                 return this.$moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY');
             },
 
-            getRowVariant: function (stopped_at) {
+            getRowVariant: function (stopped_at, status) {
+                if (status == 0) {
+                    return 'light'
+                }
                 return stopped_at === null ? 'primary' : 'light'
             },
 
