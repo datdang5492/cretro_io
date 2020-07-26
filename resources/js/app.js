@@ -92,9 +92,13 @@ Vue.http.headers.common['X-CSRF-TOKEN'] =
 Vue.prototype.$authStatus =
     document.querySelector('input[name="login-status"]').getAttribute('data-login-status');
 
+
+import store from './store/index'
+
 // export const bus = new Vue();
 const app = new Vue({
     el: '#app',
     render: h => h(App),
     router: router,
+    store
 });

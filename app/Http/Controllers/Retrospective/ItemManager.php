@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Retrospective;
 
+use App\Events\ItemEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Item;
@@ -11,6 +12,12 @@ use Illuminate\Http\Request;
 
 class ItemManager extends Controller
 {
+
+    const GOOD_ITEM = 0;
+    const BAD_ITEM = 1;
+    const ACTION_ITEM = 2;
+    const APPRECIATION_ITEM = 3;
+
     private $itemRepo;
     private $attendeeRepo;
     private $meetingRepo;
@@ -45,6 +52,7 @@ class ItemManager extends Controller
                 'ideas' => [],
                 'appreciations' => []
             ];
+
             foreach ($items as $key => $item) {
                 $isVoted = false;
                 if (!empty($userVotes[$item->id]) && $userVotes[$item->id] === $attendeeId) {
@@ -57,16 +65,15 @@ class ItemManager extends Controller
                     'isVoted' => $isVoted,
                     'vote' => $item->vote
                 ];
-                if ($item->type === 0) {
+                if ($item->type === self::GOOD_ITEM) {
                     $results['goods'][] = $ticket;
-                } else if ($item->type === 1) {
+                } else if ($item->type === self::BAD_ITEM) {
                     $results['bads'][] = $ticket;
-                } else if ($item->type === 2) {
+                } else if ($item->type === self::ACTION_ITEM) {
                     $results['ideas'][] = $ticket;
-                } else if ($item->type === 3) {
+                } else if ($item->type === self::APPRECIATION_ITEM) {
                     $results['appreciations'][] = $ticket;
                 }
-
             }
 
             return response()->json($results, 200);
@@ -98,7 +105,16 @@ class ItemManager extends Controller
             ];
 
             $id = $this->itemRepo->insert($item);
-            return response()->json($id, 200);
+            $itemData = [
+                'id' => $id,
+                'content' => $item['content'],
+                'isVoted' => false,     // newly created item is not voted yet
+                'vote' => $item['vote']
+            ];
+
+            event(new ItemEvent($item, $meetingId));
+
+            return response()->json('Success', 200);
 
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

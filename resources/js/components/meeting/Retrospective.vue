@@ -176,28 +176,28 @@
                     <!--CONTENTS-->
                     <div class="row text-left">
                         <!--WHAT WENT RIGHT?-->
-                        <good-column :goods="goods"
+                        <good-column :goods="items.goods"
                                      v-on:getRemovedGoodItem="removeGoodItem($event)"
                                      v-on:getVotedItem="voteGoodItem($event)"
                         >
                         </good-column>
 
                         <!--WHAT WENT WRONG?-->
-                        <bad-column :bads="bads"
+                        <bad-column :bads="items.bads"
                                     v-on:getRemovedBadItem="removeBadItem($event)"
                                     v-on:getVotedItem="voteBadItem($event)">
                         </bad-column>
 
                         <!--IDEAS-->
-                        <idea-column :ideas="ideas"
+                        <idea-column :ideas="items.ideas"
                                      v-on:getRemovedIdeaItem="removeIdeaItem($event)"
                                      v-on:getVotedItem="voteIdeaItem($event)">
                         </idea-column>
 
                         <!--APPRECIATION-->
-                        <appreciation-column :appreciations="appreciations"
-                                     v-on:getRemovedAppreciationItem="removeAppreciationItem($event)"
-                                     v-on:getVotedItem="voteAppreciationItem($event)">
+                        <appreciation-column :appreciations="items.appreciations"
+                                             v-on:getRemovedAppreciationItem="removeAppreciationItem($event)"
+                                             v-on:getVotedItem="voteAppreciationItem($event)">
                         </appreciation-column>
                     </div>
                 </div>
@@ -210,6 +210,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
     import GoodColumn from "./GoodColumn";
     import BadColumn from "./BadColumn";
     import IdeaColumn from "./IdeaColumn";
@@ -259,11 +260,9 @@
                 sprintName: '',
                 maxVote: 0,
                 duration: 0,
-
-                goods: [],
-                bads: [],
-                ideas: [],
-                appreciations: [],
+                
+                pusherCluster: 'eu',
+                pusherAppKey: 'a86248d0a37b2bebdb1f',
             };
         },
         methods: {
@@ -272,7 +271,7 @@
             },
 
             removeGoodItem: function (index) {
-                this.goods.splice(index, 1);
+                this.items.goods.splice(index, 1);
             },
 
             removeBadItem: function (index) {
@@ -280,63 +279,47 @@
             },
 
             removeIdeaItem: function (index) {
-                this.ideas.splice(index, 1);
+                this.items.ideas.splice(index, 1);
             },
 
             removeAppreciationItem: function (index) {
-                this.appreciations.splice(index, 1);
+                this.items.appreciations.splice(index, 1);
             },
 
             voteGoodItem: function (data) {
-                this.goods[data.index].isVoted = data.value;
+                this.items.goods[data.index].isVoted = data.value;
                 if (data.value === false) {
-                    this.goods[data.index].vote--;
+                    this.items.goods[data.index].vote--;
                 } else {
-                    this.goods[data.index].vote++;
+                    this.items.goods[data.index].vote++;
                 }
             },
 
             voteBadItem: function (data) {
-                this.bads[data.index].isVoted = data.value;
+                this.items.bads[data.index].isVoted = data.value;
                 if (data.value === false) {
-                    this.bads[data.index].vote--;
+                    this.items.bads[data.index].vote--;
                 } else {
-                    this.bads[data.index].vote++;
+                    this.items.bads[data.index].vote++;
                 }
             },
 
             voteIdeaItem: function (data) {
-                this.ideas[data.index].isVoted = data.value;
+                this.items.ideas[data.index].isVoted = data.value;
                 if (data.value === false) {
-                    this.ideas[data.index].vote--;
+                    this.items.ideas[data.index].vote--;
                 } else {
-                    this.ideas[data.index].vote++;
+                    this.items.ideas[data.index].vote++;
                 }
             },
 
             voteAppreciationItem: function (data) {
-                this.appreciations[data.index].isVoted = data.value;
+                this.items.appreciations[data.index].isVoted = data.value;
                 if (data.value === false) {
-                    this.appreciations[data.index].vote--;
+                    this.items.appreciations[data.index].vote--;
                 } else {
-                    this.appreciations[data.index].vote++;
+                    this.items.appreciations[data.index].vote++;
                 }
-            },
-
-            fetchItems: function () {
-                this.$http.post('retrospective/meeting/item/fetch', {
-                    meetingId: this.meetingId,
-                    attendeeId: this.attendeeId,
-                }).then(function (res) {
-                    if (res.ok) {
-                        this.goods = res.data.goods;
-                        this.bads = res.data.bads;
-                        this.ideas = res.data.ideas;
-                        this.appreciations = res.data.appreciations;
-                    }
-                }).catch(function (res) {
-                    console.log(res);
-                });
             },
 
             getMeetingData: function () {
@@ -352,7 +335,7 @@
                         this.duration = res.body.duration;
                     }
                 }).catch(function (res) {
-                    if (res.status != 200) {
+                    if (res.status !== 200) {
                         this.$router.push({name: 'page_not_found'});
                     }
                 });
@@ -368,19 +351,13 @@
                             type: 0,
                             content: this.goodInput
                         };
-                        let goodItem = {
-                            isVoted: false,
-                            vote: 0,
-                            content: this.goodInput
-                        };
 
-                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
-                            if (res.ok && res.body > 0) {
-                                goodItem.id = res.body;
-                                this.goods.unshift(goodItem);
+                        this.$store.dispatch('ADD_ITEM', data).then(response => {
+                            if (response.status === 200) {
+                                //console.log('success');
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     } else {
                         this.letShowGoodItemError = true;
@@ -398,19 +375,13 @@
                             type: 1,
                             content: this.badInput
                         };
-                        let badItem = {
-                            isVoted: false,
-                            vote: 0,
-                            content: this.badInput
-                        };
 
-                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
-                            if (res.ok && res.body > 0) {
-                                badItem.id = res.body;
-                                this.bads.unshift(badItem);
+                        this.$store.dispatch('ADD_ITEM', data).then(response => {
+                            if (response.status === 200) {
+                                //console.log('success');
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     } else {
                         this.letShowBadItemError = true;
@@ -428,19 +399,12 @@
                             type: 2,
                             content: this.ideaInput
                         };
-                        let ideaItem = {
-                            isVoted: false,
-                            vote: 0,
-                            content: this.ideaInput
-                        };
-
-                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
-                            if (res.ok && res.body > 0) {
-                                ideaItem.id = res.body;
-                                this.ideas.unshift(ideaItem);
+                        this.$store.dispatch('ADD_ITEM', data).then(response => {
+                            if (response.status === 200) {
+                                //console.log('success');
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     } else {
                         this.letShowIdeaItemError = true;
@@ -458,19 +422,12 @@
                             type: 3,
                             content: this.appreciationInput
                         };
-                        let appreciationItem = {
-                            isVoted: false,
-                            vote: 0,
-                            content: this.appreciationInput
-                        };
-
-                        this.$http.post('retrospective/meeting/item/add', data).then(function (res) {
-                            if (res.ok && res.body > 0) {
-                                appreciationItem.id = res.body;
-                                this.appreciations.unshift(appreciationItem);
+                        this.$store.dispatch('ADD_ITEM', data).then(response => {
+                            if (response.status === 200) {
+                                //console.log('success');
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     } else {
                         this.letShowAppreciationItemError = true;
@@ -483,10 +440,35 @@
             // enable custom validation message
             this.$validator.localize('en', dict);
             this.meetingId = this.$route.params.id;
-
             this.getMeetingData();
-            this.fetchItems();
         },
+
+        mounted() {
+            let req = {
+                meetingId: this.meetingId,
+                attendeeId: this.attendeeId,
+            };
+
+            this.$store.dispatch('GET_ITEMS', req);
+
+            //use your own credentials you get from Pusher
+            let pusher = new Pusher(this.pusherAppKey, {
+                cluster: this.pusherCluster,
+                encrypted: false,
+            });
+
+            let channel = pusher.subscribe('item-channel' + this.meetingId);
+
+            channel.bind('new-item' + this.meetingId, (data) => {
+                this.$store.commit('ADD_ITEM', data.item);
+            });
+        },
+
+        computed: {
+            ...mapGetters([
+                'items'
+            ])
+        }
     };
 </script>
 
