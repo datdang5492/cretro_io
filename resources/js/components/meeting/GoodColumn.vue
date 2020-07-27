@@ -64,12 +64,14 @@
         components: {},
         props: {
             goods: Array,
+            meetingId: String
         },
         data() {
             return {
                 ovlContent: '',
                 ovlContentIndex: 0,
-                ovlItemId: 0
+                ovlItemId: 0,
+                goodItemValue: 0
             };
         },
         methods: {
@@ -84,16 +86,20 @@
             },
 
             saveInputGood: function () {
-                this.$http.post('retrospective/meeting/item/edit', {
+                let data = {
                     itemId: this.ovlItemId,
                     attendeeId: 'attendee_id',
-                    content: this.ovlContent
-                }).then(function (res) {
-                    if (res.ok && res.body === true) {
+                    type: this.goodItemValue,
+                    content: this.ovlContent,
+                    meetingId: this.meetingId
+                };
+
+                this.$store.dispatch('EDIT_ITEM', data).then(res => {
+                    if (res.status === 200) {
                         this.goods[this.ovlContentIndex].content = this.ovlContent;
                     }
-                }).catch(function (res) {
-                    // todo: show error
+                }).catch(err => {
+                    console.log(err);
                 });
             },
 

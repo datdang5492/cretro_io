@@ -177,6 +177,7 @@
                     <div class="row text-left">
                         <!--WHAT WENT RIGHT?-->
                         <good-column :goods="items.goods"
+                                     :meetingId="meetingId"
                                      v-on:getRemovedGoodItem="removeGoodItem($event)"
                                      v-on:getVotedItem="voteGoodItem($event)"
                         >
@@ -461,6 +462,10 @@
 
             channel.bind('new-item' + this.meetingId, (data) => {
                 this.$store.commit('ADD_ITEM', data.item);
+            });
+
+            channel.bind('edit-item' + this.meetingId, (data) => {
+                this.$store.commit('EDIT_ITEM', data.item);
             });
         },
 

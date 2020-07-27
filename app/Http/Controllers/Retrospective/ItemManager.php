@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Retrospective;
 
-use App\Events\ItemEvent;
+use App\Events\ItemCreatedEvent;
+use App\Events\ItemUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Item;
@@ -105,14 +106,10 @@ class ItemManager extends Controller
             ];
 
             $id = $this->itemRepo->insert($item);
-            $itemData = [
-                'id' => $id,
-                'content' => $item['content'],
-                'isVoted' => false,     // newly created item is not voted yet
-                'vote' => $item['vote']
-            ];
+            $item['id'] = $id;
+            $item['isVoted'] = false;
 
-            event(new ItemEvent($item, $meetingId));
+            event(new ItemCreatedEvent($item, $meetingId));
 
             return response()->json('Success', 200);
 
@@ -161,6 +158,9 @@ class ItemManager extends Controller
                 return response()->json(['message' => 'item content is empty'], 500);
             }
             $result = $this->itemRepo->updateItemContent($itemId, $content);
+
+            event(new ItemUpdatedEvent($content, $request->get('meetingId')));
+
             return response()->json($result, 200);
 
         } catch (Exception $e) {

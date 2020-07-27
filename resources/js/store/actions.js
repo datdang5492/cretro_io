@@ -9,6 +9,16 @@ let actions = {
         })
     },
 
+    EDIT_ITEM({commit}, itemData) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/retrospective/meeting/item/edit`, itemData).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
     GET_ITEMS({commit}, req) {
         axios.post('/retrospective/meeting/item/fetch', req).then(res => {
             {

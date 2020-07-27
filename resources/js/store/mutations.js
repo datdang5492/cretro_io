@@ -11,6 +11,7 @@ let mutations = {
 
         state.items = items;
     },
+
     ADD_ITEM(state, item) {
         if (item.type === 0) {
             state.items.goods = [...state.items.goods, item];
@@ -26,6 +27,14 @@ let mutations = {
 
         if (item.type === 3) {
             state.items.appreciations = [...state.items.appreciations, item];
+        }
+    },
+
+    EDIT_ITEM(state, item) {
+        // todo: add this updated item to state.items
+        console.log(item);
+        if (item.type === 0) {
+            state.items.goods = [...state.items.goods, item];
         }
     }
 };
