@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Retrospective;
 
 use App\Events\ItemCreatedEvent;
 use App\Events\ItemUpdatedEvent;
+use App\Events\ItemVotedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Attendee;
 use App\Http\Repositories\Item;
@@ -125,21 +126,26 @@ class ItemManager extends Controller
             $attendeeId = $request->get('attendeeId');
             $value = $request->get('voteValue');
 
-            if ($value === "true") {
-                $value = true;
-            } else {
-                $value = false;
-            }
-
             // update vote relation of item and attendee before updating total vote of item
             $result = $this->itemRepo->vote($itemId, $attendeeId, $value);
-            if ($result === true) {
-                $result = $this->itemRepo->updateTotalVote($itemId, $value);
+            if ($result === false) {
+                throw new Exception("Something wrong happened!");
+            }
+
+            if ($this->itemRepo->updateTotalVote($itemId, $value)) {
+                $totalVote = $this->itemRepo->getItemTotalVote($itemId);
+
+                event(new ItemVotedEvent([
+                    'id' => $itemId,
+                    'type' => $request->get('type'),
+                    'vote' => $totalVote
+                ], $request->get('meetingId')));
             }
 
             return response()->json($result, 200);
 
         } catch (Exception $e) {
+            dd($e->getMessage());
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
     }
@@ -159,7 +165,11 @@ class ItemManager extends Controller
             }
             $result = $this->itemRepo->updateItemContent($itemId, $content);
 
-            event(new ItemUpdatedEvent($content, $request->get('meetingId')));
+            event(new ItemUpdatedEvent([
+                'id' => $itemId,
+                'type' => $request->get('type'),
+                'content' => $content
+            ], $request->get('meetingId')));
 
             return response()->json($result, 200);
 

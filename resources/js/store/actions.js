@@ -9,7 +9,7 @@ let actions = {
         })
     },
 
-    EDIT_ITEM({commit}, itemData) {
+    EDIT_ITEM_CONTENT({commit}, itemData) {
         return new Promise((resolve, reject) => {
             axios.post(`/retrospective/meeting/item/edit`, itemData).then(res => {
                 resolve(res);
@@ -18,6 +18,17 @@ let actions = {
             })
         })
     },
+
+    VOTE_ITEM({commit}, itemData) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/retrospective/meeting/item/vote`, itemData).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
 
     GET_ITEMS({commit}, req) {
         axios.post('/retrospective/meeting/item/fetch', req).then(res => {

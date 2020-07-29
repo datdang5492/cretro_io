@@ -94,7 +94,7 @@
                     meetingId: this.meetingId
                 };
 
-                this.$store.dispatch('EDIT_ITEM', data).then(res => {
+                this.$store.dispatch('EDIT_ITEM_CONTENT', data).then(res => {
                     if (res.status === 200) {
                         this.goods[this.ovlContentIndex].content = this.ovlContent;
                     }
@@ -114,43 +114,38 @@
                         }).then(function (res) {
                             if (res.ok) {
                                 this.$emit('getRemovedGoodItem', index);
-                            } else {
-                                // todo: show error
                             }
                         }).catch(function (res) {
                             console.log(res);
                         });
                     }
                 }).catch(err => {
-                    // todo: show error message
                     console.log(res);
                 })
             },
 
             voteGood: function (index, id, voteValue) {
-                if (voteValue == false) {
+                if (voteValue === false) {
                     voteValue = true;
                 } else {
                     voteValue = false;
                 }
 
-                this.$http.post('retrospective/meeting/item/vote', {
+                let data = {
                     itemId: id,
                     attendeeId: 'attendee_id',
-                    voteValue: voteValue
-                }).then(function (res) {
-                    if (res.ok && res.body === true) {
-                        let voteItem = {
-                            index: index,
-                            value: voteValue
-                        };
-                        this.$emit('getVotedItem', voteItem);
-                    } else {
-                        // todo: show error
-                    }
+                    voteValue: voteValue,
+                    type: this.goodItemValue,
+                    meetingId: this.meetingId,
+                    isVoted: voteValue
+                };
 
-                }).catch(function (res) {
-                    // todo: show error
+                this.$store.dispatch('VOTE_ITEM', data).then(res => {
+                    if (res.status === 200) {
+                        this.goods[index].isVoted = voteValue;
+                    }
+                }).catch(err => {
+                    console.log(err);
                 });
             },
 

@@ -185,18 +185,21 @@
 
                         <!--WHAT WENT WRONG?-->
                         <bad-column :bads="items.bads"
+                                    :meetingId="meetingId"
                                     v-on:getRemovedBadItem="removeBadItem($event)"
                                     v-on:getVotedItem="voteBadItem($event)">
                         </bad-column>
 
                         <!--IDEAS-->
                         <idea-column :ideas="items.ideas"
+                                     :meetingId="meetingId"
                                      v-on:getRemovedIdeaItem="removeIdeaItem($event)"
                                      v-on:getVotedItem="voteIdeaItem($event)">
                         </idea-column>
 
                         <!--APPRECIATION-->
                         <appreciation-column :appreciations="items.appreciations"
+                                             :meetingId="meetingId"
                                              v-on:getRemovedAppreciationItem="removeAppreciationItem($event)"
                                              v-on:getVotedItem="voteAppreciationItem($event)">
                         </appreciation-column>
@@ -465,7 +468,11 @@
             });
 
             channel.bind('edit-item' + this.meetingId, (data) => {
-                this.$store.commit('EDIT_ITEM', data.item);
+                this.$store.commit('EDIT_ITEM_CONTENT', data.item);
+            });
+
+            channel.bind('vote-item' + this.meetingId, (data) => {
+                this.$store.commit('VOTE_ITEM', data.item);
             });
         },
 

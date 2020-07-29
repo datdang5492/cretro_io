@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Exception;
 use Throwable;
 
 class Item
@@ -20,6 +21,19 @@ class Item
             ->get()
             ->sortByDesc('id')
             ->toArray();
+    }
+
+    public function getItemTotalVote(int $itemId): int
+    {
+        $result = DB::table('item')
+            ->select('vote')
+            ->where('id', $itemId)
+            ->first();
+
+        if(empty($result)) {
+            throw new Exception("Empty vote");
+        }
+        return $result->vote;
     }
 
     public function getVotes(string $attendeeId): array
@@ -45,6 +59,7 @@ class Item
 
             return DB::table('vote')->where('item_id', $itemId)->delete();
         } catch (Throwable $e) {
+            dd($e->getMessage());
             return false;
         }
     }
