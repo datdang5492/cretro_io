@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Retrospective;
 
 use App\Events\ItemCreatedEvent;
+use App\Events\ItemRemovedEvent;
 use App\Events\ItemUpdatedEvent;
 use App\Events\ItemVotedEvent;
 use App\Http\Controllers\Controller;
@@ -191,6 +192,12 @@ class ItemManager extends Controller
             if ($result === 0) {
                 return response()->json(['message' => 'Item does not exist'], 400);
             }
+
+            // todo: validate meetinId field, invalid meeting id cause data not being sent to the channel
+            event(new ItemRemovedEvent([
+                'id' => $itemId,
+                'type' => $request->get('type'),
+            ], $request->get('meetingId')));
 
             return response()->json($result, 200);
 

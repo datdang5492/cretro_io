@@ -108,17 +108,19 @@
                     centered: true
                 }).then(value => {
                     if (value === true) {
-                        this.$http.post('retrospective/meeting/item/remove', {
+                        let data = {
                             itemId: id,
-                            attendeeId: 'attendee_id'
-                        }).then(function (res) {
-                            if (res.ok) {
-                                this.$emit('getRemovedIdeaItem', index);
-                            } else {
-                                // todo: show error
+                            attendeeId: 'attendee_id',
+                            type: this.ideaItemValue,
+                            meetingId: this.meetingId,
+                        };
+
+                        this.$store.dispatch('REMOVE_ITEM', data).then(res => {
+                            if (res.status === 200) {
+
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     }
                 }).catch(err => {

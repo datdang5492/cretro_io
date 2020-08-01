@@ -77,6 +77,7 @@ let mutations = {
     },
 
     VOTE_ITEM(state, item) {
+        console.log(item);
         if (item.type === 0) {
             let foundIndex = state.items.goods.findIndex(function (ticket) {
                 if (ticket.id === item.id)
@@ -118,6 +119,53 @@ let mutations = {
 
             if (state.items.appreciations[foundIndex] !== undefined) {
                 state.items.appreciations[foundIndex].vote = item.vote;
+            }
+        }
+    },
+
+    REMOVE_ITEM(state, item) {
+        if (item.type === 0) {
+            let foundIndex = state.items.goods.findIndex(function (ticket) {
+                if (ticket.id === item.id)
+                    return true;
+            });
+
+
+            if (state.items.goods[foundIndex] !== undefined) {
+                state.items.goods.splice(foundIndex, 1);
+            }
+        }
+
+        if (item.type === 1) {
+            let foundIndex = state.items.bads.findIndex(function (ticket) {
+                if (ticket.id === item.id)
+                    return true;
+            });
+
+            if (state.items.bads[foundIndex] !== undefined) {
+                state.items.bads.splice(foundIndex, 1);
+            }
+        }
+
+        if (item.type === 2) {
+            let foundIndex = state.items.ideas.findIndex(function (ticket) {
+                if (ticket.id === item.id)
+                    return true;
+            });
+
+            if (state.items.ideas[foundIndex] !== undefined) {
+                state.items.ideas.splice(foundIndex, 1);
+            }
+        }
+
+        if (item.type === 3) {
+            let foundIndex = state.items.appreciations.findIndex(function (ticket) {
+                if (ticket.id === item.id)
+                    return true;
+            });
+
+            if (state.items.appreciations[foundIndex] !== undefined) {
+                state.items.appreciations.splice(foundIndex, 1);
             }
         }
     },

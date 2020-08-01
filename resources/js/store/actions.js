@@ -29,6 +29,16 @@ let actions = {
         })
     },
 
+    REMOVE_ITEM({commit}, itemData) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/retrospective/meeting/item/remove`, itemData).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
 
     GET_ITEMS({commit}, req) {
         axios.post('/retrospective/meeting/item/fetch', req).then(res => {

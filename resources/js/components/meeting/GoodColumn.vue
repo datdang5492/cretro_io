@@ -14,7 +14,7 @@
                     <div class="col-lg-6 text-left">
                         <button type="button"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="removeGood(good.id, index)">
+                                v-on:click="removeGood(good.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>
                         <button type="button" v-on:click="showEditOvl(goods[index].content, index, good.id)"
@@ -103,20 +103,24 @@
                 });
             },
 
-            removeGood: function (id, index) {
+            removeGood: function (id) {
                 this.$bvModal.msgBoxConfirm('Are you sure removing this sticker?', {
                     centered: true
                 }).then(value => {
                     if (value === true) {
-                        this.$http.post('retrospective/meeting/item/remove', {
+                        let data = {
                             itemId: id,
-                            attendeeId: 'attendee_id'
-                        }).then(function (res) {
-                            if (res.ok) {
-                                this.$emit('getRemovedGoodItem', index);
+                            attendeeId: 'attendee_id',
+                            type: this.goodItemValue,
+                            meetingId: this.meetingId,
+                        };
+
+                        this.$store.dispatch('REMOVE_ITEM', data).then(res => {
+                            if (res.status === 200) {
+
                             }
-                        }).catch(function (res) {
-                            console.log(res);
+                        }).catch(err => {
+                            console.log(err);
                         });
                     }
                 }).catch(err => {

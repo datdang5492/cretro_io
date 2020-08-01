@@ -177,31 +177,22 @@
                     <div class="row text-left">
                         <!--WHAT WENT RIGHT?-->
                         <good-column :goods="items.goods"
-                                     :meetingId="meetingId"
-                                     v-on:getRemovedGoodItem="removeGoodItem($event)"
-                                     v-on:getVotedItem="voteGoodItem($event)"
-                        >
+                                     :meetingId="meetingId">
                         </good-column>
 
                         <!--WHAT WENT WRONG?-->
                         <bad-column :bads="items.bads"
-                                    :meetingId="meetingId"
-                                    v-on:getRemovedBadItem="removeBadItem($event)"
-                                    v-on:getVotedItem="voteBadItem($event)">
+                                    :meetingId="meetingId">
                         </bad-column>
 
                         <!--IDEAS-->
                         <idea-column :ideas="items.ideas"
-                                     :meetingId="meetingId"
-                                     v-on:getRemovedIdeaItem="removeIdeaItem($event)"
-                                     v-on:getVotedItem="voteIdeaItem($event)">
+                                     :meetingId="meetingId">
                         </idea-column>
 
                         <!--APPRECIATION-->
                         <appreciation-column :appreciations="items.appreciations"
-                                             :meetingId="meetingId"
-                                             v-on:getRemovedAppreciationItem="removeAppreciationItem($event)"
-                                             v-on:getVotedItem="voteAppreciationItem($event)">
+                                             :meetingId="meetingId">
                         </appreciation-column>
                     </div>
                 </div>
@@ -264,7 +255,7 @@
                 sprintName: '',
                 maxVote: 0,
                 duration: 0,
-                
+
                 pusherCluster: 'eu',
                 pusherAppKey: 'a86248d0a37b2bebdb1f',
             };
@@ -272,58 +263,6 @@
         methods: {
             stopMeeting: function () {
                 this.isMeetingStopped = true;
-            },
-
-            removeGoodItem: function (index) {
-                this.items.goods.splice(index, 1);
-            },
-
-            removeBadItem: function (index) {
-                this.bads.splice(index, 1);
-            },
-
-            removeIdeaItem: function (index) {
-                this.items.ideas.splice(index, 1);
-            },
-
-            removeAppreciationItem: function (index) {
-                this.items.appreciations.splice(index, 1);
-            },
-
-            voteGoodItem: function (data) {
-                this.items.goods[data.index].isVoted = data.value;
-                if (data.value === false) {
-                    this.items.goods[data.index].vote--;
-                } else {
-                    this.items.goods[data.index].vote++;
-                }
-            },
-
-            voteBadItem: function (data) {
-                this.items.bads[data.index].isVoted = data.value;
-                if (data.value === false) {
-                    this.items.bads[data.index].vote--;
-                } else {
-                    this.items.bads[data.index].vote++;
-                }
-            },
-
-            voteIdeaItem: function (data) {
-                this.items.ideas[data.index].isVoted = data.value;
-                if (data.value === false) {
-                    this.items.ideas[data.index].vote--;
-                } else {
-                    this.items.ideas[data.index].vote++;
-                }
-            },
-
-            voteAppreciationItem: function (data) {
-                this.items.appreciations[data.index].isVoted = data.value;
-                if (data.value === false) {
-                    this.items.appreciations[data.index].vote--;
-                } else {
-                    this.items.appreciations[data.index].vote++;
-                }
             },
 
             getMeetingData: function () {
@@ -473,6 +412,10 @@
 
             channel.bind('vote-item' + this.meetingId, (data) => {
                 this.$store.commit('VOTE_ITEM', data.item);
+            });
+
+            channel.bind('remove-item' + this.meetingId, (data) => {
+                this.$store.commit('REMOVE_ITEM', data.item);
             });
         },
 
