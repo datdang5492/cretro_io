@@ -43,9 +43,9 @@ export default [
         meta: {requiresAuth: true}
     },
     {
-        path: '/meeting/retrospective/join-meeting', components: {
-            default: join_meeting,
-        },
+        path: '/meeting/retrospective/join-meeting',
+        components: {default: join_meeting},
+        name: "join_meeting",
         meta: {requiresAuth: false}
     },
     {

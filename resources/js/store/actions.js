@@ -48,7 +48,37 @@ let actions = {
         }).catch(err => {
             console.log(err)
         })
-    }
+    },
+
+    GET_ATTENDEES({commit}, req) {
+        axios.post('/retrospective/meeting/attendee/get-list', req).then(res => {
+            {
+                commit('GET_ATTENDEES', res.data);
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    },
+
+    ATTENDEE_JOINED({commit}, attendee) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/retrospective/meeting/attendee/join`, attendee).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
+    ATTENDEE_LEFT({commit}, attendee) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/retrospective/meeting/attendee/leave`, attendee).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
 };
 
 export default actions

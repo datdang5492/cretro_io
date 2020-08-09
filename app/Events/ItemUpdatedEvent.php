@@ -34,7 +34,7 @@ class ItemUpdatedEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ['item-channel' . $this->meetingId];
+        return ['retrospective-channel' . $this->meetingId];
     }
 
     public function broadcastAs()

@@ -1,5 +1,5 @@
 <template>
-    <div class="section meeting min-height-normal" v-if="isMeetingAvailable">
+    <div class="section meeting min-height-normal" v-if="isMeetingAvailable && isAttendeeAuthenticated">
         <!--MEETING HEADER-->
         <meeting-header v-if="teamName !== ''"
                         :teamName="teamName"
@@ -198,7 +198,7 @@
                 </div>
 
                 <!--CURRENT IN MEETING-->
-                <attendee :meetingId="meetingId"></attendee>
+                <attendee :attendees="attendees"></attendee>
             </div>
         </div>
     </div>
@@ -258,9 +258,38 @@
 
                 pusherCluster: 'eu',
                 pusherAppKey: 'a86248d0a37b2bebdb1f',
+
+                isAttendeeAuthenticated: false,
             };
         },
         methods: {
+            authenticate: function () {
+                let attendeeData = this.$storage.get('attendeeName');
+
+                if (attendeeData === undefined || attendeeData === null
+                    || attendeeData.meetingCode === undefined
+                    || attendeeData.name === undefined) {
+                    this.isMeetingAvailable = false;
+                    this.$router.push({name: 'join_meeting'});
+                } else {
+                    let data = {
+                        meetingCode: attendeeData.meetingCode,
+                        userName: attendeeData.name
+                    };
+                    this.$http.post('retrospective/meeting/check-attendee', data).then(function (res) {
+                        if (res.ok) {
+                            this.isAttendeeAuthenticated = true;
+                        } else {
+                            this.isMeetingAvailable = false;
+                            this.$router.push({name: 'join_meeting'});
+                        }
+                    }).catch(function (res) {
+                        this.isMeetingAvailable = false;
+                        this.$router.push({name: 'join_meeting'});
+                    });
+                }
+            },
+
             stopMeeting: function () {
                 this.isMeetingStopped = true;
             },
@@ -378,21 +407,39 @@
                 });
             },
 
+            // getAttendeeList: function () {
+            //     this.$http.post('retrospective/meeting/attendee/get-list', {
+            //         meetingId: this.meetingId,
+            //     }).then(function (res) {
+            //         if (res.ok) {
+            //             this.attendees = res.data;
+            //         }
+            //     }).catch(function (res) {
+            //         this.resMsg = res.body.message;
+            //     });
+            // },
+
         },
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
             this.meetingId = this.$route.params.id;
+            this.authenticate();
             this.getMeetingData();
         },
 
         mounted() {
-            let req = {
+            let getItemReq = {
                 meetingId: this.meetingId,
                 attendeeId: this.attendeeId,
             };
 
-            this.$store.dispatch('GET_ITEMS', req);
+            let getAttendeeReq = {
+                meetingId: this.meetingId,
+            };
+
+            this.$store.dispatch('GET_ITEMS', getItemReq);
+            this.$store.dispatch('GET_ATTENDEES', getAttendeeReq);
 
             //use your own credentials you get from Pusher
             let pusher = new Pusher(this.pusherAppKey, {
@@ -400,7 +447,7 @@
                 encrypted: false,
             });
 
-            let channel = pusher.subscribe('item-channel' + this.meetingId);
+            let channel = pusher.subscribe('retrospective-channel' + this.meetingId);
 
             channel.bind('new-item' + this.meetingId, (data) => {
                 this.$store.commit('ADD_ITEM', data.item);
@@ -417,11 +464,21 @@
             channel.bind('remove-item' + this.meetingId, (data) => {
                 this.$store.commit('REMOVE_ITEM', data.item);
             });
+
+            channel.bind('attendee-joined' + this.meetingId, (data) => {
+                console.log(123);
+                this.$store.commit('ATTENDEE_JOINED', data.attendee);
+            });
+
+            channel.bind('attendee-left' + this.meetingId, (data) => {
+                this.$store.commit('ATTENDEE_LEFT', data.attendee);
+            });
         },
 
         computed: {
             ...mapGetters([
-                'items'
+                'items',
+                'attendees'
             ])
         }
     };

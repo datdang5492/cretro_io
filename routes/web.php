@@ -28,7 +28,9 @@ Route::post('retrospective/meeting/create', 'Retrospective\MeetingManager@create
 Route::post('retrospective/meeting/start', 'Retrospective\MeetingManager@start')->middleware('auth');
 Route::post('retrospective/meeting/get-data', 'Retrospective\MeetingManager@getMeetingInfo');
 Route::post('retrospective/meeting/stop', 'Retrospective\MeetingManager@stop')->middleware('auth');
-Route::post('retrospective/meeting/join', 'Retrospective\MeetingManager@join');
+Route::post('retrospective/meeting/attendee/join', 'Retrospective\MeetingManager@join');
+Route::post('retrospective/meeting/attendee/leave', 'Retrospective\MeetingManager@leave');
+Route::post('retrospective/meeting/check-attendee', 'Retrospective\MeetingManager@checkAttendee');
 
 Route::post('retrospective/meeting/attendee/get-list', 'Retrospective\MeetingManager@getAttendeeList');
 Route::post('retrospective/meeting/attendee/remove', 'Retrospective\MeetingManager@removeAttendee')->middleware('auth');

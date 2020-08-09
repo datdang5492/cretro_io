@@ -33,6 +33,23 @@ class Attendee
         }
     }
 
+    // check if attendee 's name exists already in a meeting
+    public function checkAttendeeExistByName(string $name, string $meetingId): bool
+    {
+        try {
+            $result = DB::table('attendee')
+                ->where([
+                    ['name', '=', $name],
+                    ['meeting_id', '=', $meetingId]
+                ])
+                ->first();
+
+            return !empty($result) ? true : false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function getList(string $meetingUuid): array
     {
         return DB::table('attendee')

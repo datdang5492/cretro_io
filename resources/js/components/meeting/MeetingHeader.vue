@@ -1,10 +1,11 @@
 <template>
     <div class="container-fluid mt-4">
         <div class="row text-center">
-            <div class="col-lg-9">
-                <h3 class="text-center" v-if="teamName !== ''">Team: {{teamName}}</h3>
-                <h4 class="text-center" v-if="sprintName !== ''">Sprint: {{sprintName}}</h4>
-                <h4 class="text-center" v-if="duration !== 0">Meeting duration: {{duration}} minutes</h4>
+            <div class="col-lg-9 text-left">
+                <h3 v-if="teamName !== ''">Team: {{teamName}}</h3>
+                <h4 v-if="sprintName !== ''">Sprint: {{sprintName}}</h4>
+                <!--<h4 v-if="duration !== 0">Meeting duration: {{duration}} minutes</h4>-->
+                <h4 v-if="sprintName !== ''">Date: {{sprintName}}</h4>
 
                 <!--not display clock when meeting has not started-->
                 <!--<h4>Time left: {{this.countHours + ":" + this.countMinutes + ":" +-->

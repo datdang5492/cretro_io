@@ -38,6 +38,10 @@ class ItemManager extends Controller
             $meetingId = $request->get('meetingId');
             $attendeeId = $request->get('attendeeId');
 
+            if (empty($meetingId) || empty($attendeeId)) {
+                throw new Exception("Invalid meeting data");
+            }
+
             $items = $this->itemRepo->getItems($meetingId);
             if (empty($items)) {
                 return response()->json([], 200);

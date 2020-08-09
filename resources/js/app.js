@@ -71,6 +71,9 @@ const router = new VueRouter({
     routes: Routes
 });
 
+import {Vue2Storage} from 'vue2-storage';
+Vue.use(Vue2Storage);
+
 
 // https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 // handle unauthenticated request
@@ -100,5 +103,9 @@ const app = new Vue({
     el: '#app',
     render: h => h(App),
     router: router,
-    store
+    store,
+    localStorage: {
+        attendee: ''
+
+    }
 });

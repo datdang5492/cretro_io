@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Retrospective;
 
+use App\Events\AttendeeJoinedEvent;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Attendee;
@@ -114,16 +115,31 @@ class MeetingManager extends Controller
 
             // check if meeting exist
             $meetingId = $this->meetingRepo->getMeetingIdByCode($request->get('meetingCode'));
+            $userName = $request->get('userName');
 
             // meeting does not exist
             if (empty($meetingId)) {
-                return response()->json(false, 400);
+                return response()->json(['message' => 'Invalid meeting code'], 400);
             }
 
-            // TODO: check if user name already exist
+            // check if attendee name already exist in the meeting
+            if ($this->attendeeRepo->checkAttendeeExistByName($userName, $meetingId)) {
+                return response()->json(
+                    ['message' => 'Attendee with this name already joined in the meeting, please use another name :)'],
+                    400);
+            }
 
             $attendeeId = $this->strHelper->uuid()->toString();
-            $result = $this->attendeeRepo->addAttendee($meetingId, $attendeeId, $request->get('userName'));
+            $result = $this->attendeeRepo->addAttendee($meetingId, $attendeeId, $userName);
+
+            event(new AttendeeJoinedEvent(
+                [
+                    'name' => $userName,
+                    'id' => $attendeeId,
+                    'profilePic' => $this->profileIcons[0]
+                ],
+                $meetingId)
+            );
 
             if ($result === true) {
                 return response()->json([
@@ -132,6 +148,38 @@ class MeetingManager extends Controller
             }
 
             throw new Exception("Something wrong happened!");
+
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    // check attendee is authenticated with meeting code and valid name
+    public function checkAttendee(Request $request)
+    {
+        try {
+            $request->validate([
+                'meetingCode' => 'required',
+                'userName' => 'required',
+            ]);
+
+            // check if meeting exist
+            $meetingId = $this->meetingRepo->getMeetingIdByCode($request->get('meetingCode'));
+            $userName = $request->get('userName');
+
+            // meeting does not exist
+            if (empty($meetingId)) {
+                return response()->json(['message' => 'Invalid meeting code'], 400);
+            }
+
+            // check if attendee name already exist in the meeting
+            if (!$this->attendeeRepo->checkAttendeeExistByName($userName, $meetingId)) {
+                return response()->json(
+                    ['message' => 'Invalid attendee data'],
+                    400);
+            }
+
+            return response()->json(['status' => true], 200);
 
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

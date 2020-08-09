@@ -4,6 +4,7 @@ let state = {
         bads: [],
         ideas: [],
         appreciations: [],
-    }
+    },
+    attendees: []
 };
 export default state

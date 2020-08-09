@@ -30,31 +30,20 @@
         name: "attendee",
         components: {},
         props: {
-            meetingId: String,
+            attendees: Array,
         },
         data() {
             return {
-                attendees: [],
                 profileImgClass: [
                     'primary', 'secondary', 'danger', 'info', 'light',
                 ],
             };
         },
         methods: {
-            getAttendeeList: function () {
-                this.$http.post('retrospective/meeting/attendee/get-list', {
-                    meetingId: this.meetingId,
-                }).then(function (res) {
-                    if (res.ok) {
-                        this.attendees = res.data;
-                    }
-                }).catch(function (res) {
-                    this.resMsg = res.body.message;
-                });
-            },
+
         },
         created: function () {
-            this.getAttendeeList();
+
         },
     };
 </script>

@@ -7,23 +7,23 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-class ItemCreatedEvent implements ShouldBroadcastNow
+class AttendeeLeftEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $item;
+    public $attendee;
 
     public $meetingId;
 
     /**
      * Create a new event instance.
      *
-     * @param $item
+     * @param $attendee
      * @param $meetingId
      */
-    public function __construct($item, $meetingId)
+    public function __construct($attendee, $meetingId)
     {
-        $this->item = $item;
+        $this->attendee = $attendee;
         $this->meetingId = $meetingId;
     }
 
@@ -39,6 +39,6 @@ class ItemCreatedEvent implements ShouldBroadcastNow
 
     public function broadcastAs()
     {
-        return 'new-item' . $this->meetingId;
+        return 'attendee-left' . $this->meetingId;
     }
 }

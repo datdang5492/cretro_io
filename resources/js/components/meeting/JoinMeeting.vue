@@ -16,12 +16,7 @@
 
                         <div class="row">
                             <div class="col-lg-12 text-center">
-                                <h4>
-                                    <!--<b-img secondaryrounded="circle"-->
-                                           <!--alt="Circle image"-->
-                                           <!--src="https://img.icons8.com/dusk/30/000000/settings.png"></b-img>-->
-                                    Join meeting
-                                </h4>
+                                <h4>Join meeting</h4>
                             </div>
                         </div>
 
@@ -64,18 +59,18 @@
                                     <input type="text"
                                            name="userName"
                                            v-model="userName"
-                                           v-validate="'required'"
+                                           v-validate="'required|alpha'"
                                            class="form-control input_high"
                                            placeholder="Enter your name">
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="row mt-2">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <button class="btn btn-lg btn-block cretroBtn" v-on:click="joinMeeting()">Join</button>
+                                    <button class="btn btn-lg btn-block cretroBtn" v-on:click="joinMeeting()">Join
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -90,10 +85,11 @@
     const dict = {
         custom: {
             meetingCode: {
-                required: "This field is required.",
+                required: "Meeting code is required. Ask your meeting organizer (scrum master) for it :).",
             },
             userName: {
-                required: "This field is required.",
+                required: "Hello, what 's your name?",
+                alpha: "Heyo, first name only would be ok. Please enter only alphabetic characters :)."
             },
         }
     };
@@ -118,16 +114,22 @@
                             meetingCode: this.meetingCode,
                             userName: this.userName
                         };
-                        this.$http.post('retrospective/meeting/join', data).then(function (res) {
-                            if (res.ok) {
-                                this.$router.push(res.body.data);
+
+                        this.$store.dispatch('ATTENDEE_JOINED', data).then(res => {
+                            if (res.status === 200) {
+                                this.$storage.set('attendeeName', {
+                                    name: this.userName,
+                                    meetingCode: this.meetingCode
+                                });
+
+                                // saving to local storage seem take time
+                                // redirect to meeting page
+                                if (this.$storage.get('attendeeName') !== undefined) {
+                                    this.$router.push(res.data.data);
+                                }
                             }
-                        }).catch(function (res) {
-                            console.log(res);
-                            // if (res.status == 400) {
-                            //     console.log(res)
-                            // }
-                            this.errorMsg = res.body.message;
+                        }).catch(err => {
+                            // this.errorMsg = res.body.message;
                             this.showErrorMsg = true;
                         });
                     }
