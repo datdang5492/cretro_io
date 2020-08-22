@@ -88,8 +88,8 @@
             },
 
             showEditOvl: function (content, index, itemId, authorId, attendeeId) {
-                // todo: show notification that user can not delete this item
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can update it!");
                     return;
                 }
 
@@ -101,8 +101,8 @@
 
             saveInputGood: function (authorId, attendeeId) {
 
-                // todo: show notification that user can not delete this item
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can update it!");
                     return;
                 }
 
@@ -119,14 +119,14 @@
                         this.goods[this.ovlContentIndex].content = this.ovlContent;
                     }
                 }).catch(err => {
-                    console.log(err);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 });
             },
 
             removeGood: function (id, authorId, attendeeId) {
 
-                // todo: show notification that user can not delete this item
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can delete it!");
                     return;
                 }
 
@@ -146,11 +146,11 @@
 
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     }
                 }).catch(err => {
-                    console.log(res);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 })
             },
 
@@ -175,7 +175,7 @@
                         this.goods[index].isVoted = voteValue;
                     }
                 }).catch(err => {
-                    console.log(err);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 });
             },
 

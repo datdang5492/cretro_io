@@ -79,6 +79,11 @@ let actions = {
             })
         })
     },
+
+    ADD_ERROR({commit}, errorMsg) {
+        commit('ADD_ERROR', errorMsg);
+    },
+
 };
 
 export default actions

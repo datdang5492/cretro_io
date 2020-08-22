@@ -5,6 +5,10 @@ let getters = {
 
     attendees: state => {
         return state.attendees;
+    },
+
+    error: state => {
+        return state.error;
     }
 
 };

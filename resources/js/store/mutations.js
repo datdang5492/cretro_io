@@ -93,7 +93,6 @@ let mutations = {
     },
 
     VOTE_ITEM(state, item) {
-        console.log(item);
         if (item.type === 0) {
             let foundIndex = state.items.goods.findIndex(function (ticket) {
                 if (ticket.id === item.id)
@@ -185,6 +184,10 @@ let mutations = {
             }
         }
     },
+
+    ADD_ERROR(state, errorMsg) {
+        state.error = errorMsg;
+    }
 };
 
 export default mutations

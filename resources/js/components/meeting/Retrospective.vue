@@ -332,10 +332,10 @@
 
                         this.$store.dispatch('ADD_ITEM', data).then(response => {
                             if (response.status === 200) {
-                                //console.log('success');
+                                // nothing special happen, new item will be display that s all
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     } else {
                         this.letShowGoodItemError = true;
@@ -356,10 +356,10 @@
 
                         this.$store.dispatch('ADD_ITEM', data).then(response => {
                             if (response.status === 200) {
-                                //console.log('success');
+                                // nothing special happen, new item will be display that s all
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     } else {
                         this.letShowBadItemError = true;
@@ -379,10 +379,10 @@
                         };
                         this.$store.dispatch('ADD_ITEM', data).then(response => {
                             if (response.status === 200) {
-                                //console.log('success');
+                                // nothing special happen, new item will be display that s all
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     } else {
                         this.letShowIdeaItemError = true;
@@ -402,10 +402,10 @@
                         };
                         this.$store.dispatch('ADD_ITEM', data).then(response => {
                             if (response.status === 200) {
-                                //console.log('success');
+                                // nothing special happen, new item will be display that s all
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     } else {
                         this.letShowAppreciationItemError = true;

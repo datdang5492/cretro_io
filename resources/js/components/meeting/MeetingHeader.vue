@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid mt-4">
         <div class="row text-center">
-            <div class="col-lg-9 text-left">
+            <div class="col-lg-3 text-left">
                 <h3 v-if="teamName !== ''">Team: {{teamName}}</h3>
                 <h4 v-if="sprintName !== ''">Sprint: {{sprintName}}</h4>
                 <!--<h4 v-if="duration !== 0">Meeting duration: {{duration}} minutes</h4>-->
@@ -10,6 +10,14 @@
                 <!--not display clock when meeting has not started-->
                 <!--<h4>Time left: {{this.countHours + ":" + this.countMinutes + ":" +-->
                 <!--this.countSeconds}}</h4>-->
+            </div>
+
+            <!--Notification slot-->
+            <div class="col-lg-6">
+                <div class="alert alert-dismissible alert-danger" v-if="isThereAnyError()">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Error! {{this.$store.getters.error}}</strong>
+                </div>
             </div>
 
             <div class="col-lg-3 text-right">
@@ -140,6 +148,9 @@
             };
         },
         methods: {
+            isThereAnyError: function () {
+                return this.$store.getters.error !== '';
+            },
             countDown: function (duration) {
                 // Set the date we're counting down to
                 var countDownDate = new Date();
@@ -226,7 +237,8 @@
                         this.items = res.body;
                         this.toggleMeetingSummaryModal();
                     }
-                }).catch(function (res) {
+                }).catch(function (err) {
+                    this.$store.dispatch("ADD_ERROR", err.body.message);
                     console.log(res);
                 });
             }

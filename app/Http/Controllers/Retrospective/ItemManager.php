@@ -135,6 +135,11 @@ class ItemManager extends Controller
             $attendeeId = $request->get('attendeeId');
             $value = $request->get('voteValue');
 
+            // check attendee existence
+            if (!$this->attendeeRepo->doesAttendeeExist($attendeeId)) {
+                return response()->json(['message' => 'attendee does not exist'], 500);
+            }
+
             // update vote relation of item and attendee before updating total vote of item
             $result = $this->itemRepo->vote($itemId, $attendeeId, $value);
             if ($result === false) {

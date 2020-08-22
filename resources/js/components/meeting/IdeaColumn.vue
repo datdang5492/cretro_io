@@ -88,7 +88,9 @@
             },
 
             showEditOvl: function (content, index, itemId, authorId, attendeeId) {
+
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can update it!");
                     return;
                 }
 
@@ -101,6 +103,7 @@
             saveInputIdea: function (authorId, attendeeId) {
 
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can update it!");
                     return;
                 }
 
@@ -117,12 +120,14 @@
                         this.ideas[this.ovlContentIndex].content = this.ovlContent;
                     }
                 }).catch(err => {
-                    console.log(err);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 });
             },
 
             removeIdea: function (id, authorId, attendeeId) {
+
                 if (authorId !== attendeeId) {
+                    this.$store.dispatch("ADD_ERROR", "Only the author of this ticket can delete it!");
                     return;
                 }
 
@@ -142,12 +147,11 @@
 
                             }
                         }).catch(err => {
-                            console.log(err);
+                            this.$store.dispatch("ADD_ERROR", err.response.data.message);
                         });
                     }
                 }).catch(err => {
-                    // todo: show error message
-                    console.log(res);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 })
             },
 
@@ -172,7 +176,7 @@
                         this.ideas[index].isVoted = voteValue;
                     }
                 }).catch(err => {
-                    console.log(err);
+                    this.$store.dispatch("ADD_ERROR", err.response.data.message);
                 });
             },
 

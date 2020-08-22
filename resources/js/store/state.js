@@ -5,6 +5,7 @@ let state = {
         ideas: [],
         appreciations: [],
     },
-    attendees: []
+    attendees: [],
+    error: ''
 };
 export default state

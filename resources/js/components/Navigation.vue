@@ -57,7 +57,6 @@
 
                 this.$http.post('logout').then(function (res) {
                     if (res.ok == true) {
-                        console.log(res);
                         loader.hide();
                         window.location.reload();
                     }
