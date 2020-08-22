@@ -103,7 +103,7 @@ class ItemManager extends Controller
 
             $attendeeId = $request->get('attendeeId');
             if (!$this->attendeeRepo->doesAttendeeExist($attendeeId)) {
-                return response()->json(['message' => 'attendee does not exist'], 500);
+                return response()->json(['message' => 'attendee does not exist'], 400);
             }
 
             $item = [
@@ -137,7 +137,7 @@ class ItemManager extends Controller
 
             // check attendee existence
             if (!$this->attendeeRepo->doesAttendeeExist($attendeeId)) {
-                return response()->json(['message' => 'attendee does not exist'], 500);
+                return response()->json(['message' => 'attendee does not exist'], 400);
             }
 
             // update vote relation of item and attendee before updating total vote of item
@@ -169,8 +169,11 @@ class ItemManager extends Controller
         try {
             $itemId = $request->get('itemId');
             $attendeeId = $request->get('attendeeId');
+
+
+            // check attendee existence
             if (!$this->attendeeRepo->doesAttendeeExist($attendeeId)) {
-                return response()->json(['message' => 'attendee does not exist'], 500);
+                return response()->json(['message' => 'attendee does not exist'], 400);
             }
 
             $content = $request->get('content');
@@ -197,8 +200,10 @@ class ItemManager extends Controller
         try {
             $itemId = $request->get('itemId');
             $attendeeId = $request->get('attendeeId');
+
+            // check attendee existence
             if (!$this->attendeeRepo->doesAttendeeExist($attendeeId)) {
-                return response()->json(['message' => 'attendee does not exist'], 500);
+                return response()->json(['message' => 'attendee does not exist'], 400);
             }
 
             $result = $this->itemRepo->remove($itemId, $attendeeId);
