@@ -62,6 +62,8 @@ class ItemManager extends Controller
 
             foreach ($items as $key => $item) {
                 $isVoted = false;
+
+                // This helps showing if current user already voted this item
                 if (!empty($userVotes[$item->id]) && $userVotes[$item->id] === $attendeeId) {
                     $isVoted = true;
                 }
@@ -70,7 +72,8 @@ class ItemManager extends Controller
                     'id' => $item->id,
                     'content' => $item->content,
                     'isVoted' => $isVoted,
-                    'vote' => $item->vote
+                    'vote' => $item->vote,
+                    'author' => $item->attendee_id,
                 ];
                 if ($item->type === self::GOOD_ITEM) {
                     $results['goods'][] = $ticket;
@@ -108,12 +111,13 @@ class ItemManager extends Controller
                 'attendee_id' => $attendeeId,
                 'type' => $request->get('type'),
                 'vote' => 0,
-                'content' => $request->get('content')
+                'content' => $request->get('content'),
             ];
 
             $id = $this->itemRepo->insert($item);
             $item['id'] = $id;
             $item['isVoted'] = false;
+            $item['author'] = $attendeeId;
 
             event(new ItemCreatedEvent($item, $meetingId));
 
@@ -168,7 +172,7 @@ class ItemManager extends Controller
             if (empty($content)) {
                 return response()->json(['message' => 'item content is empty'], 500);
             }
-            $result = $this->itemRepo->updateItemContent($itemId, $content);
+            $result = $this->itemRepo->updateItemContent($itemId, $content, $attendeeId);
 
             event(new ItemUpdatedEvent([
                 'id' => $itemId,
@@ -192,7 +196,7 @@ class ItemManager extends Controller
                 return response()->json(['message' => 'attendee does not exist'], 500);
             }
 
-            $result = $this->itemRepo->remove($itemId);
+            $result = $this->itemRepo->remove($itemId, $attendeeId);
             if ($result === 0) {
                 return response()->json(['message' => 'Item does not exist'], 400);
             }

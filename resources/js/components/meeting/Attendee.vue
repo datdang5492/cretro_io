@@ -16,8 +16,8 @@
                                v-bind:src="attendee.profilePic"></b-img>
                         {{attendee.name}}
 
-                        <i class="fas fa-user-shield" v-b-tooltip.hover v-if="attendee.isConductor"
-                           title="Only meeting conductor can stop the meeting and remove posts"></i>
+                        <i v-if="attendee.id == attendeeId" class="fas fa-user-shield" v-b-tooltip.hover
+                           title="It's you!"></i>
                     </b-list-group-item>
                 </b-list-group>
             </div>
@@ -31,6 +31,7 @@
         components: {},
         props: {
             attendees: Array,
+            attendeeId: String,
         },
         data() {
             return {

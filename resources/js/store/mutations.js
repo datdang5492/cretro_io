@@ -1,28 +1,18 @@
 let mutations = {
+
     GET_ATTENDEES(state, attendees) {
         if (attendees.length === 0) {
             attendees = [];
         }
-
         state.attendees = attendees;
     },
 
     ATTENDEE_JOINED(state, attendee) {
-        console.log(1111111);
-        console.log(attendee);
         state.attendees = [...state.attendees, attendee];
     },
 
     ATTENDEE_LEFT(state, attendee) {
-        // let foundIndex = state.items.goods.findIndex(function (ticket) {
-        //     if (ticket.id === item.id)
-        //         return true;
-        // });
-        //
-        //
-        // if (state.items.goods[foundIndex] !== undefined) {
-        //     state.items.goods.splice(foundIndex, 1);
-        // }
+
     },
 
     GET_ITEMS(state, items) {

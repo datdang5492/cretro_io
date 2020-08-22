@@ -177,28 +177,34 @@
                     <div class="row text-left">
                         <!--WHAT WENT RIGHT?-->
                         <good-column :goods="items.goods"
-                                     :meetingId="meetingId">
+                                     :meetingId="meetingId"
+                                     :attendeeId="attendeeId">
                         </good-column>
 
                         <!--WHAT WENT WRONG?-->
                         <bad-column :bads="items.bads"
-                                    :meetingId="meetingId">
+                                    :meetingId="meetingId"
+                                    :attendeeId="attendeeId">
                         </bad-column>
 
                         <!--IDEAS-->
                         <idea-column :ideas="items.ideas"
-                                     :meetingId="meetingId">
+                                     :meetingId="meetingId"
+                                     :attendeeId="attendeeId">
                         </idea-column>
 
                         <!--APPRECIATION-->
                         <appreciation-column :appreciations="items.appreciations"
-                                             :meetingId="meetingId">
+                                             :meetingId="meetingId"
+                                             :attendeeId="attendeeId">
                         </appreciation-column>
                     </div>
                 </div>
 
                 <!--CURRENT IN MEETING-->
-                <attendee :attendees="attendees"></attendee>
+                <attendee :attendees="attendees"
+                          :attendeeId="attendeeId">
+                </attendee>
             </div>
         </div>
     </div>
@@ -238,7 +244,7 @@
                 isMeetingStopped: false,
                 isMeetingAvailable: false,
                 meetingId: '',
-                attendeeId: "attendee_id",
+                attendeeId: '',
                 ovlContent: '',
                 ovlContentIndex: 0,
                 letShowGoodItemError: false,
@@ -264,7 +270,7 @@
         },
         methods: {
             authenticate: function () {
-                let attendeeData = this.$storage.get('attendeeName');
+                let attendeeData = this.$storage.get('attendeeData');
 
                 if (attendeeData === undefined || attendeeData === null
                     || attendeeData.meetingCode === undefined
@@ -321,7 +327,7 @@
                             meetingId: this.meetingId,
                             attendeeId: this.attendeeId,
                             type: 0,
-                            content: this.goodInput
+                            content: this.goodInput,
                         };
 
                         this.$store.dispatch('ADD_ITEM', data).then(response => {
@@ -407,23 +413,18 @@
                 });
             },
 
-            // getAttendeeList: function () {
-            //     this.$http.post('retrospective/meeting/attendee/get-list', {
-            //         meetingId: this.meetingId,
-            //     }).then(function (res) {
-            //         if (res.ok) {
-            //             this.attendees = res.data;
-            //         }
-            //     }).catch(function (res) {
-            //         this.resMsg = res.body.message;
-            //     });
-            // },
-
         },
         created: function () {
             // enable custom validation message
             this.$validator.localize('en', dict);
             this.meetingId = this.$route.params.id;
+            let attendee = this.$storage.get('attendeeData');
+
+            if (attendee != null) {
+                this.attendeeId = attendee.attendeeCode;
+            }
+
+
             this.authenticate();
             this.getMeetingData();
         },
@@ -466,7 +467,6 @@
             });
 
             channel.bind('attendee-joined' + this.meetingId, (data) => {
-                console.log(123);
                 this.$store.commit('ATTENDEE_JOINED', data.attendee);
             });
 

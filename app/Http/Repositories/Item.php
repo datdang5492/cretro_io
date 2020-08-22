@@ -30,7 +30,7 @@ class Item
             ->where('id', $itemId)
             ->first();
 
-        if(empty($result)) {
+        if (empty($result)) {
             throw new Exception("Empty vote");
         }
         return $result->vote;
@@ -65,11 +65,14 @@ class Item
     }
 
     // update item content
-    public function updateItemContent(int $itemId, string $value): bool
+    public function updateItemContent(int $itemId, string $content, string $attendeeId): bool
     {
         return DB::table('item')
-            ->where('id', $itemId)
-            ->update(['content' => $value]);
+            ->where([
+                ['id', '=', $itemId],
+                ['attendee_id', '=', $attendeeId]
+            ])
+            ->update(['content' => $content]);
     }
 
     // update total vo number of an item
@@ -87,8 +90,13 @@ class Item
     }
 
     // remove an item
-    public function remove($itemId): int
+    public function remove($itemId, string $attendeeId): int
     {
-        return DB::table('item')->delete($itemId);
+        return DB::table('item')
+            ->where([
+                ['id', '=', $itemId],
+                ['attendee_id', '=', $attendeeId]
+            ])
+            ->delete($itemId);
     }
 }

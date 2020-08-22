@@ -13,11 +13,14 @@
                 <div class="row text-right mt-3">
                     <div class="col-lg-6 text-left">
                         <button type="button"
+                                v-if="shouldThisBtnBeShown(bad.author, attendeeId)"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="removeBad(bad.id, index)">
+                                v-on:click="removeBad(bad.id, bad.author, attendeeId)">
                             <i class="far fa-trash-alt"></i>
                         </button>
-                        <button type="button" v-on:click="showEditOvl(bads[index].content, index, bad.id)"
+                        <button type="button"
+                                v-if="shouldThisBtnBeShown(bad.author, attendeeId)"
+                                v-on:click="showEditOvl(bads[index].content, index, bad.id)"
                                 class="btn btn-outline-light btn-sm">
                             <i class="far fa-edit"></i>
                         </button>
@@ -64,7 +67,8 @@
         components: {},
         props: {
             bads: Array,
-            meetingId: String
+            meetingId: String,
+            attendeeId: String,
         },
         data() {
             return {
@@ -75,21 +79,35 @@
             };
         },
         methods: {
+            shouldThisBtnBeShown: function (authorId, attendeeId) {
+                return authorId === attendeeId;
+            },
+
             getVotedClass: function (isVoted) {
                 return isVoted === true ? 'voted' : '';
                 return isVoted === true ? 'voted' : '';
             },
-            showEditOvl: function (content, index, itemId) {
+
+            showEditOvl: function (content, index, itemId, authorId, attendeeId) {
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 this.ovlContent = content;
                 this.ovlContentIndex = index;
                 this.ovlItemId = itemId;
                 this.$refs['edit_ovl'].show()
             },
 
-            saveInputBad: function () {
+            saveInputBad: function (authorId, attendeeId) {
+
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 let data = {
                     itemId: this.ovlItemId,
-                    attendeeId: 'attendee_id',
+                    attendeeId: this.attendeeId,
                     type: this.badItemValue,
                     content: this.ovlContent,
                     meetingId: this.meetingId
@@ -104,14 +122,19 @@
                 });
             },
 
-            removeBad: function (id, index) {
+            removeBad: function (id, authorId, attendeeId) {
+
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 this.$bvModal.msgBoxConfirm('Are you sure removing this sticker?', {
                     centered: true
                 }).then(value => {
                     if (value === true) {
                         let data = {
                             itemId: id,
-                            attendeeId: 'attendee_id',
+                            attendeeId: this.attendeeId,
                             type: this.badItemValue,
                             meetingId: this.meetingId,
                         };
@@ -138,7 +161,7 @@
 
                 let data = {
                     itemId: id,
-                    attendeeId: 'attendee_id',
+                    attendeeId: this.attendeeId,
                     voteValue: voteValue,
                     type: this.badItemValue,
                     meetingId: this.meetingId,

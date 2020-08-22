@@ -13,11 +13,14 @@
                 <div class="row text-right mt-3">
                     <div class="col-lg-6 text-left">
                         <button type="button"
+                                v-if="shouldThisBtnBeShown(idea.author, attendeeId)"
                                 class="btn btn-outline-light btn-sm"
-                                v-on:click="removeIdea(idea.id, index)">
+                                v-on:click="removeIdea(idea.id, idea.author, attendeeId)">
                             <i class="far fa-trash-alt"></i>
                         </button>
-                        <button type="button" v-on:click="showEditOvl(ideas[index].content, index, idea.id)"
+                        <button type="button"
+                                v-if="shouldThisBtnBeShown(idea.author, attendeeId)"
+                                v-on:click="showEditOvl(ideas[index].content, index, idea.id, idea.author, attendeeId)"
                                 class="btn btn-outline-light btn-sm">
                             <i class="far fa-edit"></i>
                         </button>
@@ -37,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <b-modal ref="edit_ovl" centered title="Edit" no-close-on-backdrop @ok="saveInputIdea()">
+        <b-modal ref="edit_ovl" centered title="Edit" no-close-on-backdrop @ok="saveInputIdea(idea.author, attendeeId)">
             <b-form-textarea
                 class="border-info"
                 id="textarea"
@@ -64,7 +67,8 @@
         components: {},
         props: {
             ideas: Array,
-            meetingId: String
+            meetingId: String,
+            attendeeId: String,
         },
         data() {
             return {
@@ -75,20 +79,34 @@
             };
         },
         methods: {
+            shouldThisBtnBeShown: function (authorId, attendeeId) {
+                return authorId === attendeeId;
+            },
+
             getVotedClass: function (isVoted) {
                 return isVoted === true ? 'voted' : '';
             },
-            showEditOvl: function (content, index, itemId) {
+
+            showEditOvl: function (content, index, itemId, authorId, attendeeId) {
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 this.ovlContent = content;
                 this.ovlContentIndex = index;
                 this.ovlItemId = itemId;
                 this.$refs['edit_ovl'].show()
             },
 
-            saveInputIdea: function () {
+            saveInputIdea: function (authorId, attendeeId) {
+
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 let data = {
                     itemId: this.ovlItemId,
-                    attendeeId: 'attendee_id',
+                    attendeeId: this.attendeeId,
                     type: this.ideaItemValue,
                     content: this.ovlContent,
                     meetingId: this.meetingId
@@ -103,14 +121,18 @@
                 });
             },
 
-            removeIdea: function (id, index) {
+            removeIdea: function (id, authorId, attendeeId) {
+                if (authorId !== attendeeId) {
+                    return;
+                }
+
                 this.$bvModal.msgBoxConfirm('Are you sure removing this sticker?', {
                     centered: true
                 }).then(value => {
                     if (value === true) {
                         let data = {
                             itemId: id,
-                            attendeeId: 'attendee_id',
+                            attendeeId: this.attendeeId,
                             type: this.ideaItemValue,
                             meetingId: this.meetingId,
                         };
@@ -138,7 +160,7 @@
 
                 let data = {
                     itemId: id,
-                    attendeeId: 'attendee_id',
+                    attendeeId: this.attendeeId,
                     voteValue: voteValue,
                     type: this.ideaItemValue,
                     meetingId: this.meetingId,

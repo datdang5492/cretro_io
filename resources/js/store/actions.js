@@ -4,7 +4,7 @@ let actions = {
             axios.post(`/retrospective/meeting/item/add`, item).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },
@@ -14,7 +14,7 @@ let actions = {
             axios.post(`/retrospective/meeting/item/edit`, itemData).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },
@@ -24,7 +24,7 @@ let actions = {
             axios.post(`/retrospective/meeting/item/vote`, itemData).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },
@@ -34,7 +34,7 @@ let actions = {
             axios.post(`/retrospective/meeting/item/remove`, itemData).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },
@@ -46,7 +46,7 @@ let actions = {
                 commit('GET_ITEMS', res.data);
             }
         }).catch(err => {
-            console.log(err)
+            console.log(err);
         })
     },
 
@@ -56,7 +56,7 @@ let actions = {
                 commit('GET_ATTENDEES', res.data);
             }
         }).catch(err => {
-            console.log(err)
+            console.log(err);
         })
     },
 
@@ -65,7 +65,7 @@ let actions = {
             axios.post(`/retrospective/meeting/attendee/join`, attendee).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },
@@ -75,7 +75,7 @@ let actions = {
             axios.post(`/retrospective/meeting/attendee/leave`, attendee).then(res => {
                 resolve(res);
             }).catch(err => {
-                reject(err)
+                reject(err);
             })
         })
     },

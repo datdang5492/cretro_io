@@ -136,14 +136,16 @@ class MeetingManager extends Controller
                 [
                     'name' => $userName,
                     'id' => $attendeeId,
-                    'profilePic' => $this->profileIcons[0]
+                    'profilePic' => $this->profileIcons[0],
+                    'attendeeCode' => $attendeeId
                 ],
                 $meetingId)
             );
 
             if ($result === true) {
                 return response()->json([
-                    'data' => $meetingId
+                    'meetingId' => $meetingId,
+                    'attendeeId' => $attendeeId
                 ], 200);
             }
 

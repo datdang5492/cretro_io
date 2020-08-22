@@ -117,19 +117,21 @@
 
                         this.$store.dispatch('ATTENDEE_JOINED', data).then(res => {
                             if (res.status === 200) {
-                                this.$storage.set('attendeeName', {
+                                this.$storage.set('attendeeData', {
                                     name: this.userName,
-                                    meetingCode: this.meetingCode
+                                    meetingCode: this.meetingCode,
+                                    attendeeCode: res.data.attendeeId
                                 });
+
 
                                 // saving to local storage seem take time
                                 // redirect to meeting page
-                                if (this.$storage.get('attendeeName') !== undefined) {
-                                    this.$router.push(res.data.data);
+                                if (this.$storage.get('attendeeData') !== undefined) {
+                                    this.$router.push(res.data.meetingId);
                                 }
                             }
                         }).catch(err => {
-                            // this.errorMsg = res.body.message;
+                            this.errorMsg = err.response.data.message;
                             this.showErrorMsg = true;
                         });
                     }
