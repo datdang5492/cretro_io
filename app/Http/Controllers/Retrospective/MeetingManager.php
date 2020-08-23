@@ -22,13 +22,21 @@ class MeetingManager extends Controller
     private $strHelper;
 
     private $profileIcons = [
-        'https://img.icons8.com/emoji/30/000000/crying-cat.png',
+        'https://img.icons8.com/dusk/30/000000/tapir.png',
         'https://img.icons8.com/plasticine/30/000000/octopus.png',
         'https://img.icons8.com/plasticine/30/000000/cow.png',
         'https://img.icons8.com/plasticine/30/000000/pig.png',
         'https://img.icons8.com/plasticine/30/000000/reindeer.png',
         'https://img.icons8.com/dusk/30/000000/--camel.png',
-        'https://img.icons8.com/officel/30/000000/giraffe.png'
+        'https://img.icons8.com/dusk/30/000000/alpaca.png',
+        'https://img.icons8.com/dusk/30/000000/bug.png',
+        'https://img.icons8.com/dusk/30/000000/cat.png',
+        'https://img.icons8.com/dusk/30/000000/stingray.png',
+        'https://img.icons8.com/dusk/30/000000/running-away.png',
+        'https://img.icons8.com/dusk/30/000000/crab.png',
+        'https://img.icons8.com/dusk/30/000000/kiss-panda.png',
+        'https://img.icons8.com/dusk/30/000000/walrus.png',
+        'https://img.icons8.com/dusk/30/000000/turtle.png',
     ];
 
 
@@ -45,6 +53,7 @@ class MeetingManager extends Controller
 
 
     const MAX_MEETING_NUMBER = 2;
+    const MAX_MEETING_ATTENDEE = 15;
 
     public function __construct(Meeting $meeting, Attendee $attendee, Str $strHelper)
     {
@@ -122,6 +131,15 @@ class MeetingManager extends Controller
                 return response()->json(['message' => 'Invalid meeting code'], 400);
             }
 
+            // check if meeting is already full - MAX 15 PEOPLE
+            $currentMeetingAttendeeNo = $this->attendeeRepo->getMeetingAttendeeNumber($meetingId);
+            if ($currentMeetingAttendeeNo >= self::MAX_MEETING_ATTENDEE) {
+                return response()->json(
+                    ['message' => 'Meeting is already full. Maximum number of attendee is ' . self::MAX_MEETING_ATTENDEE . ' :)'],
+                    403);
+            }
+
+
             // check if attendee name already exist in the meeting
             if ($this->attendeeRepo->checkAttendeeExistByName($userName, $meetingId)) {
                 return response()->json(
@@ -130,13 +148,13 @@ class MeetingManager extends Controller
             }
 
             $attendeeId = $this->strHelper->uuid()->toString();
-            $result = $this->attendeeRepo->addAttendee($meetingId, $attendeeId, $userName);
+            $result = $this->attendeeRepo->addAttendee($meetingId, $attendeeId, $userName, $currentMeetingAttendeeNo);
 
             event(new AttendeeJoinedEvent(
                 [
                     'name' => $userName,
                     'id' => $attendeeId,
-                    'profilePic' => $this->profileIcons[0],
+                    'profilePic' => $this->profileIcons[$currentMeetingAttendeeNo],
                     'attendeeCode' => $attendeeId
                 ],
                 $meetingId)
@@ -228,7 +246,7 @@ class MeetingManager extends Controller
                 $data = [
                     'total' => $this->calculateTotalScore($attendee),
                     'isConductor' => false,
-                    'profilePic' => $this->profileIcons[$key],
+                    'profilePic' => $this->profileIcons[$attendee->profile_pic],
                     '_rowVariant' => $this->variants[$key],
                 ];
                 $results[] = array_merge($data, $attendee);
@@ -282,7 +300,7 @@ class MeetingManager extends Controller
                     'id' => $attendee->id,
                     'name' => $attendee->name,
                     'isConductor' => $conductor,
-                    'profilePic' => $this->profileIcons[$key]
+                    'profilePic' => $this->profileIcons[$attendee->profile_pic]
                 ];
                 $key++;
             }

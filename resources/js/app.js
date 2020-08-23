@@ -71,6 +71,7 @@ const router = new VueRouter({
     routes: Routes
 });
 
+// https://yarkovaleksei.github.io/vue2-storage/en/api.html#set
 import {Vue2Storage} from 'vue2-storage';
 Vue.use(Vue2Storage);
 
@@ -103,9 +104,5 @@ const app = new Vue({
     el: '#app',
     render: h => h(App),
     router: router,
-    store,
-    localStorage: {
-        attendee: ''
-
-    }
+    store
 });

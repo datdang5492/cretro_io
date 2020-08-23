@@ -10,12 +10,13 @@ class Attendee
 
     const IDEA_POST = 2;
 
-    public function addAttendee(string $meetingId, string $attendeeId, string $attendeeName)
+    public function addAttendee(string $meetingId, string $attendeeId, string $attendeeName, int $profilePicIndex)
     {
         $data = [
             'id' => $attendeeId,
             'meeting_id' => $meetingId,
-            'name' => $attendeeName
+            'name' => $attendeeName,
+            'profile_pic' => $profilePicIndex,
         ];
         return DB::table('attendee')->insert($data);
     }
@@ -53,12 +54,13 @@ class Attendee
     public function getList(string $meetingUuid): array
     {
         return DB::table('attendee')
-            ->select(['id', 'name'])
+            ->select(['id', 'name', 'profile_pic'])
             ->where('meeting_id', $meetingUuid)
             ->get()
             ->toArray();
     }
 
+    // sum up meeting information
     public function getSumUpList(string $meetingUuid): array
     {
         $summary = [];
@@ -99,5 +101,15 @@ class Attendee
         }
 
         return $summary;
+    }
+
+    public function getMeetingAttendeeNumber(string $meetingId): int
+    {
+        return DB::table('attendee')
+            ->select('id')
+            ->where('meeting_id', $meetingId)
+            ->get()
+            ->groupBy('id')
+            ->count();
     }
 }

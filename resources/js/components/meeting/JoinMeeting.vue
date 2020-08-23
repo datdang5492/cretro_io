@@ -103,6 +103,7 @@
                 userName: '',
                 showErrorMsg: false,
                 errorMsg: '',
+                storageLifeTime: 7200000,   // 2 hours = 60 * 60 * 2 * 1000
             };
         },
         methods: {
@@ -121,7 +122,7 @@
                                     name: this.userName,
                                     meetingCode: this.meetingCode,
                                     attendeeCode: res.data.attendeeId
-                                });
+                                }, { ttl: this.storageLifeTime });
 
 
                                 // saving to local storage seem take time

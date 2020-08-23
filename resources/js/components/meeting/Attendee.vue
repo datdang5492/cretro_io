@@ -4,7 +4,7 @@
             <div class="col-lg-12">
                 <!--https://icons8.com/icons/set/animal-->
                 <b-list-group class="text-left">
-                    <b-list-group-item href="#" class="font-weight-bold text-center">Attendees
+                    <b-list-group-item href="#" class="font-weight-bold text-center">Attendees ({{ attendees.length }})
                     </b-list-group-item>
 
                     <b-list-group-item v-for="(attendee, index) in attendees"
@@ -41,7 +41,6 @@
             };
         },
         methods: {
-
         },
         created: function () {
 

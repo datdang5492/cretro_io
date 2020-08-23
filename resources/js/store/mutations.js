@@ -1,3 +1,8 @@
+const GOOD_ITEM = 0;
+const BAD_ITEM = 1;
+const IDEA_ITEM = 2;
+const APPRECIATION_ITEM = 3;
+
 let mutations = {
 
     GET_ATTENDEES(state, attendees) {
@@ -29,25 +34,25 @@ let mutations = {
     },
 
     ADD_ITEM(state, item) {
-        if (item.type === 0) {
+        if (item.type === GOOD_ITEM) {
             state.items.goods = [...state.items.goods, item];
         }
 
-        if (item.type === 1) {
+        if (item.type === BAD_ITEM) {
             state.items.bads = [...state.items.bads, item];
         }
 
-        if (item.type === 2) {
+        if (item.type === IDEA_ITEM) {
             state.items.ideas = [...state.items.ideas, item];
         }
 
-        if (item.type === 3) {
+        if (item.type === APPRECIATION_ITEM) {
             state.items.appreciations = [...state.items.appreciations, item];
         }
     },
 
     EDIT_ITEM_CONTENT(state, item) {
-        if (item.type === 0) {
+        if (item.type === GOOD_ITEM) {
             let foundIndex = state.items.goods.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -58,7 +63,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 1) {
+        if (item.type === BAD_ITEM) {
             let foundIndex = state.items.bads.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -69,7 +74,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 2) {
+        if (item.type === IDEA_ITEM) {
             let foundIndex = state.items.ideas.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -80,7 +85,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 3) {
+        if (item.type === APPRECIATION_ITEM) {
             let foundIndex = state.items.appreciations.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -93,7 +98,7 @@ let mutations = {
     },
 
     VOTE_ITEM(state, item) {
-        if (item.type === 0) {
+        if (item.type === GOOD_ITEM) {
             let foundIndex = state.items.goods.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -104,7 +109,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 1) {
+        if (item.type === BAD_ITEM) {
             let foundIndex = state.items.bads.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -115,7 +120,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 2) {
+        if (item.type === IDEA_ITEM) {
             let foundIndex = state.items.ideas.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -126,7 +131,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 3) {
+        if (item.type === APPRECIATION_ITEM) {
             let foundIndex = state.items.appreciations.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -139,7 +144,7 @@ let mutations = {
     },
 
     REMOVE_ITEM(state, item) {
-        if (item.type === 0) {
+        if (item.type === GOOD_ITEM) {
             let foundIndex = state.items.goods.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -151,7 +156,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 1) {
+        if (item.type === BAD_ITEM) {
             let foundIndex = state.items.bads.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -162,7 +167,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 2) {
+        if (item.type === IDEA_ITEM) {
             let foundIndex = state.items.ideas.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;
@@ -173,7 +178,7 @@ let mutations = {
             }
         }
 
-        if (item.type === 3) {
+        if (item.type === APPRECIATION_ITEM) {
             let foundIndex = state.items.appreciations.findIndex(function (ticket) {
                 if (ticket.id === item.id)
                     return true;

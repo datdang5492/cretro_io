@@ -17,6 +17,7 @@ class CreateAttendeeTable extends Migration
             $table->uuid('id');
             $table->uuid('meeting_id');
             $table->string('name');
+            $table->integer('profile_pic');
             $table->primary('id');
         });
     }
